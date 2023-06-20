@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:localization/localization.dart';
+
+import 'modules/uiauth/uiauth_pages.dart';
 
 void main() {
-  runApp(const MainApp());
-}
-
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
-    );
-  }
+  LocalJsonLocalization.delegate.directories = ['assets/lang'];
+  return runApp(MaterialApp(
+    localeResolutionCallback: (locale, supportedLocales) {
+      return locale;
+    },
+    localizationsDelegates: [
+      LocalJsonLocalization.delegate,
+    ],
+    theme: ThemeData(
+      useMaterial3: true,
+    ),
+    home: const UiAuthPage(),
+  ));
 }
