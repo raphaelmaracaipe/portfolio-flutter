@@ -114,7 +114,7 @@ class _UiAuthPageState extends State<UiAuthPage> {
     return Expanded(
       child: Container(
         margin: const EdgeInsets.only(bottom: 20),
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
           border: Border.all(
             color: AppColors.colorGray,
