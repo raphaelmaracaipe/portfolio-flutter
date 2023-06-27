@@ -1,0 +1,1217 @@
+[
+  {
+    "country_name": "Afghanistan",
+    "code_country": "93",
+    "code_ison": "AF / AFG"
+  },
+  {
+    "country_name": "Albania",
+    "code_country": "355",
+    "code_ison": "AL / ALB"
+  },
+  {
+    "country_name": "Algeria",
+    "code_country": "213",
+    "code_ison": "DZ / DZA"
+  },
+  {
+    "country_name": "American Samoa",
+    "code_country": "1-684",
+    "code_ison": "AS / ASM"
+  },
+  {
+    "country_name": "Andorra",
+    "code_country": "376",
+    "code_ison": "AD / AND"
+  },
+  {
+    "country_name": "Angola",
+    "code_country": "244",
+    "code_ison": "AO / AGO"
+  },
+  {
+    "country_name": "Anguilla",
+    "code_country": "1-264",
+    "code_ison": "AI / AIA"
+  },
+  {
+    "country_name": "Antarctica",
+    "code_country": "672",
+    "code_ison": "AQ / ATA"
+  },
+  {
+    "country_name": "Antigua and Barbuda",
+    "code_country": "1-268",
+    "code_ison": "AG / ATG"
+  },
+  {
+    "country_name": "Argentina",
+    "code_country": "54",
+    "code_ison": "AR / ARG"
+  },
+  {
+    "country_name": "Armenia",
+    "code_country": "374",
+    "code_ison": "AM / ARM"
+  },
+  {
+    "country_name": "Aruba",
+    "code_country": "297",
+    "code_ison": "AW / ABW"
+  },
+  {
+    "country_name": "Australia",
+    "code_country": "61",
+    "code_ison": "AU / AUS"
+  },
+  {
+    "country_name": "Austria",
+    "code_country": "43",
+    "code_ison": "AT / AUT"
+  },
+  {
+    "country_name": "Azerbaijan",
+    "code_country": "994",
+    "code_ison": "AZ / AZE"
+  },
+  {
+    "country_name": "Bahamas",
+    "code_country": "1-242",
+    "code_ison": "BS / BHS"
+  },
+  {
+    "country_name": "Bahrain",
+    "code_country": "973",
+    "code_ison": "BH / BHR"
+  },
+  {
+    "country_name": "Bangladesh",
+    "code_country": "880",
+    "code_ison": "BD / BGD"
+  },
+  {
+    "country_name": "Barbados",
+    "code_country": "1-246",
+    "code_ison": "BB / BRB"
+  },
+  {
+    "country_name": "Belarus",
+    "code_country": "375",
+    "code_ison": "BY / BLR"
+  },
+  {
+    "country_name": "Belgium",
+    "code_country": "32",
+    "code_ison": "BE / BEL"
+  },
+  {
+    "country_name": "Belize",
+    "code_country": "501",
+    "code_ison": "BZ / BLZ"
+  },
+  {
+    "country_name": "Benin",
+    "code_country": "229",
+    "code_ison": "BJ / BEN"
+  },
+  {
+    "country_name": "Bermuda",
+    "code_country": "1-441",
+    "code_ison": "BM / BMU"
+  },
+  {
+    "country_name": "Bhutan",
+    "code_country": "975",
+    "code_ison": "BT / BTN"
+  },
+  {
+    "country_name": "Bolivia",
+    "code_country": "591",
+    "code_ison": "BO / BOL"
+  },
+  {
+    "country_name": "Bosnia and Herzegovina",
+    "code_country": "387",
+    "code_ison": "BA / BIH"
+  },
+  {
+    "country_name": "Botswana",
+    "code_country": "267",
+    "code_ison": "BW / BWA"
+  },
+  {
+    "country_name": "Brasil",
+    "code_country": "55",
+    "code_ison": "BR / BRA"
+  },
+  {
+    "country_name": "British Indian Ocean Territory",
+    "code_country": "246",
+    "code_ison": "IO / IOT"
+  },
+  {
+    "country_name": "British Virgin Islands",
+    "code_country": "1-284",
+    "code_ison": "VG / VGB"
+  },
+  {
+    "country_name": "Brunei",
+    "code_country": "673",
+    "code_ison": "BN / BRN"
+  },
+  {
+    "country_name": "Bulgaria",
+    "code_country": "359",
+    "code_ison": "BG / BGR"
+  },
+  {
+    "country_name": "Burkina Faso",
+    "code_country": "226",
+    "code_ison": "BF / BFA"
+  },
+  {
+    "country_name": "Burundi",
+    "code_country": "257",
+    "code_ison": "BI / BDI"
+  },
+  {
+    "country_name": "Cambodia",
+    "code_country": "855",
+    "code_ison": "KH / KHM"
+  },
+  {
+    "country_name": "Cameroon",
+    "code_country": "237",
+    "code_ison": "CM / CMR"
+  },
+  {
+    "country_name": "Canada",
+    "code_country": "1",
+    "code_ison": "CA / CAN"
+  },
+  {
+    "country_name": "Cape Verde",
+    "code_country": "238",
+    "code_ison": "CV / CPV"
+  },
+  {
+    "country_name": "Cayman Islands",
+    "code_country": "1-345",
+    "code_ison": "KY / CYM"
+  },
+  {
+    "country_name": "Central African Republic",
+    "code_country": "236",
+    "code_ison": "CF / CAF"
+  },
+  {
+    "country_name": "Chad",
+    "code_country": "235",
+    "code_ison": "TD / TCD"
+  },
+  {
+    "country_name": "Chile",
+    "code_country": "56",
+    "code_ison": "CL / CHL"
+  },
+  {
+    "country_name": "China",
+    "code_country": "86",
+    "code_ison": "CN / CHN"
+  },
+  {
+    "country_name": "Christmas Island",
+    "code_country": "61",
+    "code_ison": "CX / CXR"
+  },
+  {
+    "country_name": "Cocos Islands",
+    "code_country": "61",
+    "code_ison": "CC / CCK"
+  },
+  {
+    "country_name": "Colombia",
+    "code_country": "57",
+    "code_ison": "CO / COL"
+  },
+  {
+    "country_name": "Comoros",
+    "code_country": "269",
+    "code_ison": "KM / COM"
+  },
+  {
+    "country_name": "Cook Islands",
+    "code_country": "682",
+    "code_ison": "CK / COK"
+  },
+  {
+    "country_name": "Costa Rica",
+    "code_country": "506",
+    "code_ison": "CR / CRI"
+  },
+  {
+    "country_name": "Croatia",
+    "code_country": "385",
+    "code_ison": "HR / HRV"
+  },
+  {
+    "country_name": "Cuba",
+    "code_country": "53",
+    "code_ison": "CU / CUB"
+  },
+  {
+    "country_name": "Curacao",
+    "code_country": "599",
+    "code_ison": "CW / CUW"
+  },
+  {
+    "country_name": "Cyprus",
+    "code_country": "357",
+    "code_ison": "CY / CYP"
+  },
+  {
+    "country_name": "Czech Republic",
+    "code_country": "420",
+    "code_ison": "CZ / CZE"
+  },
+  {
+    "country_name": "Democratic Republic of the Congo",
+    "code_country": "243",
+    "code_ison": "CD / COD"
+  },
+  {
+    "country_name": "Denmark",
+    "code_country": "45",
+    "code_ison": "DK / DNK"
+  },
+  {
+    "country_name": "Djibouti",
+    "code_country": "253",
+    "code_ison": "DJ / DJI"
+  },
+  {
+    "country_name": "Dominica",
+    "code_country": "1-767",
+    "code_ison": "DM / DMA"
+  },
+  {
+    "country_name": "Dominican Republic",
+    "code_country": "1-809",
+    "code_ison": "DO / DOM"
+  },
+  {
+    "country_name": "Dominican Republic",
+    "code_country": "1-829",
+    "code_ison": "DO / DOM"
+  },
+  {
+    "country_name": "Dominican Republic",
+    "code_country": "1-849",
+    "code_ison": "DO / DOM"
+  },
+  {
+    "country_name": "East Timor",
+    "code_country": "670",
+    "code_ison": "TL / TLS"
+  },
+  {
+    "country_name": "Ecuador",
+    "code_country": "593",
+    "code_ison": "EC / ECU"
+  },
+  {
+    "country_name": "Egypt",
+    "code_country": "20",
+    "code_ison": "EG / EGY"
+  },
+  {
+    "country_name": "El Salvador",
+    "code_country": "503",
+    "code_ison": "SV / SLV"
+  },
+  {
+    "country_name": "Equatorial Guinea",
+    "code_country": "240",
+    "code_ison": "GQ / GNQ"
+  },
+  {
+    "country_name": "Eritrea",
+    "code_country": "291",
+    "code_ison": "ER / ERI"
+  },
+  {
+    "country_name": "Estonia",
+    "code_country": "372",
+    "code_ison": "EE / EST"
+  },
+  {
+    "country_name": "Ethiopia",
+    "code_country": "251",
+    "code_ison": "ET / ETH"
+  },
+  {
+    "country_name": "Falkland Islands",
+    "code_country": "500",
+    "code_ison": "FK / FLK"
+  },
+  {
+    "country_name": "Faroe Islands",
+    "code_country": "298",
+    "code_ison": "FO / FRO"
+  },
+  {
+    "country_name": "Fiji",
+    "code_country": "679",
+    "code_ison": "FJ / FJI"
+  },
+  {
+    "country_name": "Finland",
+    "code_country": "358",
+    "code_ison": "FI / FIN"
+  },
+  {
+    "country_name": "France",
+    "code_country": "33",
+    "code_ison": "FR / FRA"
+  },
+  {
+    "country_name": "French Polynesia",
+    "code_country": "689",
+    "code_ison": "PF / PYF"
+  },
+  {
+    "country_name": "Gabon",
+    "code_country": "241",
+    "code_ison": "GA / GAB"
+  },
+  {
+    "country_name": "Gambia",
+    "code_country": "220",
+    "code_ison": "GM / GMB"
+  },
+  {
+    "country_name": "Georgia",
+    "code_country": "995",
+    "code_ison": "GE / GEO"
+  },
+  {
+    "country_name": "Germany",
+    "code_country": "49",
+    "code_ison": "DE / DEU"
+  },
+  {
+    "country_name": "Ghana",
+    "code_country": "233",
+    "code_ison": "GH / GHA"
+  },
+  {
+    "country_name": "Gibraltar",
+    "code_country": "350",
+    "code_ison": "GI / GIB"
+  },
+  {
+    "country_name": "Greece",
+    "code_country": "30",
+    "code_ison": "GR / GRC"
+  },
+  {
+    "country_name": "Greenland",
+    "code_country": "299",
+    "code_ison": "GL / GRL"
+  },
+  {
+    "country_name": "Grenada",
+    "code_country": "1-473",
+    "code_ison": "GD / GRD"
+  },
+  {
+    "country_name": "Guam",
+    "code_country": "1-671",
+    "code_ison": "GU / GUM"
+  },
+  {
+    "country_name": "Guatemala",
+    "code_country": "502",
+    "code_ison": "GT / GTM"
+  },
+  {
+    "country_name": "Guernsey",
+    "code_country": "44-1481",
+    "code_ison": "GG / GGY"
+  },
+  {
+    "country_name": "Guinea",
+    "code_country": "224",
+    "code_ison": "GN / GIN"
+  },
+  {
+    "country_name": "Guinea-Bissau",
+    "code_country": "245",
+    "code_ison": "GW / GNB"
+  },
+  {
+    "country_name": "Guyana",
+    "code_country": "592",
+    "code_ison": "GY / GUY"
+  },
+  {
+    "country_name": "Haiti",
+    "code_country": "509",
+    "code_ison": "HT / HTI"
+  },
+  {
+    "country_name": "Honduras",
+    "code_country": "504",
+    "code_ison": "HN / HND"
+  },
+  {
+    "country_name": "Hong Kong",
+    "code_country": "852",
+    "code_ison": "HK / HKG"
+  },
+  {
+    "country_name": "Hungary",
+    "code_country": "36",
+    "code_ison": "HU / HUN"
+  },
+  {
+    "country_name": "Iceland",
+    "code_country": "354",
+    "code_ison": "IS / ISL"
+  },
+  {
+    "country_name": "India",
+    "code_country": "91",
+    "code_ison": "IN / IND"
+  },
+  {
+    "country_name": "Indonesia",
+    "code_country": "62",
+    "code_ison": "ID / IDN"
+  },
+  {
+    "country_name": "Iran",
+    "code_country": "98",
+    "code_ison": "IR / IRN"
+  },
+  {
+    "country_name": "Iraq",
+    "code_country": "964",
+    "code_ison": "IQ / IRQ"
+  },
+  {
+    "country_name": "Ireland",
+    "code_country": "353",
+    "code_ison": "IE / IRL"
+  },
+  {
+    "country_name": "Isle of Man",
+    "code_country": "44-1624",
+    "code_ison": "IM / IMN"
+  },
+  {
+    "country_name": "Israel",
+    "code_country": "972",
+    "code_ison": "IL / ISR"
+  },
+  {
+    "country_name": "Italy",
+    "code_country": "39",
+    "code_ison": "IT / ITA"
+  },
+  {
+    "country_name": "Ivory Coast",
+    "code_country": "225",
+    "code_ison": "CI / CIV"
+  },
+  {
+    "country_name": "Jamaica",
+    "code_country": "1-876",
+    "code_ison": "JM / JAM"
+  },
+  {
+    "country_name": "Japan",
+    "code_country": "81",
+    "code_ison": "JP / JPN"
+  },
+  {
+    "country_name": "Jersey",
+    "code_country": "44-1534",
+    "code_ison": "JE / JEY"
+  },
+  {
+    "country_name": "Jordan",
+    "code_country": "962",
+    "code_ison": "JO / JOR"
+  },
+  {
+    "country_name": "Kazakhstan",
+    "code_country": "7",
+    "code_ison": "KZ / KAZ"
+  },
+  {
+    "country_name": "Kenya",
+    "code_country": "254",
+    "code_ison": "KE / KEN"
+  },
+  {
+    "country_name": "Kiribati",
+    "code_country": "686",
+    "code_ison": "KI / KIR"
+  },
+  {
+    "country_name": "Kosovo",
+    "code_country": "383",
+    "code_ison": "XK / XKX"
+  },
+  {
+    "country_name": "Kuwait",
+    "code_country": "965",
+    "code_ison": "KW / KWT"
+  },
+  {
+    "country_name": "Kyrgyzstan",
+    "code_country": "996",
+    "code_ison": "KG / KGZ"
+  },
+  {
+    "country_name": "Laos",
+    "code_country": "856",
+    "code_ison": "LA / LAO"
+  },
+  {
+    "country_name": "Latvia",
+    "code_country": "371",
+    "code_ison": "LV / LVA"
+  },
+  {
+    "country_name": "Lebanon",
+    "code_country": "961",
+    "code_ison": "LB / LBN"
+  },
+  {
+    "country_name": "Lesotho",
+    "code_country": "266",
+    "code_ison": "LS / LSO"
+  },
+  {
+    "country_name": "Liberia",
+    "code_country": "231",
+    "code_ison": "LR / LBR"
+  },
+  {
+    "country_name": "Libya",
+    "code_country": "218",
+    "code_ison": "LY / LBY"
+  },
+  {
+    "country_name": "Liechtenstein",
+    "code_country": "423",
+    "code_ison": "LI / LIE"
+  },
+  {
+    "country_name": "Lithuania",
+    "code_country": "370",
+    "code_ison": "LT / LTU"
+  },
+  {
+    "country_name": "Luxembourg",
+    "code_country": "352",
+    "code_ison": "LU / LUX"
+  },
+  {
+    "country_name": "Macau",
+    "code_country": "853",
+    "code_ison": "MO / MAC"
+  },
+  {
+    "country_name": "Macedonia",
+    "code_country": "389",
+    "code_ison": "MK / MKD"
+  },
+  {
+    "country_name": "Madagascar",
+    "code_country": "261",
+    "code_ison": "MG / MDG"
+  },
+  {
+    "country_name": "Malawi",
+    "code_country": "265",
+    "code_ison": "MW / MWI"
+  },
+  {
+    "country_name": "Malaysia",
+    "code_country": "60",
+    "code_ison": "MY / MYS"
+  },
+  {
+    "country_name": "Maldives",
+    "code_country": "960",
+    "code_ison": "MV / MDV"
+  },
+  {
+    "country_name": "Mali",
+    "code_country": "223",
+    "code_ison": "ML / MLI"
+  },
+  {
+    "country_name": "Malta",
+    "code_country": "356",
+    "code_ison": "MT / MLT"
+  },
+  {
+    "country_name": "Marshall Islands",
+    "code_country": "692",
+    "code_ison": "MH / MHL"
+  },
+  {
+    "country_name": "Mauritania",
+    "code_country": "222",
+    "code_ison": "MR / MRT"
+  },
+  {
+    "country_name": "Mauritius",
+    "code_country": "230",
+    "code_ison": "MU / MUS"
+  },
+  {
+    "country_name": "Mayotte",
+    "code_country": "262",
+    "code_ison": "YT / MYT"
+  },
+  {
+    "country_name": "Mexico",
+    "code_country": "52",
+    "code_ison": "MX / MEX"
+  },
+  {
+    "country_name": "Micronesia",
+    "code_country": "691",
+    "code_ison": "FM / FSM"
+  },
+  {
+    "country_name": "Moldova",
+    "code_country": "373",
+    "code_ison": "MD / MDA"
+  },
+  {
+    "country_name": "Monaco",
+    "code_country": "377",
+    "code_ison": "MC / MCO"
+  },
+  {
+    "country_name": "Mongolia",
+    "code_country": "976",
+    "code_ison": "MN / MNG"
+  },
+  {
+    "country_name": "Montenegro",
+    "code_country": "382",
+    "code_ison": "ME / MNE"
+  },
+  {
+    "country_name": "Montserrat",
+    "code_country": "1-664",
+    "code_ison": "MS / MSR"
+  },
+  {
+    "country_name": "Morocco",
+    "code_country": "212",
+    "code_ison": "MA / MAR"
+  },
+  {
+    "country_name": "Mozambique",
+    "code_country": "258",
+    "code_ison": "MZ / MOZ"
+  },
+  {
+    "country_name": "Myanmar",
+    "code_country": "95",
+    "code_ison": "MM / MMR"
+  },
+  {
+    "country_name": "Namibia",
+    "code_country": "264",
+    "code_ison": "NA / NAM"
+  },
+  {
+    "country_name": "Nauru",
+    "code_country": "674",
+    "code_ison": "NR / NRU"
+  },
+  {
+    "country_name": "Nepal",
+    "code_country": "977",
+    "code_ison": "NP / NPL"
+  },
+  {
+    "country_name": "Netherlands",
+    "code_country": "31",
+    "code_ison": "NL / NLD"
+  },
+  {
+    "country_name": "Netherlands Antilles",
+    "code_country": "599",
+    "code_ison": "AN / ANT"
+  },
+  {
+    "country_name": "New Caledonia",
+    "code_country": "687",
+    "code_ison": "NC / NCL"
+  },
+  {
+    "country_name": "New Zealand",
+    "code_country": "64",
+    "code_ison": "NZ / NZL"
+  },
+  {
+    "country_name": "Nicaragua",
+    "code_country": "505",
+    "code_ison": "NI / NIC"
+  },
+  {
+    "country_name": "Niger",
+    "code_country": "227",
+    "code_ison": "NE / NER"
+  },
+  {
+    "country_name": "Nigeria",
+    "code_country": "234",
+    "code_ison": "NG / NGA"
+  },
+  {
+    "country_name": "Niue",
+    "code_country": "683",
+    "code_ison": "NU / NIU"
+  },
+  {
+    "country_name": "North Korea",
+    "code_country": "850",
+    "code_ison": "KP / PRK"
+  },
+  {
+    "country_name": "Northern Mariana Islands",
+    "code_country": "1-670",
+    "code_ison": "MP / MNP"
+  },
+  {
+    "country_name": "Norway",
+    "code_country": "47",
+    "code_ison": "NO / NOR"
+  },
+  {
+    "country_name": "Oman",
+    "code_country": "968",
+    "code_ison": "OM / OMN"
+  },
+  {
+    "country_name": "Pakistan",
+    "code_country": "92",
+    "code_ison": "PK / PAK"
+  },
+  {
+    "country_name": "Palau",
+    "code_country": "680",
+    "code_ison": "PW / PLW"
+  },
+  {
+    "country_name": "Palestine",
+    "code_country": "970",
+    "code_ison": "PS / PSE"
+  },
+  {
+    "country_name": "Panama",
+    "code_country": "507",
+    "code_ison": "PA / PAN"
+  },
+  {
+    "country_name": "Papua New Guinea",
+    "code_country": "675",
+    "code_ison": "PG / PNG"
+  },
+  {
+    "country_name": "Paraguay",
+    "code_country": "595",
+    "code_ison": "PY / PRY"
+  },
+  {
+    "country_name": "Peru",
+    "code_country": "51",
+    "code_ison": "PE / PER"
+  },
+  {
+    "country_name": "Philippines",
+    "code_country": "63",
+    "code_ison": "PH / PHL"
+  },
+  {
+    "country_name": "Pitcairn",
+    "code_country": "64",
+    "code_ison": "PN / PCN"
+  },
+  {
+    "country_name": "Poland",
+    "code_country": "48",
+    "code_ison": "PL / POL"
+  },
+  {
+    "country_name": "Portugal",
+    "code_country": "351",
+    "code_ison": "PT / PRT"
+  },
+  {
+    "country_name": "Puerto Rico",
+    "code_country": "1-787",
+    "code_ison": "PR / PRI"
+  },
+  {
+    "country_name": "Puerto Rico",
+    "code_country": "1-939",
+    "code_ison": "PR / PRI"
+  },
+  {
+    "country_name": "Qatar",
+    "code_country": "974",
+    "code_ison": "QA / QAT"
+  },
+  {
+    "country_name": "Republic of the Congo",
+    "code_country": "242",
+    "code_ison": "CG / COG"
+  },
+  {
+    "country_name": "Reunion",
+    "code_country": "262",
+    "code_ison": "RE / REU"
+  },
+  {
+    "country_name": "Romania",
+    "code_country": "40",
+    "code_ison": "RO / ROU"
+  },
+  {
+    "country_name": "Russia",
+    "code_country": "7",
+    "code_ison": "RU / RUS"
+  },
+  {
+    "country_name": "Rwanda",
+    "code_country": "250",
+    "code_ison": "RW / RWA"
+  },
+  {
+    "country_name": "Saint Barthelemy",
+    "code_country": "590",
+    "code_ison": "BL / BLM"
+  },
+  {
+    "country_name": "Saint Helena",
+    "code_country": "290",
+    "code_ison": "SH / SHN"
+  },
+  {
+    "country_name": "Saint Kitts and Nevis",
+    "code_country": "1-869",
+    "code_ison": "KN / KNA"
+  },
+  {
+    "country_name": "Saint Lucia",
+    "code_country": "1-758",
+    "code_ison": "LC / LCA"
+  },
+  {
+    "country_name": "Saint Martin",
+    "code_country": "590",
+    "code_ison": "MF / MAF"
+  },
+  {
+    "country_name": "Saint Pierre and Miquelon",
+    "code_country": "508",
+    "code_ison": "PM / SPM"
+  },
+  {
+    "country_name": "Saint Vincent and the Grenadines",
+    "code_country": "1-784",
+    "code_ison": "VC / VCT"
+  },
+  {
+    "country_name": "Samoa",
+    "code_country": "685",
+    "code_ison": "WS / WSM"
+  },
+  {
+    "country_name": "San Marino",
+    "code_country": "378",
+    "code_ison": "SM / SMR"
+  },
+  {
+    "country_name": "Sao Tome and Principe",
+    "code_country": "239",
+    "code_ison": "ST / STP"
+  },
+  {
+    "country_name": "Saudi Arabia",
+    "code_country": "966",
+    "code_ison": "SA / SAU"
+  },
+  {
+    "country_name": "Senegal",
+    "code_country": "221",
+    "code_ison": "SN / SEN"
+  },
+  {
+    "country_name": "Serbia",
+    "code_country": "381",
+    "code_ison": "RS / SRB"
+  },
+  {
+    "country_name": "Seychelles",
+    "code_country": "248",
+    "code_ison": "SC / SYC"
+  },
+  {
+    "country_name": "Sierra Leone",
+    "code_country": "232",
+    "code_ison": "SL / SLE"
+  },
+  {
+    "country_name": "Singapore",
+    "code_country": "65",
+    "code_ison": "SG / SGP"
+  },
+  {
+    "country_name": "Sint Maarten",
+    "code_country": "1-721",
+    "code_ison": "SX / SXM"
+  },
+  {
+    "country_name": "Slovakia",
+    "code_country": "421",
+    "code_ison": "SK / SVK"
+  },
+  {
+    "country_name": "Slovenia",
+    "code_country": "386",
+    "code_ison": "SI / SVN"
+  },
+  {
+    "country_name": "Solomon Islands",
+    "code_country": "677",
+    "code_ison": "SB / SLB"
+  },
+  {
+    "country_name": "Somalia",
+    "code_country": "252",
+    "code_ison": "SO / SOM"
+  },
+  {
+    "country_name": "South Africa",
+    "code_country": "27",
+    "code_ison": "ZA / ZAF"
+  },
+  {
+    "country_name": "South Korea",
+    "code_country": "82",
+    "code_ison": "KR / KOR"
+  },
+  {
+    "country_name": "South Sudan",
+    "code_country": "211",
+    "code_ison": "SS / SSD"
+  },
+  {
+    "country_name": "Spain",
+    "code_country": "34",
+    "code_ison": "ES / ESP"
+  },
+  {
+    "country_name": "Sri Lanka",
+    "code_country": "94",
+    "code_ison": "LK / LKA"
+  },
+  {
+    "country_name": "Sudan",
+    "code_country": "249",
+    "code_ison": "SD / SDN"
+  },
+  {
+    "country_name": "Suriname",
+    "code_country": "597",
+    "code_ison": "SR / SUR"
+  },
+  {
+    "country_name": "Svalbard and Jan Mayen",
+    "code_country": "47",
+    "code_ison": "SJ / SJM"
+  },
+  {
+    "country_name": "Swaziland",
+    "code_country": "268",
+    "code_ison": "SZ / SWZ"
+  },
+  {
+    "country_name": "Sweden",
+    "code_country": "46",
+    "code_ison": "SE / SWE"
+  },
+  {
+    "country_name": "Switzerland",
+    "code_country": "41",
+    "code_ison": "CH / CHE"
+  },
+  {
+    "country_name": "Syria",
+    "code_country": "963",
+    "code_ison": "SY / SYR"
+  },
+  {
+    "country_name": "Taiwan",
+    "code_country": "886",
+    "code_ison": "TW / TWN"
+  },
+  {
+    "country_name": "Tajikistan",
+    "code_country": "992",
+    "code_ison": "TJ / TJK"
+  },
+  {
+    "country_name": "Tanzania",
+    "code_country": "255",
+    "code_ison": "TZ / TZA"
+  },
+  {
+    "country_name": "Thailand",
+    "code_country": "66",
+    "code_ison": "TH / THA"
+  },
+  {
+    "country_name": "Togo",
+    "code_country": "228",
+    "code_ison": "TG / TGO"
+  },
+  {
+    "country_name": "Tokelau",
+    "code_country": "690",
+    "code_ison": "TK / TKL"
+  },
+  {
+    "country_name": "Tonga",
+    "code_country": "676",
+    "code_ison": "TO / TON"
+  },
+  {
+    "country_name": "Trinidad and Tobago",
+    "code_country": "1-868",
+    "code_ison": "TT / TTO"
+  },
+  {
+    "country_name": "Tunisia",
+    "code_country": "216",
+    "code_ison": "TN / TUN"
+  },
+  {
+    "country_name": "Turkey",
+    "code_country": "90",
+    "code_ison": "TR / TUR"
+  },
+  {
+    "country_name": "Turkmenistan",
+    "code_country": "993",
+    "code_ison": "TM / TKM"
+  },
+  {
+    "country_name": "Turks and Caicos Islands",
+    "code_country": "1-649",
+    "code_ison": "TC / TCA"
+  },
+  {
+    "country_name": "Tuvalu",
+    "code_country": "688",
+    "code_ison": "TV / TUV"
+  },
+  {
+    "country_name": "U.S. Virgin Islands",
+    "code_country": "1-340",
+    "code_ison": "VI / VIR"
+  },
+  {
+    "country_name": "Uganda",
+    "code_country": "256",
+    "code_ison": "UG / UGA"
+  },
+  {
+    "country_name": "Ukraine",
+    "code_country": "380",
+    "code_ison": "UA / UKR"
+  },
+  {
+    "country_name": "United Arab Emirates",
+    "code_country": "971",
+    "code_ison": "AE / ARE"
+  },
+  {
+    "country_name": "United Kingdom",
+    "code_country": "44",
+    "code_ison": "GB / GBR"
+  },
+  {
+    "country_name": "United States",
+    "code_country": "1",
+    "code_ison": "US / USA"
+  },
+  {
+    "country_name": "Uruguay",
+    "code_country": "598",
+    "code_ison": "UY / URY"
+  },
+  {
+    "country_name": "Uzbekistan",
+    "code_country": "998",
+    "code_ison": "UZ / UZB"
+  },
+  {
+    "country_name": "Vanuatu",
+    "code_country": "678",
+    "code_ison": "VU / VUT"
+  },
+  {
+    "country_name": "Vatican",
+    "code_country": "379",
+    "code_ison": "VA / VAT"
+  },
+  {
+    "country_name": "Venezuela",
+    "code_country": "58",
+    "code_ison": "VE / VEN"
+  },
+  {
+    "country_name": "Vietnam",
+    "code_country": "84",
+    "code_ison": "VN / VNM"
+  },
+  {
+    "country_name": "Wallis and Futuna",
+    "code_country": "681",
+    "code_ison": "WF / WLF"
+  },
+  {
+    "country_name": "Western Sahara",
+    "code_country": "212",
+    "code_ison": "EH / ESH"
+  },
+  {
+    "country_name": "Yemen",
+    "code_country": "967",
+    "code_ison": "YE / YEM"
+  },
+  {
+    "country_name": "Zambia",
+    "code_country": "260",
+    "code_ison": "ZM / ZMB"
+  },
+  {
+    "country_name": "Zimbabwe",
+    "code_country": "263",
+    "code_ison": "ZW / ZWE"
+  }
+]
