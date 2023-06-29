@@ -6,11 +6,15 @@ import 'package:portfolio_flutter/modules/uiauth/uiauth_pages.dart';
 class UiAuthModule extends Module {
   @override
   List<Bind> get binds => [
-        Bind.factory<Test>((i) => TestImpl()),
+        Bind.factory<Test>(
+          (i) => TestImpl(),
+        ),
       ];
 
   @override
   List<ModularRoute> get routes => [
-        ChildRoute('/', child: (context, args) => const UiAuthPage()),
+        ChildRoute('/', child: (context, args) {
+          return const UiAuthPage();
+        }, transition: TransitionType.rightToLeft),
       ];
 }

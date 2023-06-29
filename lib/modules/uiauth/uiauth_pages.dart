@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:portfolio_flutter/modules/app_colors.dart';
 import 'package:portfolio_flutter/modules/app_fonts.dart';
-import 'package:portfolio_flutter/modules/core/test/test.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UiAuthPage extends StatefulWidget {
   const UiAuthPage({super.key});
@@ -16,19 +15,34 @@ class UiAuthPage extends StatefulWidget {
 class _UiAuthPageState extends State<UiAuthPage> {
   @override
   Widget build(BuildContext context) {
-    final Test test = Modular.get<Test>();
+    // return MultiBlocProvider(
+    //   providers: [
+    //     BlocProvider<BackCubit>(
+    //       create: (BuildContext context) => BackCubit(),
+    //     )
+    //   ],
+    //   child: BlocBuilder<BackCubit, BackState>(
+    //     builder: (context, state) {
+    //       return _body();
+    //     },
+    //   ),
+    // );
+    return _body();
+  }
+
+  Widget _body() {
     return Scaffold(
       backgroundColor: AppColors.colorPrimary,
       body: Column(
         children: [
-          containerTop(),
-          containerOfInputs(),
+          _containerTop(),
+          _containerOfInputs(),
         ],
       ),
     );
   }
 
-  Expanded containerTop() {
+  Expanded _containerTop() {
     return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -60,7 +74,7 @@ class _UiAuthPageState extends State<UiAuthPage> {
     );
   }
 
-  Widget containerOfInputs() {
+  Widget _containerOfInputs() {
     return Container(
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -110,7 +124,7 @@ class _UiAuthPageState extends State<UiAuthPage> {
     );
   }
 
-  Expanded _buttonCountry() {
+  Widget _buttonCountry() {
     return Expanded(
       child: Container(
         margin: const EdgeInsets.only(bottom: 20),
@@ -122,22 +136,27 @@ class _UiAuthPageState extends State<UiAuthPage> {
           ),
           borderRadius: BorderRadius.circular(6),
         ),
-        child: const Row(
-          children: [
-            Expanded(
-              child: Text(
-                "País",
-                style: TextStyle(
-                  fontSize: 18,
-                  color: AppColors.colorGray,
+        child: GestureDetector(
+          onTap: () {
+            Modular.to.pushNamed('country');
+          },
+          child: const Row(
+            children: [
+              Expanded(
+                child: Text(
+                  "País",
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: AppColors.colorGray,
+                  ),
                 ),
               ),
-            ),
-            Icon(
-              Icons.chevron_right_rounded,
-              color: AppColors.colorGray,
-            )
-          ],
+              Icon(
+                Icons.chevron_right_rounded,
+                color: AppColors.colorGray,
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -149,7 +168,9 @@ class _UiAuthPageState extends State<UiAuthPage> {
       child: Container(
         margin: const EdgeInsets.only(top: 20),
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            //Modular.get<UIAuthBloc>().add(SendParamOfCountry(test: "dddd"));
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.colorPrimary,
           ),
