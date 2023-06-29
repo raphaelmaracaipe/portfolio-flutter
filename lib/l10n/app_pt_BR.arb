@@ -1,4 +1,6 @@
 {
     "@@locale": "pt_BR",
-    "authTitle1": "Olá, seja bem-vindo."
+    "authTitle1": "Olá, seja bem-vindo.",
+    "countryTitleSearch": "Buscar país",
+    "loading": "Carregando..."
 }
