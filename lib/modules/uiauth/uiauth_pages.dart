@@ -4,34 +4,34 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:portfolio_flutter/modules/app_colors.dart';
 import 'package:portfolio_flutter/modules/app_fonts.dart';
+import 'package:portfolio_flutter/modules/app_router.dart';
+import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
+import 'package:portfolio_flutter/modules/core/phone/phone_formatted.dart';
 
+// ignore: must_be_immutable
 class UiAuthPage extends StatefulWidget {
-  const UiAuthPage({super.key});
+  CountryModel? countrySelected;
+  late AppLocalizations? _appLocalizations;
+  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _codeCountryController = TextEditingController();
+
+  UiAuthPage({super.key});
 
   @override
   State<UiAuthPage> createState() => _UiAuthPageState();
 }
 
 class _UiAuthPageState extends State<UiAuthPage> {
+  
+  bool _enableFieldPhone = false;
+
   @override
   Widget build(BuildContext context) {
-    // return MultiBlocProvider(
-    //   providers: [
-    //     BlocProvider<BackCubit>(
-    //       create: (BuildContext context) => BackCubit(),
-    //     )
-    //   ],
-    //   child: BlocBuilder<BackCubit, BackState>(
-    //     builder: (context, state) {
-    //       return _body();
-    //     },
-    //   ),
-    // );
-    return _body();
-  }
+    Modular.to.addListener(_listenerNavigation);
+    widget._appLocalizations = AppLocalizations.of(context);
 
-  Widget _body() {
     return Scaffold(
+      key: const Key("uiPageContainer"),
       backgroundColor: AppColors.colorPrimary,
       body: Column(
         children: [
@@ -40,6 +40,42 @@ class _UiAuthPageState extends State<UiAuthPage> {
         ],
       ),
     );
+  }
+
+  void _listenerNavigation() {
+    CountryModel? countrySelected = Modular.args.data;
+    if (countrySelected != null) {
+      setState(() {
+        widget._codeCountryController.text = countrySelected.codeCountry;
+        if ((widget.countrySelected?.codeCountry ?? 0) != countrySelected.codeCountry) {
+          widget._phoneNumberController.text = '';
+        }
+
+        widget.countrySelected = countrySelected;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    widget._codeCountryController.addListener(_listenerCodeCountry);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    widget._codeCountryController.removeListener(_listenerCodeCountry);
+    Modular.to.removeListener(_listenerNavigation);
+  }
+
+  void _listenerCodeCountry() {
+    String textOfField = widget._codeCountryController.text;
+    if (textOfField.isNotEmpty) {
+      setState(() {
+        _enableFieldPhone = true;
+      });
+    }
   }
 
   Expanded _containerTop() {
@@ -52,20 +88,20 @@ class _UiAuthPageState extends State<UiAuthPage> {
             color: Colors.white,
             width: 150,
           ),
-          const Text(
-            "Portfólio",
-            style: TextStyle(
+          Text(
+            (widget._appLocalizations?.authTitle ?? ""),
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 30,
-              fontFamily: AppFonts.OpenSans,
+              fontFamily: AppFonts.openSans,
             ),
           ),
           Text(
-            (AppLocalizations.of(context)?.authTitle1 ?? ""),
+            (widget._appLocalizations?.authTitle1 ?? ""),
             style: const TextStyle(
               color: Colors.white,
               fontSize: 12,
-              fontFamily: AppFonts.OpenSans,
+              fontFamily: AppFonts.openSans,
               fontStyle: FontStyle.normal,
             ),
           ),
@@ -100,7 +136,7 @@ class _UiAuthPageState extends State<UiAuthPage> {
           ),
           Row(
             children: [
-              _buttonEntrar(),
+              _buttonEnter(),
             ],
           ),
           Row(
@@ -111,7 +147,7 @@ class _UiAuthPageState extends State<UiAuthPage> {
                 child: const Text(
                   "Raphael Maracaipe",
                   style: TextStyle(
-                    fontFamily: AppFonts.OpenSans,
+                    fontFamily: AppFonts.openSans,
                     fontWeight: FontWeight.bold,
                     color: AppColors.colorPrimary,
                   ),
@@ -137,21 +173,24 @@ class _UiAuthPageState extends State<UiAuthPage> {
           borderRadius: BorderRadius.circular(6),
         ),
         child: GestureDetector(
+          key: const Key("uiAuthCountry"),
           onTap: () {
-            Modular.to.pushNamed('country');
+            Modular.to.pushNamed(AppRouter.uICountry);
           },
-          child: const Row(
+          child: Row(
             children: [
+              _showFlagCountry(),
               Expanded(
                 child: Text(
-                  "País",
-                  style: TextStyle(
+                  _getCountrySelected(),
+                  style: const TextStyle(
                     fontSize: 18,
                     color: AppColors.colorGray,
+                    fontFamily: AppFonts.openSans,
                   ),
                 ),
               ),
-              Icon(
+              const Icon(
                 Icons.chevron_right_rounded,
                 color: AppColors.colorGray,
               )
@@ -162,15 +201,49 @@ class _UiAuthPageState extends State<UiAuthPage> {
     );
   }
 
-  Expanded _buttonEntrar() {
+  String _getCountrySelected() {
+    if (widget.countrySelected == null) {
+      return widget._appLocalizations?.country ?? "";
+    }
+    return widget.countrySelected?.countryName ?? "";
+  }
+
+  Container _showFlagCountry() {
+    if (widget.countrySelected == null) {
+      return Container();
+    }
+
+    final String location = "assets/images/flags/${_getNameFlag()}.png";
+    return Container(
+      width: 25,
+      margin: const EdgeInsets.only(right: 10),
+      child: Image.asset(
+        key: const Key("uiAuthCountryImageFlag"),
+        location,
+        errorBuilder: (context, error, stackTrace) {
+          return Container(
+            key: const Key("uiAuthCountryFailLoadingImageFlag"),
+          );
+        },
+      ),
+    );
+  }
+
+  String _getNameFlag() {
+    List<String> splitOnIson = widget.countrySelected?.codeIson.split(" / ") ?? [];
+    if (splitOnIson.isNotEmpty) {
+      return splitOnIson[0].toLowerCase();
+    }
+    return "";
+  }
+
+  Expanded _buttonEnter() {
     return Expanded(
       flex: 1,
       child: Container(
         margin: const EdgeInsets.only(top: 20),
         child: ElevatedButton(
-          onPressed: () {
-            //Modular.get<UIAuthBloc>().add(SendParamOfCountry(test: "dddd"));
-          },
+          onPressed: () {},
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.colorPrimary,
           ),
@@ -190,10 +263,12 @@ class _UiAuthPageState extends State<UiAuthPage> {
       flex: 3,
       child: Container(
         margin: const EdgeInsets.only(right: 10),
-        child: const SizedBox(
+        child: SizedBox(
           width: 100,
           child: TextField(
-            decoration: InputDecoration(
+            keyboardType: TextInputType.number,
+            controller: widget._codeCountryController,
+            decoration: const InputDecoration(
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(
                   color: AppColors.colorGray,
@@ -217,10 +292,16 @@ class _UiAuthPageState extends State<UiAuthPage> {
       flex: 7,
       child: Container(
         margin: const EdgeInsets.only(left: 10),
-        child: const SizedBox(
+        child: SizedBox(
           width: 100,
           child: TextField(
-            decoration: InputDecoration(
+            enabled: _enableFieldPhone,
+            keyboardType: TextInputType.number,
+            inputFormatters: [
+              FormattedPhone(countryModel: widget.countrySelected),
+            ],
+            controller: widget._phoneNumberController,
+            decoration: const InputDecoration(
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(
                   color: AppColors.colorGray,

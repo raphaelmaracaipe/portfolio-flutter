@@ -1,3 +1,3 @@
 class AppFonts {
-  static const String OpenSans = 'OpenSans';
+  static const String openSans = 'OpenSans';
 }

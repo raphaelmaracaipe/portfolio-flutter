@@ -1,6 +1,8 @@
 {
     "@@locale": "pt_BR",
+    "authTitle": "Portfólio",
     "authTitle1": "Olá, seja bem-vindo.",
     "countryTitleSearch": "Buscar país",
-    "loading": "Carregando..."
+    "loading": "Carregando...",
+    "country": "País"
 }
