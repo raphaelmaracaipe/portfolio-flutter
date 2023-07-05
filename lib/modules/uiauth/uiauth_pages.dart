@@ -99,10 +99,9 @@ class _UiAuthPageState extends State<UiAuthPage> {
     CountryModel? countrySelected = Modular.args.data;
     if (countrySelected != null) {
       setState(() {
-        widget._codeCountryController.text = countrySelected.codeCountry ?? "";
+        widget._codeCountryController.text = countrySelected.codeCountry;
 
-        if ((countrySelected.codeCountry ?? 0) !=
-            countrySelected.codeCountry) {
+        if ((countrySelected.codeCountry) != countrySelected.codeCountry) {
           widget._phoneNumberController.text = '';
         }
 
