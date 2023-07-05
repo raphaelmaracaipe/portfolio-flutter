@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:portfolio_flutter/modules/app_fonts.dart';
+import 'package:portfolio_flutter/modules/app_router.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
 
 // ignore: must_be_immutable
@@ -17,6 +18,7 @@ class ListViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: const Key("listViewUiCountryContainer"),
       margin: const EdgeInsets.only(top: 10),
       child: ListView.builder(
         scrollDirection: Axis.vertical,
@@ -24,9 +26,13 @@ class ListViewWidget extends StatelessWidget {
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
-              Modular.to.pop("test");
+              Modular.to.pushReplacementNamed(
+                AppRouter.uIAuth,
+                arguments: _countries[index],
+              );
             },
             child: Row(
+              key: const Key("listViewUiCountryItem"),
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -42,7 +48,7 @@ class ListViewWidget extends StatelessWidget {
                   _countries[index].countryName,
                   style: const TextStyle(
                     fontSize: 12,
-                    fontFamily: AppFonts.OpenSans,
+                    fontFamily: AppFonts.openSans,
                   ),
                 ),
               ],
@@ -58,7 +64,7 @@ class ListViewWidget extends StatelessWidget {
     final String location = "assets/images/flags/$nameFlag.png";
     return Image.asset(
       location,
-      width: 50,
+      width: 25,
       errorBuilder: (context, error, stackTrace) {
         return const SizedBox(
           width: 50,

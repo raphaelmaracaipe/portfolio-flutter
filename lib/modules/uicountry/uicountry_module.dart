@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/countries_codes.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/countries_codes_impl.dart';
@@ -10,7 +11,7 @@ class UiCountryModule extends Module {
   @override
   List<Bind<Object>> get binds => [
         Bind.factory<CountriesCode>(
-          (i) => CountriesCodeImpl(),
+          (i) => CountriesCodeImpl(assetBundle: rootBundle),
         ),
         Bind.factory<CountriesRepository>(
           (i) => CountriesRepositoryImpl(
@@ -28,7 +29,9 @@ class UiCountryModule extends Module {
   List<ModularRoute> get routes => [
         ChildRoute(
           '/',
-          child: (context, args) => const UiCountryPage(),
+          child: (context, args) {
+            return const UiCountryPage();
+          },
           transition: TransitionType.rightToLeft,
         )
       ];

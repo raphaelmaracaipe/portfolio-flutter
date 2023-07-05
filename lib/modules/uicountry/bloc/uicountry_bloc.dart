@@ -8,7 +8,7 @@ class UICountryBloc extends Bloc<UiCountryBlocEvent, UiCountryBlocState> {
   late final CountriesRepository _countriesRepository;
 
   UICountryBloc({required CountriesRepository countriesRepository})
-      : super(const UiCountryBlocState.unknown()) {
+      : super(UiCountryBlocError()) {
     _countriesRepository = countriesRepository;
     on<GetListOfCountries>(_onGetListOfCountries);
   }
@@ -17,12 +17,12 @@ class UICountryBloc extends Bloc<UiCountryBlocEvent, UiCountryBlocState> {
     GetListOfCountries event,
     Emitter<UiCountryBlocState> emitter,
   ) async {
-    emitter(const UiCountryBlocState.loading());
+    emitter(UiCountryBlocLoading());
     try {
       List<CountryModel> countries = await _countriesRepository.readJSON();
-      emitter(UiCountryBlocState.loaded(countries));
+      emitter(UiCountryBlocLoaded(countries));
     } catch (_) {
-      emitter(const UiCountryBlocState.error());
+      emitter(UiCountryBlocError());
     }
   }
 }

@@ -15,6 +15,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: const Key("containerLoading"),
       color: Colors.white.withOpacity(0.5),
       child: Center(
         child: Column(
@@ -32,7 +33,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
                 (AppLocalizations.of(context)?.loading ?? ""),
                 style: const TextStyle(
                   fontSize: 12,
-                  fontFamily: AppFonts.OpenSans,
+                  fontFamily: AppFonts.openSans,
                   fontStyle: FontStyle.normal,
                 ),
               ),
