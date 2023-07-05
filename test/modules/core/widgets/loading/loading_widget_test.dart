@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:portfolio_flutter/modules/uicountry/widget/loading_widget.dart';
+import 'package:portfolio_flutter/modules/core/widgets/loading/loading_widget.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
