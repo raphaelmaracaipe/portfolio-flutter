@@ -40,7 +40,7 @@ void main() {
         );
         return uiCountryBloc;
       },
-      act: (bloc) => bloc.add(GetListOfCountries()),
+      act: (bloc) => bloc.add(GetListOfCountriesInCountry()),
       expect: () => [
         UiCountryBlocLoading(),
         UiCountryBlocLoaded(countries),
@@ -55,7 +55,7 @@ void main() {
         );
         return uiCountryBloc;
       },
-      act: (bloc) => bloc.add(GetListOfCountries()),
+      act: (bloc) => bloc.add(GetListOfCountriesInCountry()),
       expect: () => [
         UiCountryBlocLoading(),
         const UiCountryBlocLoaded([]),
@@ -68,7 +68,7 @@ void main() {
         when(mockCountriesRepository.readJSON()).thenThrow(Exception("test"));
         return uiCountryBloc;
       },
-      act: (bloc) => bloc.add(GetListOfCountries()),
+      act: (bloc) => bloc.add(GetListOfCountriesInCountry()),
       expect: () => [
         UiCountryBlocLoading(),
         UiCountryBlocError(),

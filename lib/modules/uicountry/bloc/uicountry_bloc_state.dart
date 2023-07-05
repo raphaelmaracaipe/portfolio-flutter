@@ -50,3 +50,11 @@ class UiCountryBlocError extends UiCountryBlocState {
           countries: [],
         );
 }
+
+class UiCountryBlocUnknown extends UiCountryBlocState {
+  UiCountryBlocUnknown()
+      : super(
+          status: UiCountryBlocStatus.unknown,
+          countries: [],
+        );
+}

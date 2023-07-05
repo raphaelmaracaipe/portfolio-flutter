@@ -4,5 +4,7 @@
     "authTitle1": "Olá, seja bem-vindo.",
     "countryTitleSearch": "Buscar país",
     "loading": "Carregando...",
-    "country": "País"
+    "country": "País",
+    "codCountry": "Cód. País",
+    "fieldPhone": "Telefone"
 }

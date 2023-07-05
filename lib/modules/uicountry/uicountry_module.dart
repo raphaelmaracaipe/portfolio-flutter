@@ -4,12 +4,17 @@ import 'package:portfolio_flutter/modules/core/data/assets/countries_codes.dart'
 import 'package:portfolio_flutter/modules/core/data/assets/countries_codes_impl.dart';
 import 'package:portfolio_flutter/modules/core/data/countries_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/countries_repository_impl.dart';
+import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart';
+import 'package:portfolio_flutter/modules/core/widgets/loading/loading_impl.dart';
 import 'package:portfolio_flutter/modules/uicountry/bloc/uicountry_bloc.dart';
 import 'package:portfolio_flutter/modules/uicountry/uicountry_page.dart';
 
 class UiCountryModule extends Module {
   @override
   List<Bind<Object>> get binds => [
+        Bind.factory<Loading>(
+          (i) => LoadingImpl(),
+        ),
         Bind.factory<CountriesCode>(
           (i) => CountriesCodeImpl(assetBundle: rootBundle),
         ),

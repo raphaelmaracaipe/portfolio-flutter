@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,13 +8,20 @@ import 'package:portfolio_flutter/modules/app_fonts.dart';
 import 'package:portfolio_flutter/modules/app_router.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
 import 'package:portfolio_flutter/modules/core/phone/phone_formatted.dart';
+import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart';
+import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc.dart';
+import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc_event.dart';
+import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc_state.dart';
+import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc_status.dart';
 
 // ignore: must_be_immutable
 class UiAuthPage extends StatefulWidget {
   CountryModel? countrySelected;
   late AppLocalizations? _appLocalizations;
+
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _codeCountryController = TextEditingController();
+  final UiAuthBloc _uiAuthBloc = Modular.get();
 
   UiAuthPage({super.key});
 
@@ -22,32 +30,79 @@ class UiAuthPage extends StatefulWidget {
 }
 
 class _UiAuthPageState extends State<UiAuthPage> {
-  
   bool _enableFieldPhone = false;
+  bool _enableSearchInFieldCodCountry = true;
+  List<CountryModel> countries = [];
 
   @override
   Widget build(BuildContext context) {
-    Modular.to.addListener(_listenerNavigation);
     widget._appLocalizations = AppLocalizations.of(context);
 
     return Scaffold(
       key: const Key("uiPageContainer"),
       backgroundColor: AppColors.colorPrimary,
-      body: Column(
-        children: [
-          _containerTop(),
-          _containerOfInputs(),
-        ],
-      ),
+      body: _buildBloc(),
     );
   }
 
+  Widget _buildBloc() {
+    widget._uiAuthBloc.add(GetListOfCountriesInAuth());
+    return BlocBuilder<UiAuthBloc, UiAuthBlocState>(
+      bloc: widget._uiAuthBloc,
+      builder: (context, state) {
+        switch (state.status) {
+          case UiAuthBlocStatus.loading:
+            Loading loading = Modular.get();
+            return Stack(
+              children: [
+                _body(),
+                loading.showLoading(),
+              ],
+            );
+          case UiAuthBlocStatus.loaded:
+            countries = state.countries;
+            return _body();
+          default:
+            return _body();
+        }
+      },
+    );
+  }
+
+  Column _body() {
+    return Column(
+      children: [
+        _containerTop(),
+        _containerOfInputs(),
+      ],
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    Modular.to.addListener(_listenerNavigation);
+    widget._codeCountryController.addListener(_listenerCodeCountry);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    widget._codeCountryController.removeListener(_listenerCodeCountry);
+    Modular.to.removeListener(_listenerNavigation);
+  }
+
   void _listenerNavigation() {
+    _enableSearchInFieldCodCountry = false;
     CountryModel? countrySelected = Modular.args.data;
     if (countrySelected != null) {
       setState(() {
-        widget._codeCountryController.text = countrySelected.codeCountry;
-        if ((widget.countrySelected?.codeCountry ?? 0) != countrySelected.codeCountry) {
+        widget._codeCountryController.text = countrySelected.codeCountry ?? "";
+
+        if ((countrySelected.codeCountry ?? 0) !=
+            countrySelected.codeCountry) {
           widget._phoneNumberController.text = '';
         }
 
@@ -56,26 +111,30 @@ class _UiAuthPageState extends State<UiAuthPage> {
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    widget._codeCountryController.addListener(_listenerCodeCountry);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    widget._codeCountryController.removeListener(_listenerCodeCountry);
-    Modular.to.removeListener(_listenerNavigation);
-  }
-
   void _listenerCodeCountry() {
-    String textOfField = widget._codeCountryController.text;
-    if (textOfField.isNotEmpty) {
-      setState(() {
-        _enableFieldPhone = true;
-      });
+    if (!_enableSearchInFieldCodCountry) {
+      _enableSearchInFieldCodCountry = true;
+      return;
     }
+
+    String textOfField = widget._codeCountryController.text;
+    List<CountryModel> countriesFound = countries
+        .where(
+          (country) => country.codeCountry == textOfField,
+        )
+        .toList();
+
+    if (countriesFound.isNotEmpty) {
+      widget.countrySelected = countriesFound[0];
+    }
+
+    setState(() {
+      if (textOfField.isNotEmpty) {
+        _enableFieldPhone = true;
+      } else {
+        _enableFieldPhone = false;
+      }
+    });
   }
 
   Expanded _containerTop() {
@@ -268,18 +327,18 @@ class _UiAuthPageState extends State<UiAuthPage> {
           child: TextField(
             keyboardType: TextInputType.number,
             controller: widget._codeCountryController,
-            decoration: const InputDecoration(
-              focusedBorder: OutlineInputBorder(
+            decoration: InputDecoration(
+              focusedBorder: const OutlineInputBorder(
                 borderSide: BorderSide(
                   color: AppColors.colorGray,
                 ),
               ),
-              border: OutlineInputBorder(),
+              border: const OutlineInputBorder(),
               focusColor: AppColors.colorGray,
-              labelStyle: TextStyle(
+              labelStyle: const TextStyle(
                 color: AppColors.colorGray,
               ),
-              labelText: 'Cód. País',
+              labelText: (widget._appLocalizations?.codCountry ?? ""),
             ),
           ),
         ),
@@ -301,18 +360,18 @@ class _UiAuthPageState extends State<UiAuthPage> {
               FormattedPhone(countryModel: widget.countrySelected),
             ],
             controller: widget._phoneNumberController,
-            decoration: const InputDecoration(
-              focusedBorder: OutlineInputBorder(
+            decoration: InputDecoration(
+              focusedBorder: const OutlineInputBorder(
                 borderSide: BorderSide(
                   color: AppColors.colorGray,
                 ),
               ),
-              border: OutlineInputBorder(),
+              border: const OutlineInputBorder(),
               focusColor: AppColors.colorGray,
-              labelStyle: TextStyle(
+              labelStyle: const TextStyle(
                 color: AppColors.colorGray,
               ),
-              labelText: 'Telefone',
+              labelText: widget._appLocalizations?.fieldPhone ?? "",
             ),
           ),
         ),

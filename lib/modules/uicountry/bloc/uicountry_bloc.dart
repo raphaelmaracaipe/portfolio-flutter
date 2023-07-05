@@ -8,13 +8,13 @@ class UICountryBloc extends Bloc<UiCountryBlocEvent, UiCountryBlocState> {
   late final CountriesRepository _countriesRepository;
 
   UICountryBloc({required CountriesRepository countriesRepository})
-      : super(UiCountryBlocError()) {
+      : super(UiCountryBlocUnknown()) {
     _countriesRepository = countriesRepository;
-    on<GetListOfCountries>(_onGetListOfCountries);
+    on<GetListOfCountriesInCountry>(_onGetListOfCountries);
   }
 
   void _onGetListOfCountries(
-    GetListOfCountries event,
+    GetListOfCountriesInCountry event,
     Emitter<UiCountryBlocState> emitter,
   ) async {
     emitter(UiCountryBlocLoading());
