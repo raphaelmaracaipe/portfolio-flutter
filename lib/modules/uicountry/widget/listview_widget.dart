@@ -25,6 +25,7 @@ class ListViewWidget extends StatelessWidget {
         itemCount: _countries.length,
         itemBuilder: (context, index) {
           return GestureDetector(
+            key: Key("listViewUiCountryItem${_countries[index].codeCountry}"),
             onTap: () {
               Modular.to.pushReplacementNamed(
                 AppRouter.uIAuth,
@@ -32,7 +33,7 @@ class ListViewWidget extends StatelessWidget {
               );
             },
             child: Row(
-              key: const Key("listViewUiCountryItem"),
+              key: const Key("listViewUiCountryItemRow"),
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

@@ -91,7 +91,7 @@ void main() {
           findsOneWidget,
         );
         expect(
-          find.byKey(const Key("listViewUiCountryItem")),
+          find.byKey(const Key("listViewUiCountryItemRow")),
           findsNothing,
         );
       },
@@ -119,7 +119,7 @@ void main() {
           findsOneWidget,
         );
         expect(
-          find.byKey(const Key("listViewUiCountryItem")),
+          find.byKey(const Key("listViewUiCountryItemRow")),
           findsNothing,
         );
       },
