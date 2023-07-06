@@ -18,19 +18,21 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   MockModularNavigateMock modularNavigateMock = MockModularNavigateMock();
+  late UiAuthPage uiAuthPage;
   final navigate = modularNavigateMock;
   Modular.navigatorDelegate = navigate;
 
   setUp(() {
     initModule(UiAuthModule());
+    uiAuthPage = UiAuthPage();
   });
 
   group("UiAuthPage", () {
     testWidgets("when init page show container", (widgetTester) async {
-      UiAuthPage uiAuthPage = UiAuthPage();
       await widgetTester.pumpWidget(MaterialApp(
         home: uiAuthPage,
       ));
+      await widgetTester.pumpAndSettle();
 
       expect(find.byKey(const Key("uiPageContainer")), findsOneWidget);
     });
@@ -40,10 +42,11 @@ void main() {
         (_) async => "",
       );
 
-      UiAuthPage uiAuthPage = UiAuthPage();
+      // UiAuthPage uiAuthPage = UiAuthPage();
       await widgetTester.pumpWidget(MaterialApp(
         home: uiAuthPage,
       ));
+      await widgetTester.pumpAndSettle();
 
       await widgetTester.tap(find.byKey(const Key("uiAuthCountry")));
       await widgetTester.pump();
@@ -52,7 +55,6 @@ void main() {
     });
 
     testWidgets("when selected country", (widgetTester) async {
-      UiAuthPage uiAuthPage = UiAuthPage();
       uiAuthPage.countrySelected = CountryModel(
         codeCountry: "Afghanistan",
         countryName: "93",
@@ -63,6 +65,7 @@ void main() {
       await widgetTester.pumpWidget(MaterialApp(
         home: uiAuthPage,
       ));
+      await widgetTester.pumpAndSettle();
 
       expect(
         find.byKey(const Key("uiAuthCountryFailLoadingImageFlag")),
