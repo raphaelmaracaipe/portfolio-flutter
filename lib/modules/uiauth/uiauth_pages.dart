@@ -29,7 +29,10 @@ class UiAuthPage extends StatefulWidget {
   State<UiAuthPage> createState() => _UiAuthPageState();
 }
 
-class _UiAuthPageState extends State<UiAuthPage> {
+class _UiAuthPageState extends State<UiAuthPage>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _animation;
   bool _enableFieldPhone = false;
   bool _enableSearchInFieldCodCountry = true;
   List<CountryModel> countries = [];
@@ -81,15 +84,26 @@ class _UiAuthPageState extends State<UiAuthPage> {
   @override
   void initState() {
     super.initState();
+    _configAnimation();
 
     Modular.to.addListener(_listenerNavigation);
     widget._codeCountryController.addListener(_listenerCodeCountry);
+  }
+
+  void _configAnimation() {
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    );
+    _animation = Tween<double>(begin: 0, end: 1).animate(_animationController);
+    _animationController.forward();
   }
 
   @override
   void dispose() {
     super.dispose();
 
+    _animationController.dispose();
     widget._codeCountryController.removeListener(_listenerCodeCountry);
     Modular.to.removeListener(_listenerNavigation);
   }
@@ -169,52 +183,66 @@ class _UiAuthPageState extends State<UiAuthPage> {
   }
 
   Widget _containerOfInputs() {
-    return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
-        ),
-      ),
-      margin: const EdgeInsets.only(left: 20, right: 20),
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              _buttonCountry(),
-            ],
-          ),
-          Row(
-            children: [
-              _inputCodeCountry(),
-              _inputPhone(),
-            ],
-          ),
-          Row(
-            children: [
-              _buttonEnter(),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                margin: const EdgeInsets.only(bottom: 10, top: 10),
-                child: const Text(
-                  "Raphael Maracaipe",
-                  style: TextStyle(
-                    fontFamily: AppFonts.openSans,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.colorPrimary,
-                  ),
+    return AnimatedBuilder(
+      animation: _animation,
+      builder: (
+        BuildContext context,
+        Widget? child,
+      ) {
+        return Transform.translate(
+          offset: Offset(0, 100 * (1 - _animation.value)),
+          child: Opacity(
+            opacity: _animation.value,
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
                 ),
               ),
-            ],
-          )
-        ],
-      ),
+              margin: const EdgeInsets.only(left: 20, right: 20),
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      _buttonCountry(),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      _inputCodeCountry(),
+                      _inputPhone(),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      _buttonEnter(),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 10, top: 10),
+                        child: const Text(
+                          "Raphael Maracaipe",
+                          style: TextStyle(
+                            fontFamily: AppFonts.openSans,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.colorPrimary,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -288,7 +316,8 @@ class _UiAuthPageState extends State<UiAuthPage> {
   }
 
   String _getNameFlag() {
-    List<String> splitOnIson = widget.countrySelected?.codeIson.split(" / ") ?? [];
+    List<String> splitOnIson =
+        widget.countrySelected?.codeIson.split(" / ") ?? [];
     if (splitOnIson.isNotEmpty) {
       return splitOnIson[0].toLowerCase();
     }
