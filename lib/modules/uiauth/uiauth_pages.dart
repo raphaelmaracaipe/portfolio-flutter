@@ -120,6 +120,7 @@ class _UiAuthPageState extends State<UiAuthPage>
         }
 
         widget.countrySelected = countrySelected;
+        _enableFieldPhone = true;
       });
     }
   }
@@ -287,43 +288,6 @@ class _UiAuthPageState extends State<UiAuthPage>
     );
   }
 
-  String _getCountrySelected() {
-    if (widget.countrySelected == null) {
-      return widget._appLocalizations?.country ?? "";
-    }
-    return widget.countrySelected?.countryName ?? "";
-  }
-
-  Container _showFlagCountry() {
-    if (widget.countrySelected == null) {
-      return Container();
-    }
-
-    final String location = "assets/images/flags/${_getNameFlag()}.png";
-    return Container(
-      width: 25,
-      margin: const EdgeInsets.only(right: 10),
-      child: Image.asset(
-        key: const Key("uiAuthCountryImageFlag"),
-        location,
-        errorBuilder: (context, error, stackTrace) {
-          return Container(
-            key: const Key("uiAuthCountryFailLoadingImageFlag"),
-          );
-        },
-      ),
-    );
-  }
-
-  String _getNameFlag() {
-    List<String> splitOnIson =
-        widget.countrySelected?.codeIson.split(" / ") ?? [];
-    if (splitOnIson.isNotEmpty) {
-      return splitOnIson[0].toLowerCase();
-    }
-    return "";
-  }
-
   Expanded _buttonEnter() {
     return Expanded(
       flex: 1,
@@ -382,6 +346,7 @@ class _UiAuthPageState extends State<UiAuthPage>
         child: SizedBox(
           width: 100,
           child: TextField(
+            key: const Key("uiAuthFieldPhone"),
             enabled: _enableFieldPhone,
             keyboardType: TextInputType.number,
             inputFormatters: [
@@ -405,5 +370,42 @@ class _UiAuthPageState extends State<UiAuthPage>
         ),
       ),
     );
+  }
+
+  String _getCountrySelected() {
+    if (widget.countrySelected == null) {
+      return widget._appLocalizations?.country ?? "";
+    }
+    return widget.countrySelected?.countryName ?? "";
+  }
+
+  Container _showFlagCountry() {
+    if (widget.countrySelected == null) {
+      return Container();
+    }
+
+    final String location = "assets/images/flags/${_getNameFlag()}.png";
+    return Container(
+      width: 25,
+      margin: const EdgeInsets.only(right: 10),
+      child: Image.asset(
+        key: const Key("uiAuthCountryImageFlag"),
+        location,
+        errorBuilder: (context, error, stackTrace) {
+          return Container(
+            key: const Key("uiAuthCountryFailLoadingImageFlag"),
+          );
+        },
+      ),
+    );
+  }
+
+  String _getNameFlag() {
+    List<String> splitOnIson =
+        widget.countrySelected?.codeIson.split(" / ") ?? [];
+    if (splitOnIson.isNotEmpty) {
+      return splitOnIson[0].toLowerCase();
+    }
+    return "";
   }
 }
