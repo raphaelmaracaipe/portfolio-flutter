@@ -55,7 +55,7 @@ void main() {
     });
 
     testWidgets("when selected country", (widgetTester) async {
-      uiAuthPage.countrySelected = CountryModel(
+      uiAuthPage.countries = CountryModel(
         codeCountry: "Afghanistan",
         countryName: "93",
         codeIson: "AF / AFG",

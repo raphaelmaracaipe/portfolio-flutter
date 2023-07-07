@@ -14,32 +14,34 @@ import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc_event.dart';
 import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc_state.dart';
 import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc_status.dart';
 
-// ignore: must_be_immutable
 class UiAuthPage extends StatefulWidget {
-  CountryModel? countrySelected;
-  late AppLocalizations? _appLocalizations;
+  UiAuthPage({super.key});
 
+  final UiAuthPageState _state = UiAuthPageState();
+  set countries(CountryModel countrySelected) {
+    _state._countrySelected = countrySelected;
+  }
+
+  @override
+  State<UiAuthPage> createState() => _state;
+}
+
+class UiAuthPageState extends State<UiAuthPage>
+    with SingleTickerProviderStateMixin {
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _codeCountryController = TextEditingController();
   final UiAuthBloc _uiAuthBloc = Modular.get();
-
-  UiAuthPage({super.key});
-
-  @override
-  State<UiAuthPage> createState() => _UiAuthPageState();
-}
-
-class _UiAuthPageState extends State<UiAuthPage>
-    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _animation;
+  late AppLocalizations? _appLocalizations;
+  CountryModel? _countrySelected;
   bool _enableFieldPhone = false;
   bool _enableSearchInFieldCodCountry = true;
   List<CountryModel> countries = [];
 
   @override
   Widget build(BuildContext context) {
-    widget._appLocalizations = AppLocalizations.of(context);
+    _appLocalizations = AppLocalizations.of(context);
 
     return Scaffold(
       key: const Key("uiPageContainer"),
@@ -49,9 +51,9 @@ class _UiAuthPageState extends State<UiAuthPage>
   }
 
   Widget _buildBloc() {
-    widget._uiAuthBloc.add(GetListOfCountriesInAuth());
+    _uiAuthBloc.add(GetListOfCountriesInAuth());
     return BlocBuilder<UiAuthBloc, UiAuthBlocState>(
-      bloc: widget._uiAuthBloc,
+      bloc: _uiAuthBloc,
       builder: (context, state) {
         switch (state.status) {
           case UiAuthBlocStatus.loading:
@@ -87,7 +89,7 @@ class _UiAuthPageState extends State<UiAuthPage>
     _configAnimation();
 
     Modular.to.addListener(_listenerNavigation);
-    widget._codeCountryController.addListener(_listenerCodeCountry);
+    _codeCountryController.addListener(_listenerCodeCountry);
   }
 
   void _configAnimation() {
@@ -104,7 +106,7 @@ class _UiAuthPageState extends State<UiAuthPage>
     super.dispose();
 
     _animationController.dispose();
-    widget._codeCountryController.removeListener(_listenerCodeCountry);
+    _codeCountryController.removeListener(_listenerCodeCountry);
     Modular.to.removeListener(_listenerNavigation);
   }
 
@@ -113,13 +115,13 @@ class _UiAuthPageState extends State<UiAuthPage>
     CountryModel? countrySelected = Modular.args.data;
     if (countrySelected != null) {
       setState(() {
-        widget._codeCountryController.text = countrySelected.codeCountry;
-
-        if ((countrySelected.codeCountry) != countrySelected.codeCountry) {
-          widget._phoneNumberController.text = '';
+        String codeCountry = countrySelected.codeCountry;
+        _codeCountryController.text = codeCountry;
+        if ((_countrySelected?.codeCountry ?? "") != codeCountry) {
+          _phoneNumberController.text = '';
         }
 
-        widget.countrySelected = countrySelected;
+        _countrySelected = countrySelected;
         _enableFieldPhone = true;
       });
     }
@@ -131,7 +133,7 @@ class _UiAuthPageState extends State<UiAuthPage>
       return;
     }
 
-    String textOfField = widget._codeCountryController.text;
+    String textOfField = _codeCountryController.text;
     List<CountryModel> countriesFound = countries
         .where(
           (country) => country.codeCountry == textOfField,
@@ -139,7 +141,7 @@ class _UiAuthPageState extends State<UiAuthPage>
         .toList();
 
     if (countriesFound.isNotEmpty) {
-      widget.countrySelected = countriesFound[0];
+      _countrySelected = countriesFound[0];
     }
 
     setState(() {
@@ -162,7 +164,7 @@ class _UiAuthPageState extends State<UiAuthPage>
             width: 150,
           ),
           Text(
-            (widget._appLocalizations?.authTitle ?? ""),
+            (_appLocalizations?.authTitle ?? ""),
             style: const TextStyle(
               color: Colors.white,
               fontSize: 30,
@@ -170,7 +172,7 @@ class _UiAuthPageState extends State<UiAuthPage>
             ),
           ),
           Text(
-            (widget._appLocalizations?.authTitle1 ?? ""),
+            (_appLocalizations?.authTitle1 ?? ""),
             style: const TextStyle(
               color: Colors.white,
               fontSize: 12,
@@ -318,7 +320,7 @@ class _UiAuthPageState extends State<UiAuthPage>
           width: 100,
           child: TextField(
             keyboardType: TextInputType.number,
-            controller: widget._codeCountryController,
+            controller: _codeCountryController,
             decoration: InputDecoration(
               focusedBorder: const OutlineInputBorder(
                 borderSide: BorderSide(
@@ -330,7 +332,7 @@ class _UiAuthPageState extends State<UiAuthPage>
               labelStyle: const TextStyle(
                 color: AppColors.colorGray,
               ),
-              labelText: (widget._appLocalizations?.codCountry ?? ""),
+              labelText: (_appLocalizations?.codCountry ?? ""),
             ),
           ),
         ),
@@ -350,9 +352,9 @@ class _UiAuthPageState extends State<UiAuthPage>
             enabled: _enableFieldPhone,
             keyboardType: TextInputType.number,
             inputFormatters: [
-              FormattedPhone(countryModel: widget.countrySelected),
+              FormattedPhone(countryModel: _countrySelected),
             ],
-            controller: widget._phoneNumberController,
+            controller: _phoneNumberController,
             decoration: InputDecoration(
               focusedBorder: const OutlineInputBorder(
                 borderSide: BorderSide(
@@ -364,7 +366,7 @@ class _UiAuthPageState extends State<UiAuthPage>
               labelStyle: const TextStyle(
                 color: AppColors.colorGray,
               ),
-              labelText: widget._appLocalizations?.fieldPhone ?? "",
+              labelText: _appLocalizations?.fieldPhone ?? "",
             ),
           ),
         ),
@@ -373,14 +375,14 @@ class _UiAuthPageState extends State<UiAuthPage>
   }
 
   String _getCountrySelected() {
-    if (widget.countrySelected == null) {
-      return widget._appLocalizations?.country ?? "";
+    if (_countrySelected == null) {
+      return _appLocalizations?.country ?? "";
     }
-    return widget.countrySelected?.countryName ?? "";
+    return _countrySelected?.countryName ?? "";
   }
 
   Container _showFlagCountry() {
-    if (widget.countrySelected == null) {
+    if (_countrySelected == null) {
       return Container();
     }
 
@@ -401,8 +403,7 @@ class _UiAuthPageState extends State<UiAuthPage>
   }
 
   String _getNameFlag() {
-    List<String> splitOnIson =
-        widget.countrySelected?.codeIson.split(" / ") ?? [];
+    List<String> splitOnIson = _countrySelected?.codeIson.split(" / ") ?? [];
     if (splitOnIson.isNotEmpty) {
       return splitOnIson[0].toLowerCase();
     }
