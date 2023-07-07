@@ -27,27 +27,6 @@ class _SearchWidgetState extends State<SearchWidget> {
     _isDisposed = true;
   }
 
-  void _searchListener() {
-    if (!_isDisposed) {
-      String query = _controller.text;
-      if (query.isEmpty) {
-        setState(() {
-          _selectedCountry = widget.countries;
-        });
-      } else {
-        setState(() {
-          _selectedCountry = widget.countries
-              .where(
-                (country) => country.countryName.toLowerCase().contains(
-                      query.toLowerCase(),
-                    ),
-              )
-              .toList();
-        });
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     _appLocalizations = AppLocalizations.of(context);
@@ -76,6 +55,27 @@ class _SearchWidgetState extends State<SearchWidget> {
     );
   }
 
+  void _searchListener() {
+    if (!_isDisposed) {
+      String query = _controller.text;
+      if (query.isEmpty) {
+        setState(() {
+          _selectedCountry = widget.countries;
+        });
+      } else {
+        setState(() {
+          _selectedCountry = widget.countries
+              .where(
+                (country) => country.countryName.toLowerCase().contains(
+                      query.toLowerCase(),
+                    ),
+              )
+              .toList();
+        });
+      }
+    }
+  }
+
   void _checkIfSelectedCountryIsEmptyAndTextSearchIsEmpty() {
     try {
       if (_selectedCountry.isEmpty && _controller.text.isEmpty) {
@@ -87,13 +87,11 @@ class _SearchWidgetState extends State<SearchWidget> {
   }
 
   Widget _buildItemListSearch(int index) {
+    CountryModel country = _selectedCountry[index];
     return GestureDetector(
-      key: const Key("searchUiCountryItem"),
+      key: Key("searchUiCountryItem${country.codeCountry}"),
       onTap: () {
-        Modular.to.pushReplacementNamed(
-          AppRouter.uIAuth,
-          arguments: _selectedCountry[index],
-        );
+        Modular.to.pushReplacementNamed(AppRouter.uIAuth, arguments: country);
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -106,10 +104,10 @@ class _SearchWidgetState extends State<SearchWidget> {
               right: 20,
               left: 20,
             ),
-            child: _checkImageFlags(_selectedCountry[index]),
+            child: _checkImageFlags(country),
           ),
           Text(
-            _selectedCountry[index].countryName,
+            country.countryName,
             style: const TextStyle(
               fontSize: 12,
               fontFamily: AppFonts.openSans,
