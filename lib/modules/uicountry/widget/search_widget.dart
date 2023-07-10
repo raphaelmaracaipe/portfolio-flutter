@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:portfolio_flutter/modules/app_colors.dart';
 import 'package:portfolio_flutter/modules/app_fonts.dart';
 import 'package:portfolio_flutter/modules/app_router.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SearchWidget extends StatefulWidget {
   final List<CountryModel> countries;
@@ -17,7 +17,7 @@ class SearchWidget extends StatefulWidget {
 
 class _SearchWidgetState extends State<SearchWidget> {
   late AppLocalizations? _appLocalizations;
-  late SearchController _controller;
+  SearchController _searchController = SearchController();
   bool _isDisposed = false;
   List<CountryModel> _selectedCountry = [];
 
@@ -25,6 +25,12 @@ class _SearchWidgetState extends State<SearchWidget> {
   void dispose() {
     super.dispose();
     _isDisposed = true;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController.addListener(_searchListener);
   }
 
   @override
@@ -43,8 +49,8 @@ class _SearchWidgetState extends State<SearchWidget> {
         SearchController controller,
       ) {
         if (!_isDisposed) {
-          _controller = controller;
-          _controller.addListener(_searchListener);
+          _searchController = controller;
+          _searchController.addListener(_searchListener);
         }
 
         return List<Widget>.generate(
@@ -57,13 +63,11 @@ class _SearchWidgetState extends State<SearchWidget> {
 
   void _searchListener() {
     if (!_isDisposed) {
-      String query = _controller.text;
-      if (query.isEmpty) {
-        setState(() {
+      String query = _searchController.text;
+      setState(() {
+        if (query.isEmpty) {
           _selectedCountry = widget.countries;
-        });
-      } else {
-        setState(() {
+        } else {
           _selectedCountry = widget.countries
               .where(
                 (country) => country.countryName.toLowerCase().contains(
@@ -71,14 +75,14 @@ class _SearchWidgetState extends State<SearchWidget> {
                     ),
               )
               .toList();
-        });
-      }
+        }
+      });
     }
   }
 
   void _checkIfSelectedCountryIsEmptyAndTextSearchIsEmpty() {
     try {
-      if (_selectedCountry.isEmpty && _controller.text.isEmpty) {
+      if (_selectedCountry.isEmpty && _searchController.text.isEmpty) {
         _selectedCountry = widget.countries;
       }
     } catch (_) {
@@ -89,7 +93,6 @@ class _SearchWidgetState extends State<SearchWidget> {
   Widget _buildItemListSearch(int index) {
     CountryModel country = _selectedCountry[index];
     return GestureDetector(
-      key: Key("searchUiCountryItem${country.codeCountry}"),
       onTap: () {
         Modular.to.pushReplacementNamed(AppRouter.uIAuth, arguments: country);
       },
@@ -107,6 +110,7 @@ class _SearchWidgetState extends State<SearchWidget> {
             child: _checkImageFlags(country),
           ),
           Text(
+            key: Key("searchUiCountryItem${country.codeCountry}"),
             country.countryName,
             style: const TextStyle(
               fontSize: 12,
