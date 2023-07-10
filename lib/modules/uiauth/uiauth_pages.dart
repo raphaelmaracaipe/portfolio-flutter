@@ -18,6 +18,7 @@ class UiAuthPage extends StatefulWidget {
   UiAuthPage({super.key});
 
   final UiAuthPageState _state = UiAuthPageState();
+
   set countries(CountryModel countrySelected) {
     _state._countrySelected = countrySelected;
   }
@@ -31,9 +32,11 @@ class UiAuthPageState extends State<UiAuthPage>
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _codeCountryController = TextEditingController();
   final UiAuthBloc _uiAuthBloc = Modular.get();
+
   late AnimationController _animationController;
   late Animation<double> _animation;
   late AppLocalizations? _appLocalizations;
+
   CountryModel? _countrySelected;
   bool _enableFieldPhone = false;
   bool _enableSearchInFieldCodCountry = true;
