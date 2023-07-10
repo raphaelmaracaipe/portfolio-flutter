@@ -60,5 +60,21 @@ void main() {
 
       expect("123456", result.text);
     });
+
+    test('when put text with mask should remove mask', () {
+      TextEditingValue textEditingValueOld = const TextEditingValue(
+        text: "1234-56",
+      );
+      TextEditingValue textEditingValueNew = const TextEditingValue(
+        text: "1234-562",
+      );
+
+      TextEditingValue result = formattedPhone.formatEditUpdate(
+        textEditingValueOld,
+        textEditingValueNew,
+      );
+
+      expect(result.text, "1234562");
+    });
   });
 }

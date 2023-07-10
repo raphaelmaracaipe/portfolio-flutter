@@ -28,6 +28,10 @@ class FormattedPhone extends TextInputFormatter {
       );
     }
 
+    if (textNew.contains("-")) {
+      textNew = textNew.replaceAll("-", "");
+    }
+
     String maskWithoutText = _mask.replaceAll("-", "");
     if (textNew.length == maskWithoutText.length) {
       String phoneWithMask = _changeNewToMask(textNew);
@@ -36,10 +40,6 @@ class FormattedPhone extends TextInputFormatter {
         selection: TextSelection.collapsed(offset: phoneWithMask.length),
       );
     } else {
-      if (textNew.contains("-")) {
-        textNew = textNew.replaceAll("-", "");
-      }
-
       int index = textNew.length;
       return TextEditingValue(
         text: textNew,
