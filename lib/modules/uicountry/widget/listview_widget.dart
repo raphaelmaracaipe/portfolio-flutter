@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:portfolio_flutter/modules/app_fonts.dart';
-import 'package:portfolio_flutter/modules/app_router.dart';
+import 'package:portfolio_flutter/config/app_fonts.dart';
+import 'package:portfolio_flutter/config/app_router.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
 
 // ignore: must_be_immutable
