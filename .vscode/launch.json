@@ -5,9 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "portfolio-flutter",
+            "name": "portfolio-flutter (dev)",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "program": "lib/main_dev.dart"
         },
         {
             "name": "portfolio-flutter (profile mode)",
