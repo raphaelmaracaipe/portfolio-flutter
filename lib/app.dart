@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:portfolio_flutter/modules/app_colors.dart';
-import 'package:portfolio_flutter/modules/app_router.dart';
+import 'package:portfolio_flutter/config/app_colors.dart';
+import 'package:portfolio_flutter/config/app_router.dart';
 import 'package:portfolio_flutter/modules/uiauth/uiauth_module.dart';
 import 'package:portfolio_flutter/modules/uicountry/uicountry_module.dart';
-
-void main() {
-  return runApp(ModularApp(module: AppModule(), child: const AppWidget()));
-}
+import 'package:portfolio_flutter/modules/uivalidcode/uivalid_code_module.dart';
 
 class AppModule extends Module {
   @override
@@ -23,6 +20,10 @@ class AppModule extends Module {
         ModuleRoute(
           AppRouter.uICountry,
           module: UiCountryModule(),
+        ),
+        ModuleRoute(
+          AppRouter.uIValidCode,
+          module: UiValidCodeModule(),
         )
       ];
 }

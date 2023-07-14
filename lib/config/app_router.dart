@@ -1,4 +1,5 @@
 class AppRouter {
   static const uIAuth = '/';
-  static const uICountry = '/country';
+  static const uICountry = '/uICountry';
+  static const uIValidCode = '/uIValidCode';
 }

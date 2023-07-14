@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:portfolio_flutter/config/app_colors.dart';
 import 'package:portfolio_flutter/config/app_fonts.dart';
 import 'package:portfolio_flutter/config/app_router.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
 import 'package:portfolio_flutter/modules/core/phone/phone_formatted.dart';
+import 'package:portfolio_flutter/modules/core/utils/strings.dart';
 import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart';
 import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc.dart';
 import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc_event.dart';
@@ -32,6 +34,7 @@ class UiAuthPageState extends State<UiAuthPage>
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _codeCountryController = TextEditingController();
   final UiAuthBloc _uiAuthBloc = Modular.get();
+  final Strings _strings = Modular.get();
 
   late AnimationController _animationController;
   late Animation<double> _animation;
@@ -40,7 +43,7 @@ class UiAuthPageState extends State<UiAuthPage>
   CountryModel? _countrySelected;
   bool _enableFieldPhone = false;
   bool _enableSearchInFieldCodCountry = true;
-  List<CountryModel> countries = [];
+  List<CountryModel> _countries = [];
 
   @override
   Widget build(BuildContext context) {
@@ -49,30 +52,38 @@ class UiAuthPageState extends State<UiAuthPage>
     return Scaffold(
       key: const Key("uiPageContainer"),
       backgroundColor: AppColors.colorPrimary,
-      body: _buildBloc(),
+      body: Stack(children: [
+        _body(),
+        _buildBloc(),
+      ]),
     );
   }
 
   Widget _buildBloc() {
     _uiAuthBloc.add(GetListOfCountriesInAuth());
+    final Loading loading = Modular.get();
+
     return BlocBuilder<UiAuthBloc, UiAuthBlocState>(
       bloc: _uiAuthBloc,
       builder: (context, state) {
         switch (state.status) {
           case UiAuthBlocStatus.loading:
-            Loading loading = Modular.get();
-            return Stack(
-              children: [
-                _body(),
-                loading.showLoading(),
-              ],
-            );
+            return loading.showLoading();
           case UiAuthBlocStatus.loaded:
-            countries = state.countries;
-            return _body();
-          default:
-            return _body();
+            _countries = state.countries;
+            break;
+          case UiAuthBlocStatus.codeRequest:
+            if (!state.isSuccess) {
+              Fluttertoast.showToast(
+                msg: (_appLocalizations?.errorGeneral ?? ""),
+                toastLength: Toast.LENGTH_SHORT,
+              );
+            } else {
+              Modular.to.pushNamed(AppRouter.uIValidCode);
+            }
+            break;
         }
+        return Container();
       },
     );
   }
@@ -137,7 +148,7 @@ class UiAuthPageState extends State<UiAuthPage>
     }
 
     String textOfField = _codeCountryController.text;
-    List<CountryModel> countriesFound = countries
+    List<CountryModel> countriesFound = _countries
         .where(
           (country) => country.codeCountry == textOfField,
         )
@@ -299,7 +310,16 @@ class UiAuthPageState extends State<UiAuthPage>
       child: Container(
         margin: const EdgeInsets.only(top: 20),
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            String codeCountry = _codeCountryController.text;
+            String phoneNumber = _phoneNumberController.text;
+
+            String concatNumbers = "+$codeCountry${_strings.onlyNumber(
+              phoneNumber,
+            )}";
+
+            _uiAuthBloc.add(SendToRequestCode(phoneNumber: concatNumbers));
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.colorPrimary,
           ),

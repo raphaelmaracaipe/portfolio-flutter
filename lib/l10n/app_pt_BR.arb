@@ -6,5 +6,6 @@
     "loading": "Carregando...",
     "country": "País",
     "codCountry": "Cód. País",
-    "fieldPhone": "Telefone"
+    "fieldPhone": "Telefone",
+    "errorGeneral": "Ocorreu um erro! Por favor, tente novamente mais tarde."
 }

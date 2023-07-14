@@ -5,9 +5,12 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i3;
 
+import 'package:logger/logger.dart' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart'
     as _i4;
+import 'package:portfolio_flutter/modules/core/data/network/request/request_user_code.dart'
+    as _i6;
 
 import 'uiauth_bloc_test.dart' as _i2;
 
@@ -40,4 +43,171 @@ class MockMockCountriesRepository extends _i1.Mock
         returnValue:
             _i3.Future<List<_i4.CountryModel>>.value(<_i4.CountryModel>[]),
       ) as _i3.Future<List<_i4.CountryModel>>);
+}
+
+/// A class which mocks [MockLogger].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMockLogger extends _i1.Mock implements _i2.MockLogger {
+  MockMockLogger() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  void v(
+    dynamic message, [
+    dynamic error,
+    StackTrace? stackTrace,
+  ]) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #v,
+          [
+            message,
+            error,
+            stackTrace,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void d(
+    dynamic message, [
+    dynamic error,
+    StackTrace? stackTrace,
+  ]) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #d,
+          [
+            message,
+            error,
+            stackTrace,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void i(
+    dynamic message, [
+    dynamic error,
+    StackTrace? stackTrace,
+  ]) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #i,
+          [
+            message,
+            error,
+            stackTrace,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void w(
+    dynamic message, [
+    dynamic error,
+    StackTrace? stackTrace,
+  ]) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #w,
+          [
+            message,
+            error,
+            stackTrace,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void e(
+    dynamic message, [
+    dynamic error,
+    StackTrace? stackTrace,
+  ]) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #e,
+          [
+            message,
+            error,
+            stackTrace,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void wtf(
+    dynamic message, [
+    dynamic error,
+    StackTrace? stackTrace,
+  ]) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #wtf,
+          [
+            message,
+            error,
+            stackTrace,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void log(
+    _i5.Level? level,
+    dynamic message, [
+    dynamic error,
+    StackTrace? stackTrace,
+  ]) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #log,
+          [
+            level,
+            message,
+            error,
+            stackTrace,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  bool isClosed() => (super.noSuchMethod(
+        Invocation.method(
+          #isClosed,
+          [],
+        ),
+        returnValue: false,
+      ) as bool);
+  @override
+  void close() => super.noSuchMethod(
+        Invocation.method(
+          #close,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+}
+
+/// A class which mocks [MockRestClient].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMockRestClient extends _i1.Mock implements _i2.MockRestClient {
+  MockMockRestClient() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i3.Future<void> requestCode(_i6.RequestUserCode? requestUserCode) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #requestCode,
+          [requestUserCode],
+        ),
+        returnValue: _i3.Future<void>.value(),
+        returnValueForMissingStub: _i3.Future<void>.value(),
+      ) as _i3.Future<void>);
 }

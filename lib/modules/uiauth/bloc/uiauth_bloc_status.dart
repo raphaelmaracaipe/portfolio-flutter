@@ -1,1 +1,1 @@
-enum UiAuthBlocStatus { unknown, loading, loaded, error }
+enum UiAuthBlocStatus { unknown, loading, loaded, error, codeRequest }
