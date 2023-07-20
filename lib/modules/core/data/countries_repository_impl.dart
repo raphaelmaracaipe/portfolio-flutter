@@ -5,10 +5,10 @@ import 'package:portfolio_flutter/modules/core/data/countries_repository.dart';
 class CountriesRepositoryImpl extends CountriesRepository {
   late final CountriesCode _countriesCode;
 
-  CountriesRepositoryImpl({
-    required CountriesCode countriesCode,
-  }) : _countriesCode = countriesCode;
+  CountriesRepositoryImpl({required CountriesCode countriesCode})
+      : _countriesCode = countriesCode;
 
   @override
-  Future<List<CountryModel>> readJSON() async => await _countriesCode.readJSON();
+  Future<List<CountryModel>> readJSON() async =>
+      await _countriesCode.readJSON();
 }
