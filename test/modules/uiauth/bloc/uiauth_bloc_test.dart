@@ -6,6 +6,7 @@ import 'package:mockito/mockito.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
 import 'package:portfolio_flutter/modules/core/data/countries_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/network/rest_client.dart';
+import 'package:portfolio_flutter/modules/core/data/user_repository.dart';
 import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc.dart';
 import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc_event.dart';
 import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc_state.dart';
@@ -14,18 +15,22 @@ import 'uiauth_bloc_test.mocks.dart';
 
 class MockCountriesRepository extends Mock implements CountriesRepository {}
 
+class MockUserRepository extends Mock implements UserRepository {}
+
 class MockLogger extends Mock implements Logger {}
 
 class MockRestClient extends Mock implements RestClient {}
 
 @GenerateMocks([
   MockCountriesRepository,
+  MockUserRepository,
   MockLogger,
   MockRestClient,
 ])
 void main() {
   late UiAuthBloc uiAuthBloc;
   late MockMockCountriesRepository mockCountriesRepository;
+  late MockMockUserRepository mockMockUserRepository;
   late MockMockLogger mockLogger;
   late MockMockRestClient mockRestClient;
 
@@ -40,13 +45,14 @@ void main() {
 
   setUp(() {
     mockCountriesRepository = MockMockCountriesRepository();
+    mockMockUserRepository = MockMockUserRepository();
     mockLogger = MockMockLogger();
     mockRestClient = MockMockRestClient();
 
     uiAuthBloc = UiAuthBloc(
       countriesRepository: mockCountriesRepository,
+      userRepository: mockMockUserRepository,
       logger: mockLogger,
-      restClient: mockRestClient,
     );
   });
 

@@ -8,6 +8,8 @@ import 'package:portfolio_flutter/modules/core/data/countries_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/countries_repository_impl.dart';
 import 'package:portfolio_flutter/modules/core/data/network/config/network_config.dart';
 import 'package:portfolio_flutter/modules/core/data/network/rest_client.dart';
+import 'package:portfolio_flutter/modules/core/data/user_repository.dart';
+import 'package:portfolio_flutter/modules/core/data/user_repository_impl.dart';
 import 'package:portfolio_flutter/modules/core/utils/strings.dart';
 import 'package:portfolio_flutter/modules/core/utils/strings_impl.dart';
 import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart';
@@ -28,7 +30,14 @@ class UiAuthModule extends Module {
           (i) => StringsImpl(),
         ),
         Bind<CountriesRepository>(
-          (i) => CountriesRepositoryImpl(countriesCode: i()),
+          (i) => CountriesRepositoryImpl(
+            countriesCode: i(),
+          ),
+        ),
+        Bind<UserRepository>(
+          (i) => UserRepositoryImpl(
+            restClient: i(),
+          ),
         ),
         Bind<RestClient>(
           (i) => RestClient(
@@ -42,8 +51,8 @@ class UiAuthModule extends Module {
         Bind<UiAuthBloc>(
           (i) => UiAuthBloc(
             countriesRepository: i(),
-            restClient: i(),
             logger: i(),
+            userRepository: i(),
           ),
         )
       ];
