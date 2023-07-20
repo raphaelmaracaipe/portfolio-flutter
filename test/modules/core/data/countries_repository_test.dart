@@ -12,26 +12,24 @@ class MockCountriesCode extends Mock implements CountriesCode {}
 
 @GenerateMocks([MockCountriesCode])
 void main() {
-  group('CountriesRepository', () {
-    test('when request list of countries', () async {
-      List<CountryModel> countries = [
-        CountryModel(
-          codeCountry: "AAA",
-          countryName: "BBB",
-          codeIson: "CCC",
-          mask: "DDD",
-        )
-      ];
+  test('when request list of countries', () async {
+    List<CountryModel> countries = [
+      CountryModel(
+        codeCountry: "AAA",
+        countryName: "BBB",
+        codeIson: "CCC",
+        mask: "DDD",
+      )
+    ];
 
-      MockMockCountriesCode mockMockCountriesCode = MockMockCountriesCode();
-      when(mockMockCountriesCode.readJSON()).thenAnswer((_) async => countries);
+    MockMockCountriesCode mockMockCountriesCode = MockMockCountriesCode();
+    when(mockMockCountriesCode.readJSON()).thenAnswer((_) async => countries);
 
-      CountriesRepository countriesRepository = CountriesRepositoryImpl(
-        countriesCode: mockMockCountriesCode,
-      );
+    CountriesRepository countriesRepository = CountriesRepositoryImpl(
+      countriesCode: mockMockCountriesCode,
+    );
 
-      List<CountryModel> countriesReturn = await countriesRepository.readJSON();
-      expect(countriesReturn[0].codeCountry, countries[0].codeCountry);
-    });
+    List<CountryModel> countriesReturn = await countriesRepository.readJSON();
+    expect(countriesReturn[0].codeCountry, countries[0].codeCountry);
   });
 }

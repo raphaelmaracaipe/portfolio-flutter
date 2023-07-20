@@ -27,50 +27,48 @@ void main() {
     uiAuthPage = UiAuthPage();
   });
 
-  group("UiAuthPage", () {
-    testWidgets("when init page show container", (widgetTester) async {
-      await widgetTester.pumpWidget(MaterialApp(
-        home: uiAuthPage,
-      ));
-      await widgetTester.pumpAndSettle();
+  testWidgets("when init page show container", (widgetTester) async {
+    await widgetTester.pumpWidget(MaterialApp(
+      home: uiAuthPage,
+    ));
+    await widgetTester.pumpAndSettle();
 
-      expect(find.byKey(const Key("uiPageContainer")), findsOneWidget);
-    });
+    expect(find.byKey(const Key("uiPageContainer")), findsOneWidget);
+  });
 
-    testWidgets("when tap button country", (widgetTester) async {
-      when(modularNavigateMock.pushNamed(AppRouter.uICountry)).thenAnswer(
-        (_) async => "",
-      );
+  testWidgets("when tap button country", (widgetTester) async {
+    when(modularNavigateMock.pushNamed(AppRouter.uICountry)).thenAnswer(
+      (_) async => "",
+    );
 
-      // UiAuthPage uiAuthPage = UiAuthPage();
-      await widgetTester.pumpWidget(MaterialApp(
-        home: uiAuthPage,
-      ));
-      await widgetTester.pumpAndSettle();
+    // UiAuthPage uiAuthPage = UiAuthPage();
+    await widgetTester.pumpWidget(MaterialApp(
+      home: uiAuthPage,
+    ));
+    await widgetTester.pumpAndSettle();
 
-      await widgetTester.tap(find.byKey(const Key("uiAuthCountry")));
-      await widgetTester.pump();
+    await widgetTester.tap(find.byKey(const Key("uiAuthCountry")));
+    await widgetTester.pump();
 
-      verify(Modular.navigatorDelegate?.pushNamed(AppRouter.uICountry)).called(1);
-    });
+    verify(Modular.navigatorDelegate?.pushNamed(AppRouter.uICountry)).called(1);
+  });
 
-    testWidgets("when selected country", (widgetTester) async {
-      uiAuthPage.countries = CountryModel(
-        codeCountry: "Afghanistan",
-        countryName: "93",
-        codeIson: "AF / AFG",
-        mask: "##-###-####",
-      );
+  testWidgets("when selected country", (widgetTester) async {
+    uiAuthPage.countries = CountryModel(
+      codeCountry: "Afghanistan",
+      countryName: "93",
+      codeIson: "AF / AFG",
+      mask: "##-###-####",
+    );
 
-      await widgetTester.pumpWidget(MaterialApp(
-        home: uiAuthPage,
-      ));
-      await widgetTester.pumpAndSettle();
+    await widgetTester.pumpWidget(MaterialApp(
+      home: uiAuthPage,
+    ));
+    await widgetTester.pumpAndSettle();
 
-      expect(
-        find.byKey(const Key("uiAuthCountryFailLoadingImageFlag")),
-        findsNothing,
-      );
-    });
+    expect(
+      find.byKey(const Key("uiAuthCountryFailLoadingImageFlag")),
+      findsNothing,
+    );
   });
 }

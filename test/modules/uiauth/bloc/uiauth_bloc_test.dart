@@ -56,78 +56,76 @@ void main() {
     );
   });
 
-  group("UiAuthBloc", () {
-    blocTest<UiAuthBloc, UiAuthBlocState>(
-      'when send consult to repository bloc return state loaded',
-      build: () {
-        when(mockCountriesRepository.readJSON()).thenAnswer(
-          (_) async => countries,
-        );
-        return uiAuthBloc;
-      },
-      act: (bloc) => bloc.add(GetListOfCountriesInAuth()),
-      expect: () => [
-        UiAuthBlocLoading(),
-        UiAuthBlocLoaded(countries),
-      ],
-    );
+  blocTest<UiAuthBloc, UiAuthBlocState>(
+    'when send consult to repository bloc return state loaded',
+    build: () {
+      when(mockCountriesRepository.readJSON()).thenAnswer(
+        (_) async => countries,
+      );
+      return uiAuthBloc;
+    },
+    act: (bloc) => bloc.add(GetListOfCountriesInAuth()),
+    expect: () => [
+      UiAuthBlocLoading(),
+      UiAuthBlocLoaded(countries),
+    ],
+  );
 
-    blocTest<UiAuthBloc, UiAuthBlocState>(
-      'when send consult to repository but return empty list',
-      build: () {
-        when(mockCountriesRepository.readJSON()).thenAnswer((_) async => []);
-        return uiAuthBloc;
-      },
-      act: (bloc) => bloc.add(GetListOfCountriesInAuth()),
-      expect: () => [
-        UiAuthBlocLoading(),
-        const UiAuthBlocLoaded([]),
-      ],
-    );
+  blocTest<UiAuthBloc, UiAuthBlocState>(
+    'when send consult to repository but return empty list',
+    build: () {
+      when(mockCountriesRepository.readJSON()).thenAnswer((_) async => []);
+      return uiAuthBloc;
+    },
+    act: (bloc) => bloc.add(GetListOfCountriesInAuth()),
+    expect: () => [
+      UiAuthBlocLoading(),
+      const UiAuthBlocLoaded([]),
+    ],
+  );
 
-    blocTest<UiAuthBloc, UiAuthBlocState>(
-      'when send consult to repository but return error',
-      build: () {
-        when(mockCountriesRepository.readJSON()).thenThrow(
-          Exception("test error"),
-        );
-        return uiAuthBloc;
-      },
-      act: (bloc) => bloc.add(GetListOfCountriesInAuth()),
-      expect: () => [
-        UiAuthBlocLoading(),
-        UiAuthBlocError(),
-      ],
-    );
+  blocTest<UiAuthBloc, UiAuthBlocState>(
+    'when send consult to repository but return error',
+    build: () {
+      when(mockCountriesRepository.readJSON()).thenThrow(
+        Exception("test error"),
+      );
+      return uiAuthBloc;
+    },
+    act: (bloc) => bloc.add(GetListOfCountriesInAuth()),
+    expect: () => [
+      UiAuthBlocLoading(),
+      UiAuthBlocError(),
+    ],
+  );
 
-    blocTest<UiAuthBloc, UiAuthBlocState>(
-      'when send code phone to server and api return success',
-      build: () {
-        when(mockRestClient.requestCode(any)).thenAnswer(
-          (_) async => Future.value,
-        );
-        return uiAuthBloc;
-      },
-      act: (bloc) => bloc.add(SendToRequestCode(phoneNumber: "1234567890")),
-      expect: () => [
-        UiAuthBlocLoading(),
-        UiAuthBlocResponseSendCode(isSuccess: true),
-      ],
-    );
+  blocTest<UiAuthBloc, UiAuthBlocState>(
+    'when send code phone to server and api return success',
+    build: () {
+      when(mockRestClient.requestCode(any)).thenAnswer(
+        (_) async => Future.value,
+      );
+      return uiAuthBloc;
+    },
+    act: (bloc) => bloc.add(SendToRequestCode(phoneNumber: "1234567890")),
+    expect: () => [
+      UiAuthBlocLoading(),
+      UiAuthBlocResponseSendCode(isSuccess: true),
+    ],
+  );
 
-    blocTest<UiAuthBloc, UiAuthBlocState>(
-      'when send code phone to server and api return error',
-      build: () {
-        when(mockRestClient.requestCode(any)).thenAnswer((_) async => []);
-        return uiAuthBloc;
-      },
-      act: (bloc) => bloc.add(SendToRequestCode(phoneNumber: "1234567890")),
-      expect: () => [
-        UiAuthBlocLoading(),
-        UiAuthBlocResponseSendCode(isSuccess: false),
-      ],
-    );
-  });
+  blocTest<UiAuthBloc, UiAuthBlocState>(
+    'when send code phone to server and api return error',
+    build: () {
+      when(mockRestClient.requestCode(any)).thenAnswer((_) async => []);
+      return uiAuthBloc;
+    },
+    act: (bloc) => bloc.add(SendToRequestCode(phoneNumber: "1234567890")),
+    expect: () => [
+      UiAuthBlocLoading(),
+      UiAuthBlocResponseSendCode(isSuccess: false),
+    ],
+  );
 
   tearDown(() {
     uiAuthBloc.close();

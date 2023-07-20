@@ -17,112 +17,111 @@ class CountriesRepositoryMock extends Mock implements CountriesRepository {}
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  group("UiCountryPage", () {
-    testWidgets(
-      "when initializer check if show",
-      (widgetTester) async {
-        initModule(UiCountryModule());
+  testWidgets(
+    "when initializer check if show",
+    (widgetTester) async {
+      initModule(UiCountryModule());
 
-        UiCountryPage uiCountryPage = const UiCountryPage();
-        await widgetTester.pumpWidget(MaterialApp(
-          home: uiCountryPage,
-        ));
-        await widgetTester.pump();
+      UiCountryPage uiCountryPage = const UiCountryPage();
+      await widgetTester.pumpWidget(MaterialApp(
+        home: uiCountryPage,
+      ));
+      await widgetTester.pump();
 
-        expect(
-          find.byKey(const Key("uiCountryContainer")),
-          findsOneWidget,
-        );
-      },
-    );
+      expect(
+        find.byKey(const Key("uiCountryContainer")),
+        findsOneWidget,
+      );
+    },
+  );
 
-    testWidgets(
-      "when list countries should show items",
-      (widgetTester) async {
-        List<CountryModel> countries = [
-          CountryModel(
-            codeCountry: "AAA",
-            countryName: "BBB",
-            codeIson: "CCC",
-            mask: "DDD",
-          )
-        ];
+  testWidgets(
+    "when list countries should show items",
+    (widgetTester) async {
+      List<CountryModel> countries = [
+        CountryModel(
+          codeCountry: "AAA",
+          countryName: "BBB",
+          codeIson: "CCC",
+          mask: "DDD",
+        )
+      ];
 
-        MockCountriesRepositoryMock countriesRepository = MockCountriesRepositoryMock();
-        when(countriesRepository.readJSON()).thenAnswer(
-          (_) async => countries,
-        );
+      MockCountriesRepositoryMock countriesRepository =
+          MockCountriesRepositoryMock();
+      when(countriesRepository.readJSON()).thenAnswer(
+        (_) async => countries,
+      );
 
-        initModule(UiCountryModule(), replaceBinds: [
-          Bind.instance<CountriesRepository>(countriesRepository)
-        ]);
+      initModule(UiCountryModule(), replaceBinds: [
+        Bind.instance<CountriesRepository>(countriesRepository)
+      ]);
 
-        UiCountryPage uiCountryPage = const UiCountryPage();
-        await widgetTester.pumpWidget(MaterialApp(
-          home: uiCountryPage,
-        ));
-        await widgetTester.pump();
+      UiCountryPage uiCountryPage = const UiCountryPage();
+      await widgetTester.pumpWidget(MaterialApp(
+        home: uiCountryPage,
+      ));
+      await widgetTester.pump();
 
-        expect(
-          find.byKey(const Key("listViewUiCountryContainer")),
-          findsWidgets,
-        );
-      },
-    );
+      expect(
+        find.byKey(const Key("listViewUiCountryContainer")),
+        findsWidgets,
+      );
+    },
+  );
 
-    testWidgets(
-      "when receiver list of countries but list is empty do not should shou list of itens",
-      (widgetTester) async {
-        MockCountriesRepositoryMock countriesRepositoryMock =
-            MockCountriesRepositoryMock();
-        when(countriesRepositoryMock.readJSON()).thenAnswer((_) async => []);
+  testWidgets(
+    "when receiver list of countries but list is empty do not should shou list of itens",
+    (widgetTester) async {
+      MockCountriesRepositoryMock countriesRepositoryMock =
+          MockCountriesRepositoryMock();
+      when(countriesRepositoryMock.readJSON()).thenAnswer((_) async => []);
 
-        initModule(UiCountryModule(), replaceBinds: [
-          Bind.instance<CountriesRepository>(countriesRepositoryMock)
-        ]);
+      initModule(UiCountryModule(), replaceBinds: [
+        Bind.instance<CountriesRepository>(countriesRepositoryMock)
+      ]);
 
-        UiCountryPage uiCountryPage = const UiCountryPage();
-        await widgetTester.pumpWidget(MaterialApp(
-          home: uiCountryPage,
-        ));
+      UiCountryPage uiCountryPage = const UiCountryPage();
+      await widgetTester.pumpWidget(MaterialApp(
+        home: uiCountryPage,
+      ));
 
-        expect(
-          find.byKey(const Key("listViewUiCountryContainer")),
-          findsOneWidget,
-        );
-        expect(
-          find.byKey(const Key("listViewUiCountryItemRow")),
-          findsNothing,
-        );
-      },
-    );
+      expect(
+        find.byKey(const Key("listViewUiCountryContainer")),
+        findsOneWidget,
+      );
+      expect(
+        find.byKey(const Key("listViewUiCountryItemRow")),
+        findsNothing,
+      );
+    },
+  );
 
-    testWidgets(
-      "when receiver list of countries but happens error not should shou list of itens",
-      (widgetTester) async {
-        MockCountriesRepositoryMock countriesRepositoryMock =
-            MockCountriesRepositoryMock();
-        when(countriesRepositoryMock.readJSON())
-            .thenThrow(Exception("error test"));
+  testWidgets(
+    "when receiver list of countries but happens error not should shou list of itens",
+    (widgetTester) async {
+      MockCountriesRepositoryMock countriesRepositoryMock =
+          MockCountriesRepositoryMock();
+      when(countriesRepositoryMock.readJSON())
+          .thenThrow(Exception("error test"));
 
-        initModule(UiCountryModule(), replaceBinds: [
-          Bind.instance<CountriesRepository>(countriesRepositoryMock)
-        ]);
+      initModule(UiCountryModule(), replaceBinds: [
+        Bind.instance<CountriesRepository>(countriesRepositoryMock)
+      ]);
 
-        UiCountryPage uiCountryPage = const UiCountryPage();
-        await widgetTester.pumpWidget(MaterialApp(
-          home: uiCountryPage,
-        ));
+      UiCountryPage uiCountryPage = const UiCountryPage();
+      await widgetTester.pumpWidget(MaterialApp(
+        home: uiCountryPage,
+      ));
 
-        expect(
-          find.byKey(const Key("listViewUiCountryContainer")),
-          findsOneWidget,
-        );
-        expect(
-          find.byKey(const Key("listViewUiCountryItemRow")),
-          findsNothing,
-        );
-      },
-    );
-  });
+      expect(
+        find.byKey(const Key("listViewUiCountryContainer")),
+        findsOneWidget,
+      );
+      expect(
+        find.byKey(const Key("listViewUiCountryItemRow")),
+        findsNothing,
+      );
+    },
+  );
 }

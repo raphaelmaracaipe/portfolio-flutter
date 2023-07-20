@@ -31,50 +31,48 @@ void main() {
     uiCountryBloc = UICountryBloc(countriesRepository: mockCountriesRepository);
   });
 
-  group("UICountryBloc", () {
-    blocTest<UICountryBloc, UiCountryBlocState>(
-      'when send consult to repository bloc return state loaded',
-      build: () {
-        when(mockCountriesRepository.readJSON()).thenAnswer(
-          (_) async => countries,
-        );
-        return uiCountryBloc;
-      },
-      act: (bloc) => bloc.add(GetListOfCountriesInCountry()),
-      expect: () => [
-        UiCountryBlocLoading(),
-        UiCountryBlocLoaded(countries),
-      ],
-    );
+  blocTest<UICountryBloc, UiCountryBlocState>(
+    'when send consult to repository bloc return state loaded',
+    build: () {
+      when(mockCountriesRepository.readJSON()).thenAnswer(
+        (_) async => countries,
+      );
+      return uiCountryBloc;
+    },
+    act: (bloc) => bloc.add(GetListOfCountriesInCountry()),
+    expect: () => [
+      UiCountryBlocLoading(),
+      UiCountryBlocLoaded(countries),
+    ],
+  );
 
-    blocTest<UICountryBloc, UiCountryBlocState>(
-      'when send consult to repository but return empty list',
-      build: () {
-        when(mockCountriesRepository.readJSON()).thenAnswer(
-          (_) async => [],
-        );
-        return uiCountryBloc;
-      },
-      act: (bloc) => bloc.add(GetListOfCountriesInCountry()),
-      expect: () => [
-        UiCountryBlocLoading(),
-        const UiCountryBlocLoaded([]),
-      ],
-    );
+  blocTest<UICountryBloc, UiCountryBlocState>(
+    'when send consult to repository but return empty list',
+    build: () {
+      when(mockCountriesRepository.readJSON()).thenAnswer(
+        (_) async => [],
+      );
+      return uiCountryBloc;
+    },
+    act: (bloc) => bloc.add(GetListOfCountriesInCountry()),
+    expect: () => [
+      UiCountryBlocLoading(),
+      const UiCountryBlocLoaded([]),
+    ],
+  );
 
-    blocTest<UICountryBloc, UiCountryBlocState>(
-      'when send consult to repository but return error',
-      build: () {
-        when(mockCountriesRepository.readJSON()).thenThrow(Exception("test"));
-        return uiCountryBloc;
-      },
-      act: (bloc) => bloc.add(GetListOfCountriesInCountry()),
-      expect: () => [
-        UiCountryBlocLoading(),
-        UiCountryBlocError(),
-      ],
-    );
-  });
+  blocTest<UICountryBloc, UiCountryBlocState>(
+    'when send consult to repository but return error',
+    build: () {
+      when(mockCountriesRepository.readJSON()).thenThrow(Exception("test"));
+      return uiCountryBloc;
+    },
+    act: (bloc) => bloc.add(GetListOfCountriesInCountry()),
+    expect: () => [
+      UiCountryBlocLoading(),
+      UiCountryBlocError(),
+    ],
+  );
 
   tearDown(() {
     uiCountryBloc.close();

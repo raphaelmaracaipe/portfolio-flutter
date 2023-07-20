@@ -16,34 +16,32 @@ class MockAssetBundle extends Mock implements AssetBundle {}
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  group("CountriesCode", () {
-    test('when request list of countries with codes', () async {
-      List<CountryModel> countries = [
-        CountryModel(
-          codeCountry: "AAA",
-          countryName: "BBB",
-          codeIson: "CCC",
-          mask: "DDD",
-        ),
-      ];
+  test('when request list of countries with codes', () async {
+    List<CountryModel> countries = [
+      CountryModel(
+        codeCountry: "AAA",
+        countryName: "BBB",
+        codeIson: "CCC",
+        mask: "DDD",
+      ),
+    ];
 
-      List<Map<String, dynamic>> countriesMap = countries
-          .map(
-            (country) => country.toJSON(),
-          )
-          .toList();
+    List<Map<String, dynamic>> countriesMap = countries
+        .map(
+          (country) => country.toJSON(),
+        )
+        .toList();
 
-      final MockMockAssetBundle mockMockAssetBundle = MockMockAssetBundle();
-      when(mockMockAssetBundle.loadString('assets/json/codes.json')).thenAnswer(
-        (_) async => jsonEncode(countriesMap),
-      );
+    final MockMockAssetBundle mockMockAssetBundle = MockMockAssetBundle();
+    when(mockMockAssetBundle.loadString('assets/json/codes.json')).thenAnswer(
+      (_) async => jsonEncode(countriesMap),
+    );
 
-      final CountriesCode countriesCode = CountriesCodeImpl(
-        assetBundle: mockMockAssetBundle,
-      );
+    final CountriesCode countriesCode = CountriesCodeImpl(
+      assetBundle: mockMockAssetBundle,
+    );
 
-      List<CountryModel> countriesReturn = await countriesCode.readJSON();
-      expect(countriesReturn.length, 1);
-    });
+    List<CountryModel> countriesReturn = await countriesCode.readJSON();
+    expect(countriesReturn.length, 1);
   });
 }
