@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:dio/dio.dart' hide Headers;
 import 'package:portfolio_flutter/modules/core/data/network/request/request_user_code.dart';
+import 'package:portfolio_flutter/modules/core/data/network/response/response_valid_code.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'rest_client.g.dart';
@@ -11,4 +12,7 @@ abstract class RestClient {
 
   @POST("/v1/users/code")
   Future<void> requestCode(@Body() RequestUserCode requestUserCode);
+
+  @GET("/v1/users/valid")
+  Future<ResponseValidCode> requestValidCode(@Query('code') String code);
 }
