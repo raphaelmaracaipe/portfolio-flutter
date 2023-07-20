@@ -340,9 +340,9 @@ class UiAuthPageState extends State<UiAuthPage>
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.colorPrimary,
           ),
-          child: const Text(
-            "ENTRAR",
-            style: TextStyle(
+          child: Text(
+            (_appLocalizations?.btnSignin ?? ""),
+            style: const TextStyle(
               color: Colors.white,
             ),
           ),
