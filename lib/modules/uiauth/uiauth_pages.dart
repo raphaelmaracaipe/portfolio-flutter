@@ -99,8 +99,221 @@ class UiAuthPageState extends State<UiAuthPage>
   Column _body() {
     return Column(
       children: [
-        _containerTop(),
-        _containerOfInputs(),
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                "assets/images/icon_app.svg",
+                color: Colors.white,
+                width: 150,
+              ),
+              Text(
+                (_appLocalizations?.authTitle ?? ""),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 30,
+                  fontFamily: AppFonts.openSans,
+                ),
+              ),
+              Text(
+                (_appLocalizations?.authTitle1 ?? ""),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontFamily: AppFonts.openSans,
+                  fontStyle: FontStyle.normal,
+                ),
+              ),
+            ],
+          ),
+        ),
+        AnimatedBuilder(
+          animation: _animation,
+          builder: (
+            BuildContext context,
+            Widget? child,
+          ) {
+            return Transform.translate(
+              offset: Offset(0, 100 * (1 - _animation.value)),
+              child: Opacity(
+                opacity: _animation.value,
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                  ),
+                  margin: const EdgeInsets.only(left: 20, right: 20),
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              margin: const EdgeInsets.only(bottom: 20),
+                              padding: const EdgeInsets.all(15),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: AppColors.colorGray,
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: GestureDetector(
+                                key: const Key("uiAuthCountry"),
+                                onTap: () {
+                                  Modular.to.pushNamed(AppRouter.uICountry);
+                                },
+                                child: Row(
+                                  children: [
+                                    _showFlagCountry(),
+                                    Expanded(
+                                      child: Text(
+                                        _getCountrySelected(),
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          color: AppColors.colorGray,
+                                          fontFamily: AppFonts.openSans,
+                                        ),
+                                      ),
+                                    ),
+                                    const Icon(
+                                      Icons.chevron_right_rounded,
+                                      color: AppColors.colorGray,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 3,
+                            child: Container(
+                              margin: const EdgeInsets.only(right: 10),
+                              child: SizedBox(
+                                width: 100,
+                                child: TextField(
+                                  keyboardType: TextInputType.number,
+                                  controller: _codeCountryController,
+                                  decoration: InputDecoration(
+                                    focusedBorder: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: AppColors.colorGray,
+                                      ),
+                                    ),
+                                    border: const OutlineInputBorder(),
+                                    focusColor: AppColors.colorGray,
+                                    labelStyle: const TextStyle(
+                                      color: AppColors.colorGray,
+                                    ),
+                                    labelText:
+                                        (_appLocalizations?.codCountry ?? ""),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 7,
+                            child: Container(
+                              margin: const EdgeInsets.only(left: 10),
+                              child: SizedBox(
+                                width: 100,
+                                child: TextField(
+                                  key: const Key("uiAuthFieldPhone"),
+                                  enabled: _enableFieldPhone,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FormattedPhone(
+                                        countryModel: _countrySelected),
+                                  ],
+                                  controller: _phoneNumberController,
+                                  decoration: InputDecoration(
+                                    focusedBorder: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: AppColors.colorGray,
+                                      ),
+                                    ),
+                                    border: const OutlineInputBorder(),
+                                    focusColor: AppColors.colorGray,
+                                    labelStyle: const TextStyle(
+                                      color: AppColors.colorGray,
+                                    ),
+                                    labelText:
+                                        _appLocalizations?.fieldPhone ?? "",
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              margin: const EdgeInsets.only(top: 20),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  String codeCountry =
+                                      _codeCountryController.text;
+                                  String phoneNumber =
+                                      _phoneNumberController.text;
+
+                                  String concatNumbers =
+                                      "+$codeCountry${_strings.onlyNumber(
+                                    phoneNumber,
+                                  )}";
+
+                                  _uiAuthBloc.add(SendToRequestCode(
+                                      phoneNumber: concatNumbers));
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.colorPrimary,
+                                ),
+                                child: Text(
+                                  (_appLocalizations?.btnSignin ?? ""),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 10, top: 10),
+                            child: const Text(
+                              "Raphael Maracaipe",
+                              style: TextStyle(
+                                fontFamily: AppFonts.openSans,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.colorPrimary,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
       ],
     );
   }
@@ -182,236 +395,6 @@ class UiAuthPageState extends State<UiAuthPage>
         _enableFieldPhone = false;
       }
     });
-  }
-
-  Expanded _containerTop() {
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            "assets/images/icon_app.svg",
-            color: Colors.white,
-            width: 150,
-          ),
-          Text(
-            (_appLocalizations?.authTitle ?? ""),
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 30,
-              fontFamily: AppFonts.openSans,
-            ),
-          ),
-          Text(
-            (_appLocalizations?.authTitle1 ?? ""),
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 12,
-              fontFamily: AppFonts.openSans,
-              fontStyle: FontStyle.normal,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _containerOfInputs() {
-    return AnimatedBuilder(
-      animation: _animation,
-      builder: (
-        BuildContext context,
-        Widget? child,
-      ) {
-        return Transform.translate(
-          offset: Offset(0, 100 * (1 - _animation.value)),
-          child: Opacity(
-            opacity: _animation.value,
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                ),
-              ),
-              margin: const EdgeInsets.only(left: 20, right: 20),
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      _buttonCountry(),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      _inputCodeCountry(),
-                      _inputPhone(),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      _buttonEnter(),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(bottom: 10, top: 10),
-                        child: const Text(
-                          "Raphael Maracaipe",
-                          style: TextStyle(
-                            fontFamily: AppFonts.openSans,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.colorPrimary,
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buttonCountry() {
-    return Expanded(
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 20),
-        padding: const EdgeInsets.all(15),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: AppColors.colorGray,
-            width: 1,
-          ),
-          borderRadius: BorderRadius.circular(6),
-        ),
-        child: GestureDetector(
-          key: const Key("uiAuthCountry"),
-          onTap: () {
-            Modular.to.pushNamed(AppRouter.uICountry);
-          },
-          child: Row(
-            children: [
-              _showFlagCountry(),
-              Expanded(
-                child: Text(
-                  _getCountrySelected(),
-                  style: const TextStyle(
-                    fontSize: 18,
-                    color: AppColors.colorGray,
-                    fontFamily: AppFonts.openSans,
-                  ),
-                ),
-              ),
-              const Icon(
-                Icons.chevron_right_rounded,
-                color: AppColors.colorGray,
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Expanded _buttonEnter() {
-    return Expanded(
-      flex: 1,
-      child: Container(
-        margin: const EdgeInsets.only(top: 20),
-        child: ElevatedButton(
-          onPressed: () {
-            String codeCountry = _codeCountryController.text;
-            String phoneNumber = _phoneNumberController.text;
-
-            String concatNumbers = "+$codeCountry${_strings.onlyNumber(
-              phoneNumber,
-            )}";
-
-            _uiAuthBloc.add(SendToRequestCode(phoneNumber: concatNumbers));
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.colorPrimary,
-          ),
-          child: Text(
-            (_appLocalizations?.btnSignin ?? ""),
-            style: const TextStyle(
-              color: Colors.white,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Expanded _inputCodeCountry() {
-    return Expanded(
-      flex: 3,
-      child: Container(
-        margin: const EdgeInsets.only(right: 10),
-        child: SizedBox(
-          width: 100,
-          child: TextField(
-            keyboardType: TextInputType.number,
-            controller: _codeCountryController,
-            decoration: InputDecoration(
-              focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: AppColors.colorGray,
-                ),
-              ),
-              border: const OutlineInputBorder(),
-              focusColor: AppColors.colorGray,
-              labelStyle: const TextStyle(
-                color: AppColors.colorGray,
-              ),
-              labelText: (_appLocalizations?.codCountry ?? ""),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Expanded _inputPhone() {
-    return Expanded(
-      flex: 7,
-      child: Container(
-        margin: const EdgeInsets.only(left: 10),
-        child: SizedBox(
-          width: 100,
-          child: TextField(
-            key: const Key("uiAuthFieldPhone"),
-            enabled: _enableFieldPhone,
-            keyboardType: TextInputType.number,
-            inputFormatters: [
-              FormattedPhone(countryModel: _countrySelected),
-            ],
-            controller: _phoneNumberController,
-            decoration: InputDecoration(
-              focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: AppColors.colorGray,
-                ),
-              ),
-              border: const OutlineInputBorder(),
-              focusColor: AppColors.colorGray,
-              labelStyle: const TextStyle(
-                color: AppColors.colorGray,
-              ),
-              labelText: _appLocalizations?.fieldPhone ?? "",
-            ),
-          ),
-        ),
-      ),
-    );
   }
 
   String _getCountrySelected() {
