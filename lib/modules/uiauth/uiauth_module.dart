@@ -11,7 +11,7 @@ class UiAuthModule extends Module {
 
   @override
   List<Bind> get binds => [
-        Bind<UiAuthBloc>(
+        Bind.factory<UiAuthBloc>(
           (i) => UiAuthBloc(
             countriesRepository: i(),
             logger: i(),
