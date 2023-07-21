@@ -10,6 +10,8 @@ import 'package:portfolio_flutter/modules/core/data/network/config/network_confi
 import 'package:portfolio_flutter/modules/core/data/network/rest_client.dart';
 import 'package:portfolio_flutter/modules/core/data/user_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/user_repository_impl.dart';
+import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
+import 'package:portfolio_flutter/modules/core/localizations/app_localization_impl.dart';
 import 'package:portfolio_flutter/modules/core/utils/strings.dart';
 import 'package:portfolio_flutter/modules/core/utils/strings_impl.dart';
 import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart';
@@ -18,6 +20,10 @@ import 'package:portfolio_flutter/modules/core/widgets/loading/loading_impl.dart
 class CoreModule extends Module {
   @override
   List<Bind<Object>> get binds => [
+        Bind.factory<AppLocalization>(
+          (i) => AppLocalizationImpl(),
+          export: true,
+        ),
         Bind.factory<Loading>(
           (i) => LoadingImpl(),
           export: true,

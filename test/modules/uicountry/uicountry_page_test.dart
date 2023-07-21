@@ -100,13 +100,13 @@ void main() {
   testWidgets(
     "when receiver list of countries but happens error not should shou list of itens",
     (widgetTester) async {
-      MockCountriesRepositoryMock countriesRepositoryMock =
-          MockCountriesRepositoryMock();
-      when(countriesRepositoryMock.readJSON())
-          .thenThrow(Exception("error test"));
+      MockCountriesRepositoryMock countriesRepo = MockCountriesRepositoryMock();
+      when(
+        countriesRepo.readJSON(),
+      ).thenThrow(Exception("error test"));
 
       initModule(UiCountryModule(), replaceBinds: [
-        Bind.instance<CountriesRepository>(countriesRepositoryMock)
+        Bind.instance<CountriesRepository>(countriesRepo)
       ]);
 
       UiCountryPage uiCountryPage = const UiCountryPage();

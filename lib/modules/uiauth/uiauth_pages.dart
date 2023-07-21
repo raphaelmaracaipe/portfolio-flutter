@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -9,6 +8,7 @@ import 'package:portfolio_flutter/config/app_fonts.dart';
 import 'package:portfolio_flutter/config/app_router.dart';
 import 'package:portfolio_flutter/config/app_sharedpreference.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
+import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
 import 'package:portfolio_flutter/modules/core/phone/phone_formatted.dart';
 import 'package:portfolio_flutter/modules/core/utils/strings.dart';
 import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart';
@@ -37,11 +37,11 @@ class UiAuthPageState extends State<UiAuthPage>
   final TextEditingController _codeCountryController = TextEditingController();
   final UiAuthBloc _uiAuthBloc = Modular.get();
   final Strings _strings = Modular.get();
+  final AppLocalization _appLocalizations = Modular.get();
 
   late SharedPreferences _sharedPreferences;
   late AnimationController _animationController;
   late Animation<double> _animation;
-  late AppLocalizations? _appLocalizations;
 
   CountryModel? _countrySelected;
   bool _enableFieldPhone = false;
@@ -50,7 +50,7 @@ class UiAuthPageState extends State<UiAuthPage>
 
   @override
   Widget build(BuildContext context) {
-    _appLocalizations = AppLocalizations.of(context);
+    _appLocalizations.context = context;
 
     return Scaffold(
       key: const Key("uiPageContainer"),
@@ -71,14 +71,14 @@ class UiAuthPageState extends State<UiAuthPage>
       builder: (context, state) {
         switch (state.status) {
           case UiAuthBlocStatus.loading:
-            return loading.showLoading();
+            return loading.showLoading(_appLocalizations);
           case UiAuthBlocStatus.loaded:
             _countries = state.countries;
             break;
           case UiAuthBlocStatus.codeRequest:
             if (!state.isSuccess) {
               Fluttertoast.showToast(
-                msg: (_appLocalizations?.errorGeneral ?? ""),
+                msg: (_appLocalizations.localization?.errorGeneral ?? ""),
                 toastLength: Toast.LENGTH_SHORT,
               );
             } else {
@@ -109,7 +109,7 @@ class UiAuthPageState extends State<UiAuthPage>
                 width: 150,
               ),
               Text(
-                (_appLocalizations?.authTitle ?? ""),
+                (_appLocalizations.localization?.authTitle ?? ""),
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 30,
@@ -117,7 +117,7 @@ class UiAuthPageState extends State<UiAuthPage>
                 ),
               ),
               Text(
-                (_appLocalizations?.authTitle1 ?? ""),
+                (_appLocalizations.localization?.authTitle1 ?? ""),
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 12,
@@ -201,6 +201,7 @@ class UiAuthPageState extends State<UiAuthPage>
                               child: SizedBox(
                                 width: 100,
                                 child: TextField(
+                                  key: const Key("uiAuthFieldCountryCode"),
                                   keyboardType: TextInputType.number,
                                   controller: _codeCountryController,
                                   decoration: InputDecoration(
@@ -214,8 +215,9 @@ class UiAuthPageState extends State<UiAuthPage>
                                     labelStyle: const TextStyle(
                                       color: AppColors.colorGray,
                                     ),
-                                    labelText:
-                                        (_appLocalizations?.codCountry ?? ""),
+                                    labelText: (_appLocalizations
+                                            .localization?.codCountry ??
+                                        ""),
                                   ),
                                 ),
                               ),
@@ -247,8 +249,9 @@ class UiAuthPageState extends State<UiAuthPage>
                                     labelStyle: const TextStyle(
                                       color: AppColors.colorGray,
                                     ),
-                                    labelText:
-                                        _appLocalizations?.fieldPhone ?? "",
+                                    labelText: _appLocalizations
+                                            .localization?.fieldPhone ??
+                                        "",
                                   ),
                                 ),
                               ),
@@ -263,25 +266,14 @@ class UiAuthPageState extends State<UiAuthPage>
                             child: Container(
                               margin: const EdgeInsets.only(top: 20),
                               child: ElevatedButton(
-                                onPressed: () {
-                                  String codeCountry =
-                                      _codeCountryController.text;
-                                  String phoneNumber =
-                                      _phoneNumberController.text;
-
-                                  String concatNumbers =
-                                      "+$codeCountry${_strings.onlyNumber(
-                                    phoneNumber,
-                                  )}";
-
-                                  _uiAuthBloc.add(SendToRequestCode(
-                                      phoneNumber: concatNumbers));
-                                },
+                                onPressed: sendToServer,
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: AppColors.colorPrimary,
                                 ),
+                                key: const Key("uiAuthButtonSend"),
                                 child: Text(
-                                  (_appLocalizations?.btnSignin ?? ""),
+                                  (_appLocalizations.localization?.btnSignin ??
+                                      ""),
                                   style: const TextStyle(
                                     color: Colors.white,
                                   ),
@@ -316,6 +308,17 @@ class UiAuthPageState extends State<UiAuthPage>
         ),
       ],
     );
+  }
+
+  void sendToServer() {
+    String codeCountry = _codeCountryController.text;
+    String phoneNumber = _phoneNumberController.text;
+
+    String concatNumbers = "+$codeCountry${_strings.onlyNumber(
+      phoneNumber,
+    )}";
+
+    _uiAuthBloc.add(SendToRequestCode(phoneNumber: concatNumbers));
   }
 
   @override
@@ -399,7 +402,7 @@ class UiAuthPageState extends State<UiAuthPage>
 
   String _getCountrySelected() {
     if (_countrySelected == null) {
-      return _appLocalizations?.country ?? "";
+      return _appLocalizations.localization?.country ?? "";
     }
     return _countrySelected?.countryName ?? "";
   }

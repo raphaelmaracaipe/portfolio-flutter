@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
+import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
 import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart';
 import 'package:portfolio_flutter/modules/uicountry/bloc/uicountry_bloc.dart';
 import 'package:portfolio_flutter/modules/uicountry/bloc/uicountry_bloc_event.dart';
@@ -19,6 +20,7 @@ class UiCountryPage extends StatefulWidget {
 
 class _UiCountryPageState extends State<UiCountryPage> {
   final UICountryBloc _uiCountryBloc = Modular.get();
+  final AppLocalization _appLocalizations = Modular.get();
   List<CountryModel> allCountries = [];
 
   @override
@@ -29,6 +31,8 @@ class _UiCountryPageState extends State<UiCountryPage> {
 
   @override
   Widget build(BuildContext context) {
+    _appLocalizations.context = context;
+
     return WillPopScope(
       onWillPop: () async {
         Modular.to.pop();
@@ -51,7 +55,7 @@ class _UiCountryPageState extends State<UiCountryPage> {
             return Stack(
               children: [
                 _body(),
-                loading.showLoading(),
+                loading.showLoading(_appLocalizations),
               ],
             );
           case UiCountryBlocStatus.loaded:
@@ -77,6 +81,7 @@ class _UiCountryPageState extends State<UiCountryPage> {
           children: [
             SearchWidget(
               countries: allCountries,
+              appLocalization: _appLocalizations,
             ),
             Expanded(
               child: ListViewWidget(

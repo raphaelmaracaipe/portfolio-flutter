@@ -6,11 +6,15 @@ import 'package:mockito/mockito.dart';
 import 'package:portfolio_flutter/config/app_colors.dart';
 import 'package:portfolio_flutter/config/app_router.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
+import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
+import 'package:portfolio_flutter/modules/core/localizations/app_localization_impl.dart';
 import 'package:portfolio_flutter/modules/uicountry/widget/search_widget.dart';
 
 import './search_widget_test.mocks.dart';
 
 class ModularNavigateMock extends Mock implements IModularNavigator {}
+
+class BuildContextMock extends Mock implements BuildContext {}
 
 @GenerateMocks([ModularNavigateMock])
 void main() {
@@ -20,12 +24,22 @@ void main() {
   final navigate = modularNavigateMock;
   Modular.navigatorDelegate = navigate;
 
+  late AppLocalization appLocalization;
+
+  setUp(() {
+    appLocalization = AppLocalizationImpl();
+    appLocalization.context = BuildContextMock();
+  });
+
   testWidgets(
     "should initialize and build SearchWidget correctly",
     (widgetTester) async {
-      await widgetTester.pumpWidget(const MaterialApp(
+      await widgetTester.pumpWidget(MaterialApp(
         home: Scaffold(
-          body: SearchWidget(countries: []),
+          body: SearchWidget(
+            countries: [],
+            appLocalization: appLocalization,
+          ),
         ),
       ));
 
@@ -62,7 +76,10 @@ void main() {
         ),
         country,
       ];
-      SearchWidget searchWidget = SearchWidget(countries: countries);
+      SearchWidget searchWidget = SearchWidget(
+        countries: countries,
+        appLocalization: appLocalization,
+      );
 
       await widgetTester.pumpWidget(
         MaterialApp(

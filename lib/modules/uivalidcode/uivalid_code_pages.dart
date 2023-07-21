@@ -9,6 +9,7 @@ import 'package:portfolio_flutter/config/app_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:portfolio_flutter/config/app_sharedpreference.dart';
 import 'package:portfolio_flutter/modules/core/data/network/enums/http_error_enum.dart';
+import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
 import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart';
 import 'package:portfolio_flutter/modules/uivalidcode/bloc/uivalid_code_bloc.dart';
 import 'package:portfolio_flutter/modules/uivalidcode/bloc/uivalid_code_bloc_event.dart';
@@ -24,7 +25,7 @@ class UiValidCodePages extends StatefulWidget {
 }
 
 class _UiValidCodePages extends State<UiValidCodePages> {
-  late AppLocalizations? _appLocalizations;
+  final AppLocalization _appLocalizations = Modular.get();
   late Timer _timer;
 
   final UiValidCodeBloc _uiValidCodeBloc = Modular.get();
@@ -38,7 +39,7 @@ class _UiValidCodePages extends State<UiValidCodePages> {
 
   @override
   Widget build(BuildContext context) {
-    _appLocalizations = AppLocalizations.of(context);
+    _appLocalizations.context = context;
 
     return WillPopScope(
       onWillPop: () async {
@@ -50,7 +51,7 @@ class _UiValidCodePages extends State<UiValidCodePages> {
         key: const Key("uiValidCodePage"),
         appBar: AppBar(
           title: Text(
-            (_appLocalizations?.validCodeTitle ?? ""),
+            (_appLocalizations.localization?.validCodeTitle ?? ""),
             style: const TextStyle(
               fontFamily: AppFonts.openSans,
             ),
@@ -77,7 +78,7 @@ class _UiValidCodePages extends State<UiValidCodePages> {
       builder: (context, state) {
         switch (state.status) {
           case UiValidCodeBlocStatus.loading:
-            return _loading.showLoading();
+            return _loading.showLoading(_appLocalizations);
           case UiValidCodeBlocStatus.error:
             _checkWhatsMessageError(state.codeError);
             return Container();
@@ -90,9 +91,9 @@ class _UiValidCodePages extends State<UiValidCodePages> {
 
   void _checkWhatsMessageError(HttpErrorEnum error) {
     if (error == HttpErrorEnum.USER_SEND_CODE_INVALID) {
-      _textMsgError = _appLocalizations?.validErrorCode ?? "";
+      _textMsgError = _appLocalizations.localization?.validErrorCode ?? "";
     } else {
-      _textMsgError = _appLocalizations?.errorGeneral ?? "";
+      _textMsgError = _appLocalizations.localization?.errorGeneral ?? "";
     }
   }
 
@@ -106,7 +107,7 @@ class _UiValidCodePages extends State<UiValidCodePages> {
               Container(
                 margin: const EdgeInsets.only(top: 30),
                 child: Text(
-                  (_appLocalizations?.validCodeText ?? ""),
+                  (_appLocalizations.localization?.validCodeText ?? ""),
                   style: const TextStyle(
                     color: AppColors.colorGray,
                     fontFamily: AppFonts.openSans,
@@ -172,7 +173,7 @@ class _UiValidCodePages extends State<UiValidCodePages> {
             Visibility(
               visible: (_hourConverted == "00:00" || _hourConverted.isEmpty),
               child: Text(
-                _appLocalizations?.validCodeSendAgain ?? "",
+                _appLocalizations.localization?.validCodeSendAgain ?? "",
                 style: const TextStyle(
                   fontFamily: AppFonts.openSans,
                   color: AppColors.colorGray,
@@ -192,7 +193,7 @@ class _UiValidCodePages extends State<UiValidCodePages> {
               child: ElevatedButton(
                 key: const Key("uiValidCodeButton"),
                 onPressed: _enabledButton ? sendCodeToServer : null,
-                child: Text((_appLocalizations?.validCodeBtnSend ?? "")),
+                child: Text((_appLocalizations.localization?.validCodeBtnSend ?? "")),
               ),
             ),
           ],

@@ -6,6 +6,9 @@ import 'package:mockito/mockito.dart';
 import 'package:modular_test/modular_test.dart';
 import 'package:portfolio_flutter/config/app_router.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
+import 'package:portfolio_flutter/modules/core/data/network/enums/http_error_enum.dart';
+import 'package:portfolio_flutter/modules/core/data/network/exceptions/http_exception.dart';
+import 'package:portfolio_flutter/modules/core/data/user_repository.dart';
 import 'package:portfolio_flutter/modules/uiauth/uiauth_module.dart';
 import 'package:portfolio_flutter/modules/uiauth/uiauth_pages.dart';
 
@@ -13,17 +16,31 @@ import 'uiauth_pages_test.mocks.dart';
 
 class ModularNavigateMock extends Mock implements IModularNavigator {}
 
-@GenerateMocks([ModularNavigateMock])
+class UserRepositoryMock extends Mock implements UserRepository {}
+
+@GenerateMocks([
+  ModularNavigateMock,
+  UserRepositoryMock,
+])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  MockModularNavigateMock modularNavigateMock = MockModularNavigateMock();
   late UiAuthPage uiAuthPage;
-  final navigate = modularNavigateMock;
-  Modular.navigatorDelegate = navigate;
+  late MockUserRepositoryMock userRepositoryMock;
+  late MockModularNavigateMock modularNavigateMock;
 
   setUp(() {
-    initModule(UiAuthModule());
+    userRepositoryMock = MockUserRepositoryMock();
+    modularNavigateMock = MockModularNavigateMock();
+    Modular.navigatorDelegate = modularNavigateMock;
+
+    initModule(
+      UiAuthModule(),
+      replaceBinds: [
+        Bind.instance<UserRepository>(userRepositoryMock),
+      ],
+    );
+
     uiAuthPage = UiAuthPage();
   });
 
@@ -41,7 +58,6 @@ void main() {
       (_) async => "",
     );
 
-    // UiAuthPage uiAuthPage = UiAuthPage();
     await widgetTester.pumpWidget(MaterialApp(
       home: uiAuthPage,
     ));
@@ -71,4 +87,80 @@ void main() {
       findsNothing,
     );
   });
+
+  testWidgets(
+    'when request code and api return success',
+    (widgetTester) async {
+      when(
+        userRepositoryMock.requestCode(any),
+      ).thenAnswer((_) async => {});
+
+      uiAuthPage.countries = CountryModel(
+        codeCountry: "Afghanistan",
+        countryName: "93",
+        codeIson: "AF / AFG",
+        mask: "##-###-####",
+      );
+
+      await widgetTester.pumpWidget(MaterialApp(
+        home: uiAuthPage,
+      ));
+      await widgetTester.pumpAndSettle();
+
+      Finder finderCountryCode = find.byKey(
+        const Key("uiAuthFieldCountryCode"),
+      );
+      expect(finderCountryCode, findsOneWidget);
+      await widgetTester.enterText(finderCountryCode, "93");
+      await widgetTester.pumpAndSettle();
+
+      Finder finderPhone = find.byKey(const Key("uiAuthFieldPhone"));
+      expect(finderPhone, findsOneWidget);
+      await widgetTester.enterText(finderPhone, "939999999");
+      await widgetTester.pumpAndSettle();
+
+      Finder finderButton = find.byKey(const Key("uiAuthButtonSend"));
+      expect(finderButton, findsOneWidget);
+      await widgetTester.tap(finderButton);
+      await widgetTester.pumpAndSettle();
+    },
+  );
+
+  testWidgets(
+    'when request code and api return fail',
+        (widgetTester) async {
+      when(
+        userRepositoryMock.requestCode(any),
+      ).thenThrow(HttpException.putEnum(HttpErrorEnum.ERROR_GENERAL));
+
+      uiAuthPage.countries = CountryModel(
+        codeCountry: "Afghanistan",
+        countryName: "93",
+        codeIson: "AF / AFG",
+        mask: "##-###-####",
+      );
+
+      await widgetTester.pumpWidget(MaterialApp(
+        home: uiAuthPage,
+      ));
+      await widgetTester.pumpAndSettle();
+
+      Finder finderCountryCode = find.byKey(
+        const Key("uiAuthFieldCountryCode"),
+      );
+      expect(finderCountryCode, findsOneWidget);
+      await widgetTester.enterText(finderCountryCode, "93");
+      await widgetTester.pumpAndSettle();
+
+      Finder finderPhone = find.byKey(const Key("uiAuthFieldPhone"));
+      expect(finderPhone, findsOneWidget);
+      await widgetTester.enterText(finderPhone, "939999999");
+      await widgetTester.pumpAndSettle();
+
+      Finder finderButton = find.byKey(const Key("uiAuthButtonSend"));
+      expect(finderButton, findsOneWidget);
+      await widgetTester.tap(finderButton);
+      await widgetTester.pumpAndSettle();
+    },
+  );
 }
