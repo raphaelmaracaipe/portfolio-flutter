@@ -30,26 +30,26 @@ class CoreModule extends Module {
           (i) => StringsImpl(),
           export: true,
         ),
-        Bind<CountriesRepository>(
+        Bind.factory<CountriesRepository>(
           (i) => CountriesRepositoryImpl(
             countriesCode: i(),
           ),
           export: true,
         ),
-        Bind<UserRepository>(
+        Bind.factory<UserRepository>(
           (i) => UserRepositoryImpl(
             restClient: i(),
           ),
           export: true,
         ),
-        Bind<RestClient>(
+        Bind.factory<RestClient>(
           (i) => RestClient(
             NetworkConfig.config(),
             baseUrl: (env?.baseUrl ?? ""),
           ),
           export: true,
         ),
-        Bind<Logger>(
+        Bind.factory<Logger>(
           (i) => Logger(),
           export: true,
         ),
