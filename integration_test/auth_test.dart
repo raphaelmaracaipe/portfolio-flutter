@@ -127,7 +127,7 @@ void main() {
       Finder finderButton = find.byKey(const Key("uiAuthButtonSend"));
       expect(finderButton, findsOneWidget);
       await tester.tap(finderButton);
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(const Duration(seconds: 4));
 
       expect(find.byKey(const Key("uiValidCodePage")), findsOneWidget);
     },
