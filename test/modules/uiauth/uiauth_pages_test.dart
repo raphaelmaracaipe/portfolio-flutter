@@ -128,7 +128,7 @@ void main() {
 
   testWidgets(
     'when request code and api return fail',
-        (widgetTester) async {
+    (widgetTester) async {
       when(
         userRepositoryMock.requestCode(any),
       ).thenThrow(HttpException.putEnum(HttpErrorEnum.ERROR_GENERAL));
