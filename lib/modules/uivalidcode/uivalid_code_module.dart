@@ -2,7 +2,6 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:portfolio_flutter/modules/core/core_module.dart';
 import 'package:portfolio_flutter/modules/uivalidcode/bloc/uivalid_code_bloc.dart';
 import 'package:portfolio_flutter/modules/uivalidcode/uivalid_code_pages.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UiValidCodeModule extends Module {
   @override

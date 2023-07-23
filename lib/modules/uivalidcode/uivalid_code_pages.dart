@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:logger/logger.dart';
 import 'package:portfolio_flutter/config/app_colors.dart';
 import 'package:portfolio_flutter/config/app_fonts.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:portfolio_flutter/config/app_sharedpreference.dart';
+import 'package:portfolio_flutter/config/app_router.dart';
 import 'package:portfolio_flutter/modules/core/data/network/enums/http_error_enum.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
 import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart';
@@ -15,7 +15,6 @@ import 'package:portfolio_flutter/modules/uivalidcode/bloc/uivalid_code_bloc.dar
 import 'package:portfolio_flutter/modules/uivalidcode/bloc/uivalid_code_bloc_event.dart';
 import 'package:portfolio_flutter/modules/uivalidcode/bloc/uivalid_code_bloc_state.dart';
 import 'package:portfolio_flutter/modules/uivalidcode/bloc/uivalid_code_bloc_status.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class UiValidCodePages extends StatefulWidget {
   const UiValidCodePages({super.key});
@@ -43,7 +42,6 @@ class _UiValidCodePages extends State<UiValidCodePages> {
 
     return WillPopScope(
       onWillPop: () async {
-        _cleanSharedPreference();
         Modular.to.pop();
         return false;
       },
@@ -67,11 +65,6 @@ class _UiValidCodePages extends State<UiValidCodePages> {
     );
   }
 
-  void _cleanSharedPreference() async {
-    final SharedPreferences sp = await SharedPreferences.getInstance();
-    await sp.remove(AppSharedPreference.authIsValidCode);
-  }
-
   Widget _blocBuild() {
     return BlocBuilder<UiValidCodeBloc, UiValidCodeBlocState>(
       bloc: _uiValidCodeBloc,
@@ -79,6 +72,10 @@ class _UiValidCodePages extends State<UiValidCodePages> {
         switch (state.status) {
           case UiValidCodeBlocStatus.loading:
             return _loading.showLoading(_appLocalizations);
+          case UiValidCodeBlocStatus.loaded:
+            _timer.cancel();
+            Modular.to.pushNamed(AppRouter.uIProfile);
+            return Container();
           case UiValidCodeBlocStatus.error:
             _checkWhatsMessageError(state.codeError);
             return Container();
@@ -120,8 +117,8 @@ class _UiValidCodePages extends State<UiValidCodePages> {
                   key: const Key("uiValidCodeContainerMsgError"),
                   margin: const EdgeInsets.only(top: 20, right: 30, left: 30),
                   child: Text(
-                    key: const Key("uiValidCodeMsgError"),
                     _textMsgError,
+                    key: const Key("uiValidCodeMsgError"),
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       fontFamily: AppFonts.openSans,
@@ -193,7 +190,9 @@ class _UiValidCodePages extends State<UiValidCodePages> {
               child: ElevatedButton(
                 key: const Key("uiValidCodeButton"),
                 onPressed: _enabledButton ? sendCodeToServer : null,
-                child: Text((_appLocalizations.localization?.validCodeBtnSend ?? "")),
+                child: Text(
+                  (_appLocalizations.localization?.validCodeBtnSend ?? ""),
+                ),
               ),
             ),
           ],
@@ -220,6 +219,7 @@ class _UiValidCodePages extends State<UiValidCodePages> {
   @override
   void dispose() {
     super.dispose();
+    _uiValidCodeBloc.close();
     _timer.cancel();
     _inputCodeController.removeListener(_listenerCodeController);
   }

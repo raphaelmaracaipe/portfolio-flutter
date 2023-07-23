@@ -6,7 +6,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:portfolio_flutter/config/app_colors.dart';
 import 'package:portfolio_flutter/config/app_fonts.dart';
 import 'package:portfolio_flutter/config/app_router.dart';
-import 'package:portfolio_flutter/config/app_sharedpreference.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
 import 'package:portfolio_flutter/modules/core/phone/phone_formatted.dart';
@@ -16,7 +15,6 @@ import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc.dart';
 import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc_event.dart';
 import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc_state.dart';
 import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc_status.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class UiAuthPage extends StatefulWidget {
   UiAuthPage({super.key});
@@ -39,7 +37,6 @@ class UiAuthPageState extends State<UiAuthPage>
   final Strings _strings = Modular.get();
   final AppLocalization _appLocalizations = Modular.get();
 
-  late SharedPreferences _sharedPreferences;
   late AnimationController _animationController;
   late Animation<double> _animation;
 
@@ -82,7 +79,6 @@ class UiAuthPageState extends State<UiAuthPage>
                 toastLength: Toast.LENGTH_SHORT,
               );
             } else {
-              _saveRedirect();
               Modular.to.pushNamed(AppRouter.uIValidCode);
             }
             break;
@@ -90,10 +86,6 @@ class UiAuthPageState extends State<UiAuthPage>
         return Container();
       },
     );
-  }
-
-  void _saveRedirect() async {
-    await _sharedPreferences.setBool(AppSharedPreference.authIsValidCode, true);
   }
 
   Column _body() {
@@ -327,18 +319,9 @@ class UiAuthPageState extends State<UiAuthPage>
   void initState() {
     super.initState();
     _configAnimation();
-    _checkIfIsRedirectToValidationCode();
 
     Modular.to.addListener(_listenerNavigation);
     _codeCountryController.addListener(_listenerCodeCountry);
-  }
-
-  void _checkIfIsRedirectToValidationCode() async {
-    _sharedPreferences = await SharedPreferences.getInstance();
-    if ((_sharedPreferences.getBool(AppSharedPreference.authIsValidCode) ??
-        false)) {
-      Modular.to.pushNamed(AppRouter.uIValidCode);
-    }
   }
 
   void _configAnimation() {
