@@ -19,7 +19,6 @@ dependencies:
   json_serializable: ^6.7.1
   dio: ^5.2.1+1
   fluttertoast: ^8.2.2
-  shared_preferences: ^2.2.0
 
 dev_dependencies:
   integration_test:
