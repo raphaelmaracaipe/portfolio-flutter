@@ -41,7 +41,7 @@ void main() {
     act: (bloc) => bloc.add(SendCodeToValidationEvent(code: "1")),
     expect: () => [
       const UiValidCodeBlocLoading(),
-      UiValidCodeBlocLoaded(reponse: ResponseValidCode())
+      UiValidCodeBlocLoaded(response: ResponseValidCode())
     ],
   );
 

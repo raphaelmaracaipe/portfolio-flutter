@@ -51,11 +51,11 @@ class UiValidCodeBlocError extends UiValidCodeBlocState {
 }
 
 class UiValidCodeBlocLoaded extends UiValidCodeBlocState {
-  final ResponseValidCode reponse;
-  const UiValidCodeBlocLoaded({required this.reponse})
+  final ResponseValidCode response;
+  const UiValidCodeBlocLoaded({required this.response})
       : super(
           status: UiValidCodeBlocStatus.loaded,
-          response: reponse,
+          response: response,
           codeError: HttpErrorEnum.UNKNOWN,
         );
 }

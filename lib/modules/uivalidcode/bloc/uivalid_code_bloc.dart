@@ -27,7 +27,7 @@ class UiValidCodeBloc extends Bloc<UiValidCodeBlocEvent, UiValidCodeBlocState> {
         event.code,
       );
 
-      emitter(UiValidCodeBlocLoaded(reponse: response));
+      emitter(UiValidCodeBlocLoaded(response: response));
     } on HttpException catch (e) {
       emitter(UiValidCodeBlocError(codeError: e.enumError));
     }
