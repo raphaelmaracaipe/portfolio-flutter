@@ -311,6 +311,8 @@ class UiAuthPageState extends State<UiAuthPage>
   }
 
   void sendToServer() {
+    FocusManager.instance.primaryFocus?.unfocus();
+
     String codeCountry = _codeCountryController.text;
     String phoneNumber = _phoneNumberController.text;
 
