@@ -169,13 +169,21 @@ class _UiValidCodePages extends State<UiValidCodePages> {
           children: [
             Visibility(
               visible: (_hourConverted == "00:00" || _hourConverted.isEmpty),
-              child: Text(
-                _appLocalizations.localization?.validCodeSendAgain ?? "",
-                style: const TextStyle(
-                  fontFamily: AppFonts.openSans,
-                  color: AppColors.colorGray,
-                  fontSize: 12,
-                  decoration: TextDecoration.underline,
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _secondsRemaining = 60;
+                    _startTimerToValidateCode();
+                  });
+                },
+                child: Text(
+                  _appLocalizations.localization?.validCodeSendAgain ?? "",
+                  style: const TextStyle(
+                    fontFamily: AppFonts.openSans,
+                    color: AppColors.colorGray,
+                    fontSize: 12,
+                    decoration: TextDecoration.underline,
+                  ),
                 ),
               ),
             ),
