@@ -48,7 +48,6 @@ class UiAuthBloc extends Bloc<UiAuthBlocEvent, UiAuthBlocState> {
         phone: event.phoneNumber,
       );
 
-      print("aaaaaaaaaaaaaaa => ${event.phoneNumber}");
       await _userRepository.requestCode(requestUserCode);
       emitter(UiAuthBlocResponseSendCode(isSuccess: true));
     } catch (e) {
