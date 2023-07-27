@@ -14,12 +14,23 @@ import 'package:portfolio_flutter/modules/core/localizations/app_localization.da
 import 'package:portfolio_flutter/modules/core/localizations/app_localization_impl.dart';
 import 'package:portfolio_flutter/modules/core/utils/strings.dart';
 import 'package:portfolio_flutter/modules/core/utils/strings_impl.dart';
+import 'package:portfolio_flutter/modules/core/widgets/bottomsheet/bottom_sheet.dart';
+import 'package:portfolio_flutter/modules/core/widgets/bottomsheet/bottom_sheet_impl.dart';
 import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart';
 import 'package:portfolio_flutter/modules/core/widgets/loading/loading_impl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CoreModule extends Module {
   @override
   List<Bind<Object>> get binds => [
+        Bind.factory<Future<SharedPreferences>>(
+          (i) => SharedPreferences.getInstance(),
+          export: true,
+        ),
+        Bind.factory<Bottomsheet>(
+          (i) => BottomsheetImpl(),
+          export: true,
+        ),
         Bind.factory<AppLocalization>(
           (i) => AppLocalizationImpl(),
           export: true,
@@ -45,6 +56,7 @@ class CoreModule extends Module {
         Bind.factory<UserRepository>(
           (i) => UserRepositoryImpl(
             restClient: i(),
+            sharedPreferences: i(),
           ),
           export: true,
         ),
