@@ -127,6 +127,36 @@ void main() {
     ],
   );
 
+  blocTest<UiAuthBloc, UiAuthBlocState>(
+    'when have route saved should send state with route',
+    build: () {
+      when(mockMockUserRepository.getRouteSaved()).thenAnswer(
+        (_) async => '/testRoute',
+      );
+      return uiAuthBloc;
+    },
+    act: (bloc) => bloc.add(CheckRoute()),
+    expect: () => [
+      UiAuthBlocLoading(),
+      UiAuthBlocchangeRoute(changeToRoute: ''),
+    ],
+  );
+
+  blocTest<UiAuthBloc, UiAuthBlocState>(
+    'when do not have route saved should send state unknown',
+    build: () {
+      when(mockMockUserRepository.getRouteSaved()).thenAnswer(
+        (_) async => '',
+      );
+      return uiAuthBloc;
+    },
+    act: (bloc) => bloc.add(CheckRoute()),
+    expect: () => [
+      UiAuthBlocLoading(),
+      UiAuthBlocUnknown(),
+    ],
+  );
+
   tearDown(() {
     uiAuthBloc.close();
   });

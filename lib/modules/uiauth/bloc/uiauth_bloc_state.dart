@@ -6,14 +6,17 @@ abstract class UiAuthBlocState extends Equatable {
   final UiAuthBlocStatus _status;
   final List<CountryModel> _countries;
   final bool? _isSuccessToRequestCode;
+  final String _changeToRoute;
 
   const UiAuthBlocState({
     required UiAuthBlocStatus status,
     required List<CountryModel> countries,
+    required String changeToRoute,
     required bool? isSuccessToRequestCode,
   })  : _status = status,
         _countries = countries,
-        _isSuccessToRequestCode = isSuccessToRequestCode;
+        _isSuccessToRequestCode = isSuccessToRequestCode,
+        _changeToRoute = changeToRoute;
 
   @override
   List<Object?> get props => [];
@@ -23,14 +26,18 @@ abstract class UiAuthBlocState extends Equatable {
   List<CountryModel> get countries => _countries;
 
   get isSuccess => _isSuccessToRequestCode;
+
+  String get navigateToRoute => _changeToRoute;
 }
 
 class UiAuthBlocLoading extends UiAuthBlocState {
   UiAuthBlocLoading()
       : super(
-            status: UiAuthBlocStatus.loading,
-            countries: [],
-            isSuccessToRequestCode: null);
+          status: UiAuthBlocStatus.loading,
+          countries: [],
+          isSuccessToRequestCode: null,
+          changeToRoute: '',
+        );
 }
 
 class UiAuthBlocLoaded extends UiAuthBlocState {
@@ -39,9 +46,11 @@ class UiAuthBlocLoaded extends UiAuthBlocState {
 
   const UiAuthBlocLoaded(this.countries)
       : super(
-            countries: countries,
-            status: UiAuthBlocStatus.loaded,
-            isSuccessToRequestCode: null);
+          countries: countries,
+          status: UiAuthBlocStatus.loaded,
+          isSuccessToRequestCode: null,
+          changeToRoute: '',
+        );
 
   @override
   List<Object> get props => [countries];
@@ -50,17 +59,21 @@ class UiAuthBlocLoaded extends UiAuthBlocState {
 class UiAuthBlocError extends UiAuthBlocState {
   UiAuthBlocError()
       : super(
-            countries: [],
-            status: UiAuthBlocStatus.error,
-            isSuccessToRequestCode: null);
+          countries: [],
+          status: UiAuthBlocStatus.error,
+          isSuccessToRequestCode: null,
+          changeToRoute: '',
+        );
 }
 
 class UiAuthBlocUnknown extends UiAuthBlocState {
   UiAuthBlocUnknown()
       : super(
-            countries: [],
-            status: UiAuthBlocStatus.unknown,
-            isSuccessToRequestCode: null);
+          countries: [],
+          status: UiAuthBlocStatus.unknown,
+          isSuccessToRequestCode: null,
+          changeToRoute: '',
+        );
 }
 
 class UiAuthBlocResponseSendCode extends UiAuthBlocState {
@@ -72,5 +85,18 @@ class UiAuthBlocResponseSendCode extends UiAuthBlocState {
           status: UiAuthBlocStatus.codeRequest,
           countries: [],
           isSuccessToRequestCode: isSuccess,
+          changeToRoute: '',
+        );
+}
+
+class UiAuthBlocchangeRoute extends UiAuthBlocState {
+  final String changeToRoute;
+
+  UiAuthBlocchangeRoute({required this.changeToRoute})
+      : super(
+          countries: [],
+          status: UiAuthBlocStatus.changeRoute,
+          isSuccessToRequestCode: null,
+          changeToRoute: changeToRoute,
         );
 }
