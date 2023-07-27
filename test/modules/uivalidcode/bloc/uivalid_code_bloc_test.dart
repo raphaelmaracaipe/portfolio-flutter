@@ -64,4 +64,17 @@ void main() {
       )
     ],
   );
+
+  blocTest(
+    'when clean route saved',
+    build: () {
+      when(mockUserRepository.cleanRouteSaved()).thenAnswer((_) async {});
+      return uiValidCodeBloc;
+    },
+    act: (bloc) => bloc.add(CleanRouteSavedEvent()),
+    expect: () => [
+      const UiValidCodeBlocLoading(),
+      const UiValidCodeBlocCleanRoute(),
+    ],
+  );
 }

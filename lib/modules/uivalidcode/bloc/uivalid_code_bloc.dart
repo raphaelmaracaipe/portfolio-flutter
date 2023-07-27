@@ -15,6 +15,7 @@ class UiValidCodeBloc extends Bloc<UiValidCodeBlocEvent, UiValidCodeBlocState> {
     _userRepository = userRepository;
 
     on<SendCodeToValidationEvent>(_onSendToValidationOfCode);
+    on<CleanRouteSavedEvent>(_onCleanRouteSavedEvent);
   }
 
   void _onSendToValidationOfCode(
@@ -31,5 +32,14 @@ class UiValidCodeBloc extends Bloc<UiValidCodeBlocEvent, UiValidCodeBlocState> {
     } on HttpException catch (e) {
       emitter(UiValidCodeBlocError(codeError: e.enumError));
     }
+  }
+
+  void _onCleanRouteSavedEvent(
+    event,
+    Emitter<UiValidCodeBlocState> emitter,
+  ) async {
+    emitter(const UiValidCodeBlocLoading());
+    await _userRepository.cleanRouteSaved();
+    emitter(const UiValidCodeBlocCleanRoute());
   }
 }

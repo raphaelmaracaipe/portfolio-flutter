@@ -59,3 +59,11 @@ class UiValidCodeBlocLoaded extends UiValidCodeBlocState {
           codeError: HttpErrorEnum.UNKNOWN,
         );
 }
+
+class UiValidCodeBlocCleanRoute extends UiValidCodeBlocState {
+  const UiValidCodeBlocCleanRoute()
+      : super(
+          status: UiValidCodeBlocStatus.cleanRoute,
+          codeError: HttpErrorEnum.UNKNOWN,
+        );
+}
