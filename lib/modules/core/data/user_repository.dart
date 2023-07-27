@@ -5,4 +5,10 @@ abstract class UserRepository {
   Future<void> requestCode(RequestUserCode requestUserCode);
 
   Future<ResponseValidCode> requestValidCode(String code);
+
+  Future<void> saveRoute(String typeScreen);
+
+  Future<String> getRouteSaved();
+
+  Future<void> cleanRouteSaved();
 }
