@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
+import 'package:portfolio_flutter/config/app_route.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
 import 'package:portfolio_flutter/modules/core/data/countries_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/network/request/request_user_code.dart';
@@ -49,6 +50,8 @@ class UiAuthBloc extends Bloc<UiAuthBlocEvent, UiAuthBlocState> {
       );
 
       await _userRepository.requestCode(requestUserCode);
+      await _userRepository.saveRoute(AppRoute.uIValidCode);
+
       emitter(UiAuthBlocResponseSendCode(isSuccess: true));
     } catch (e) {
       _logger.e(e);

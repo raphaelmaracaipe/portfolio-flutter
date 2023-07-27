@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:modular_test/modular_test.dart';
-import 'package:portfolio_flutter/config/app_router.dart';
+import 'package:portfolio_flutter/config/app_route.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
 import 'package:portfolio_flutter/modules/core/data/network/enums/http_error_enum.dart';
 import 'package:portfolio_flutter/modules/core/data/network/exceptions/http_exception.dart';
@@ -54,7 +54,7 @@ void main() {
   });
 
   testWidgets("when tap button country", (widgetTester) async {
-    when(modularNavigateMock.pushNamed(AppRouter.uICountry)).thenAnswer(
+    when(modularNavigateMock.pushNamed(AppRoute.uICountry)).thenAnswer(
       (_) async => "",
     );
 
@@ -66,7 +66,7 @@ void main() {
     await widgetTester.tap(find.byKey(const Key("uiAuthCountry")));
     await widgetTester.pump();
 
-    verify(Modular.navigatorDelegate?.pushNamed(AppRouter.uICountry)).called(1);
+    verify(Modular.navigatorDelegate?.pushNamed(AppRoute.uICountry)).called(1);
   });
 
   testWidgets("when selected country", (widgetTester) async {

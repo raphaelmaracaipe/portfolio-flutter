@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:portfolio_flutter/config/app_colors.dart';
-import 'package:portfolio_flutter/config/app_router.dart';
+import 'package:portfolio_flutter/config/app_route.dart';
 import 'package:portfolio_flutter/modules/uiauth/uiauth_module.dart';
 import 'package:portfolio_flutter/modules/uicountry/uicountry_module.dart';
 import 'package:portfolio_flutter/modules/uiprofile/uiprofile_module.dart';
@@ -15,19 +15,19 @@ class AppModule extends Module {
   @override
   List<ModularRoute> get routes => [
         ModuleRoute(
-          AppRouter.uIAuth,
+          AppRoute.uIAuth,
           module: UiAuthModule(),
         ),
         ModuleRoute(
-          AppRouter.uICountry,
+          AppRoute.uICountry,
           module: UiCountryModule(),
         ),
         ModuleRoute(
-          AppRouter.uIValidCode,
+          AppRoute.uIValidCode,
           module: UiValidCodeModule(),
         ),
         ModuleRoute(
-          AppRouter.uIProfile,
+          AppRoute.uIProfile,
           module: UiProfileModule(),
         ),
       ];

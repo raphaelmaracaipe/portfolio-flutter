@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:modular_test/modular_test.dart';
-import 'package:portfolio_flutter/config/app_router.dart';
+import 'package:portfolio_flutter/config/app_route.dart';
 import 'package:portfolio_flutter/modules/core/data/network/enums/http_error_enum.dart';
 import 'package:portfolio_flutter/modules/core/data/network/exceptions/http_exception.dart';
 import 'package:portfolio_flutter/modules/core/data/network/response/response_valid_code.dart';
@@ -38,7 +38,7 @@ void main() {
       MockUserRepositoryMock userRepositoryMock = MockUserRepositoryMock();
 
       when(
-        modularNavigateMock.pushNamed(AppRouter.uIProfile),
+        modularNavigateMock.pushNamed(AppRoute.uIProfile),
       ).thenAnswer((_) async => "");
 
       when(
@@ -74,7 +74,7 @@ void main() {
       await widgetTester.pump();
 
       verify(
-        Modular.navigatorDelegate?.pushNamed(AppRouter.uIProfile),
+        Modular.navigatorDelegate?.pushNamed(AppRoute.uIProfile),
       ).called(1);
     },
   );
@@ -88,7 +88,7 @@ void main() {
       ).thenThrow(HttpException.putEnum(HttpErrorEnum.USER_SEND_CODE_INVALID));
 
       when(
-        modularNavigateMock.pushNamed(AppRouter.uIProfile),
+        modularNavigateMock.pushNamed(AppRoute.uIProfile),
       ).thenAnswer((_) async => "");
 
       initModule(UiValidCodeModule(), replaceBinds: [
@@ -125,7 +125,7 @@ void main() {
       ).thenThrow(HttpException.putEnum(HttpErrorEnum.ERROR_GENERAL));
 
       when(
-        modularNavigateMock.pushNamed(AppRouter.uIProfile),
+        modularNavigateMock.pushNamed(AppRoute.uIProfile),
       ).thenAnswer((_) async => "");
 
       initModule(UiValidCodeModule(), replaceBinds: [

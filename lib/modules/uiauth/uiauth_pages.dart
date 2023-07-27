@@ -5,7 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:portfolio_flutter/config/app_colors.dart';
 import 'package:portfolio_flutter/config/app_fonts.dart';
-import 'package:portfolio_flutter/config/app_router.dart';
+import 'package:portfolio_flutter/config/app_route.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
 import 'package:portfolio_flutter/modules/core/phone/phone_formatted.dart';
@@ -79,7 +79,7 @@ class UiAuthPageState extends State<UiAuthPage>
                 toastLength: Toast.LENGTH_SHORT,
               );
             } else {
-              Modular.to.pushNamed(AppRouter.uIValidCode);
+              Modular.to.pushNamed(AppRoute.uIValidCode);
             }
             break;
         }
@@ -158,7 +158,7 @@ class UiAuthPageState extends State<UiAuthPage>
                               child: GestureDetector(
                                 key: const Key("uiAuthCountry"),
                                 onTap: () {
-                                  Modular.to.pushNamed(AppRouter.uICountry);
+                                  Modular.to.pushNamed(AppRoute.uICountry);
                                 },
                                 child: Row(
                                   children: [
