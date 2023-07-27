@@ -67,9 +67,13 @@ class UiAuthPageState extends State<UiAuthPage>
       bloc: _uiAuthBloc,
       builder: (context, state) {
         switch (state.status) {
+          case UiAuthBlocStatus.changeRoute:
+            Modular.to.pushNamed(state.navigateToRoute);
+            break;
           case UiAuthBlocStatus.loading:
             return loading.showLoading(_appLocalizations);
           case UiAuthBlocStatus.loaded:
+            _uiAuthBloc.add(CheckRoute());
             _countries = state.countries;
             break;
           case UiAuthBlocStatus.codeRequest:

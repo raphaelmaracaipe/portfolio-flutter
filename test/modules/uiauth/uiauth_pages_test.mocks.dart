@@ -9,6 +9,8 @@ import 'dart:ui' as _i7;
 import 'package:flutter/material.dart' as _i6;
 import 'package:flutter_modular/flutter_modular.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart'
+    as _i9;
 import 'package:portfolio_flutter/modules/core/data/network/request/request_user_code.dart'
     as _i8;
 import 'package:portfolio_flutter/modules/core/data/network/response/response_valid_code.dart'
@@ -260,4 +262,50 @@ class MockUserRepositoryMock extends _i1.Mock
           ),
         )),
       ) as _i5.Future<_i2.ResponseValidCode>);
+  @override
+  _i5.Future<void> saveRoute(String? typeScreen) => (super.noSuchMethod(
+        Invocation.method(
+          #saveRoute,
+          [typeScreen],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+  @override
+  _i5.Future<String> getRouteSaved() => (super.noSuchMethod(
+        Invocation.method(
+          #getRouteSaved,
+          [],
+        ),
+        returnValue: _i5.Future<String>.value(''),
+      ) as _i5.Future<String>);
+  @override
+  _i5.Future<void> cleanRouteSaved() => (super.noSuchMethod(
+        Invocation.method(
+          #cleanRouteSaved,
+          [],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+}
+
+/// A class which mocks [CountriesRepositoryMock].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockCountriesRepositoryMock extends _i1.Mock
+    implements _i3.CountriesRepositoryMock {
+  MockCountriesRepositoryMock() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Future<List<_i9.CountryModel>> readJSON() => (super.noSuchMethod(
+        Invocation.method(
+          #readJSON,
+          [],
+        ),
+        returnValue:
+            _i5.Future<List<_i9.CountryModel>>.value(<_i9.CountryModel>[]),
+      ) as _i5.Future<List<_i9.CountryModel>>);
 }

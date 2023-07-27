@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:logger/logger.dart';
 import 'package:portfolio_flutter/config/app_colors.dart';
 import 'package:portfolio_flutter/config/app_fonts.dart';
-import 'package:portfolio_flutter/config/app_router.dart';
+import 'package:portfolio_flutter/config/app_route.dart';
 import 'package:portfolio_flutter/modules/core/data/network/enums/http_error_enum.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
+import 'package:portfolio_flutter/modules/core/widgets/bottomsheet/bottom_sheet.dart';
 import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart';
 import 'package:portfolio_flutter/modules/uivalidcode/bloc/uivalid_code_bloc.dart';
 import 'package:portfolio_flutter/modules/uivalidcode/bloc/uivalid_code_bloc_event.dart';
@@ -24,9 +24,10 @@ class UiValidCodePages extends StatefulWidget {
 }
 
 class _UiValidCodePages extends State<UiValidCodePages> {
-  final AppLocalization _appLocalizations = Modular.get();
   late Timer _timer;
 
+  final AppLocalization _appLocalizations = Modular.get();
+  final Bottomsheet _bottomsheet = Modular.get();
   final UiValidCodeBloc _uiValidCodeBloc = Modular.get();
   final Loading _loading = Modular.get();
   final TextEditingController _inputCodeController = TextEditingController();
@@ -42,7 +43,14 @@ class _UiValidCodePages extends State<UiValidCodePages> {
 
     return WillPopScope(
       onWillPop: () async {
-        Modular.to.pop();
+        // Modular.to.pop();
+        _bottomsheet.show(
+          context: context,
+          title: (_appLocalizations.localization?.generalAttention ?? ""),
+          text: (_appLocalizations.localization?.validCancel ?? ""),
+          btnText: (_appLocalizations.localization?.generalYes ?? ""),
+          onBtnClick: _goToAuth,
+        );
         return false;
       },
       child: Scaffold(
@@ -65,16 +73,23 @@ class _UiValidCodePages extends State<UiValidCodePages> {
     );
   }
 
+  void _goToAuth() {
+    _uiValidCodeBloc.add(CleanRouteSavedEvent());
+  }
+
   Widget _blocBuild() {
     return BlocBuilder<UiValidCodeBloc, UiValidCodeBlocState>(
       bloc: _uiValidCodeBloc,
       builder: (context, state) {
         switch (state.status) {
+          case UiValidCodeBlocStatus.cleanRoute:
+            Modular.to.pop();
+            break;
           case UiValidCodeBlocStatus.loading:
             return _loading.showLoading(_appLocalizations);
           case UiValidCodeBlocStatus.loaded:
             _timer.cancel();
-            Modular.to.pushNamed(AppRouter.uIProfile);
+            Modular.to.pushNamed(AppRoute.uIProfile);
             return Container();
           case UiValidCodeBlocStatus.error:
             _checkWhatsMessageError(state.codeError);
@@ -82,6 +97,7 @@ class _UiValidCodePages extends State<UiValidCodePages> {
           default:
             return Container();
         }
+        return Container();
       },
     );
   }

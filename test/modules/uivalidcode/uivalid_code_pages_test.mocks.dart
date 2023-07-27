@@ -73,6 +73,32 @@ class MockUserRepositoryMock extends _i1.Mock
           ),
         )),
       ) as _i4.Future<_i2.ResponseValidCode>);
+  @override
+  _i4.Future<void> saveRoute(String? typeScreen) => (super.noSuchMethod(
+        Invocation.method(
+          #saveRoute,
+          [typeScreen],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+  @override
+  _i4.Future<String> getRouteSaved() => (super.noSuchMethod(
+        Invocation.method(
+          #getRouteSaved,
+          [],
+        ),
+        returnValue: _i4.Future<String>.value(''),
+      ) as _i4.Future<String>);
+  @override
+  _i4.Future<void> cleanRouteSaved() => (super.noSuchMethod(
+        Invocation.method(
+          #cleanRouteSaved,
+          [],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
 }
 
 /// A class which mocks [ModularNavigateMock].

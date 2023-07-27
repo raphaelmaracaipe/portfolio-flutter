@@ -6,6 +6,7 @@ import 'package:mockito/mockito.dart';
 import 'package:modular_test/modular_test.dart';
 import 'package:portfolio_flutter/config/app_route.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
+import 'package:portfolio_flutter/modules/core/data/countries_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/network/enums/http_error_enum.dart';
 import 'package:portfolio_flutter/modules/core/data/network/exceptions/http_exception.dart';
 import 'package:portfolio_flutter/modules/core/data/user_repository.dart';
@@ -18,19 +19,24 @@ class ModularNavigateMock extends Mock implements IModularNavigator {}
 
 class UserRepositoryMock extends Mock implements UserRepository {}
 
+class CountriesRepositoryMock extends Mock implements CountriesRepository {}
+
 @GenerateMocks([
   ModularNavigateMock,
   UserRepositoryMock,
+  CountriesRepositoryMock,
 ])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   late UiAuthPage uiAuthPage;
   late MockUserRepositoryMock userRepositoryMock;
+  late MockCountriesRepositoryMock countriesRepositoryMock;
   late MockModularNavigateMock modularNavigateMock;
 
   setUp(() {
     userRepositoryMock = MockUserRepositoryMock();
+    countriesRepositoryMock = MockCountriesRepositoryMock();
     modularNavigateMock = MockModularNavigateMock();
     Modular.navigatorDelegate = modularNavigateMock;
 
@@ -38,6 +44,7 @@ void main() {
       UiAuthModule(),
       replaceBinds: [
         Bind.instance<UserRepository>(userRepositoryMock),
+        Bind.instance<CountriesRepository>(countriesRepositoryMock),
       ],
     );
 
