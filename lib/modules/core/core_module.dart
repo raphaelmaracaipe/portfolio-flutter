@@ -12,6 +12,8 @@ import 'package:portfolio_flutter/modules/core/data/user_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/user_repository_impl.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization_impl.dart';
+import 'package:portfolio_flutter/modules/core/security/encryption_decrypt_aes.dart';
+import 'package:portfolio_flutter/modules/core/security/encryption_decrypt_aes_impl.dart';
 import 'package:portfolio_flutter/modules/core/utils/strings.dart';
 import 'package:portfolio_flutter/modules/core/utils/strings_impl.dart';
 import 'package:portfolio_flutter/modules/core/widgets/bottomsheet/bottom_sheet.dart';
@@ -23,6 +25,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 class CoreModule extends Module {
   @override
   List<Bind<Object>> get binds => [
+        Bind.factory<EncryptionDecryptAES>(
+          (i) => EncryptionDecryptAESImpl(logger: i()),
+          export: true,
+        ),
         Bind.factory<Future<SharedPreferences>>(
           (i) => SharedPreferences.getInstance(),
           export: true,

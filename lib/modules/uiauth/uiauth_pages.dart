@@ -3,12 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:logger/logger.dart';
 import 'package:portfolio_flutter/config/app_colors.dart';
 import 'package:portfolio_flutter/config/app_fonts.dart';
 import 'package:portfolio_flutter/config/app_route.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
 import 'package:portfolio_flutter/modules/core/phone/phone_formatted.dart';
+import 'package:portfolio_flutter/modules/core/security/encryption_decrypt_aes.dart';
 import 'package:portfolio_flutter/modules/core/utils/strings.dart';
 import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart';
 import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc.dart';
@@ -36,6 +38,7 @@ class UiAuthPageState extends State<UiAuthPage>
   final UiAuthBloc _uiAuthBloc = Modular.get();
   final Strings _strings = Modular.get();
   final AppLocalization _appLocalizations = Modular.get();
+  final EncryptionDecryptAES _encryption = Modular.get();
 
   late AnimationController _animationController;
   late Animation<double> _animation;
@@ -53,10 +56,23 @@ class UiAuthPageState extends State<UiAuthPage>
       key: const Key("uiPageContainer"),
       backgroundColor: AppColors.colorPrimary,
       body: Stack(children: [
+        ElevatedButton(
+            onPressed: () {
+              a();
+            },
+            child: Text('a')),
         _body(),
         _buildBloc(),
       ]),
     );
+  }
+
+  void a() async {
+    Logger logger = Modular.get();
+    dynamic test = await _encryption.encryptData('a', 'ABCDEFGYUITRG65@');
+    logger.i('teste => $test');
+    dynamic test3 = await _encryption.decryptData(test, 'ABCDEFGYUITRG65@');
+    logger.i('test3 => $test3');
   }
 
   Widget _buildBloc() {
