@@ -26,7 +26,11 @@ class CoreModule extends Module {
   @override
   List<Bind<Object>> get binds => [
         Bind.factory<EncryptionDecryptAES>(
-          (i) => EncryptionDecryptAESImpl(logger: i()),
+          (i) => EncryptionDecryptAESImpl(
+            encryptionChannel: const MethodChannel(
+              'com.example.portfolio_flutter/encdesc',
+            ),
+          ),
           export: true,
         ),
         Bind.factory<Future<SharedPreferences>>(
