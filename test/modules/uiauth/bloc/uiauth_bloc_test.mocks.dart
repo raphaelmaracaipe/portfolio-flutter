@@ -131,122 +131,176 @@ class MockMockLogger extends _i1.Mock implements _i3.MockLogger {
 
   @override
   void v(
-    dynamic message, [
-    dynamic error,
+    dynamic message, {
+    DateTime? time,
+    Object? error,
     StackTrace? stackTrace,
-  ]) =>
+  }) =>
       super.noSuchMethod(
         Invocation.method(
           #v,
-          [
-            message,
-            error,
-            stackTrace,
-          ],
+          [message],
+          {
+            #time: time,
+            #error: error,
+            #stackTrace: stackTrace,
+          },
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void t(
+    dynamic message, {
+    DateTime? time,
+    Object? error,
+    StackTrace? stackTrace,
+  }) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #t,
+          [message],
+          {
+            #time: time,
+            #error: error,
+            #stackTrace: stackTrace,
+          },
         ),
         returnValueForMissingStub: null,
       );
   @override
   void d(
-    dynamic message, [
-    dynamic error,
+    dynamic message, {
+    DateTime? time,
+    Object? error,
     StackTrace? stackTrace,
-  ]) =>
+  }) =>
       super.noSuchMethod(
         Invocation.method(
           #d,
-          [
-            message,
-            error,
-            stackTrace,
-          ],
+          [message],
+          {
+            #time: time,
+            #error: error,
+            #stackTrace: stackTrace,
+          },
         ),
         returnValueForMissingStub: null,
       );
   @override
   void i(
-    dynamic message, [
-    dynamic error,
+    dynamic message, {
+    DateTime? time,
+    Object? error,
     StackTrace? stackTrace,
-  ]) =>
+  }) =>
       super.noSuchMethod(
         Invocation.method(
           #i,
-          [
-            message,
-            error,
-            stackTrace,
-          ],
+          [message],
+          {
+            #time: time,
+            #error: error,
+            #stackTrace: stackTrace,
+          },
         ),
         returnValueForMissingStub: null,
       );
   @override
   void w(
-    dynamic message, [
-    dynamic error,
+    dynamic message, {
+    DateTime? time,
+    Object? error,
     StackTrace? stackTrace,
-  ]) =>
+  }) =>
       super.noSuchMethod(
         Invocation.method(
           #w,
-          [
-            message,
-            error,
-            stackTrace,
-          ],
+          [message],
+          {
+            #time: time,
+            #error: error,
+            #stackTrace: stackTrace,
+          },
         ),
         returnValueForMissingStub: null,
       );
   @override
   void e(
-    dynamic message, [
-    dynamic error,
+    dynamic message, {
+    DateTime? time,
+    Object? error,
     StackTrace? stackTrace,
-  ]) =>
+  }) =>
       super.noSuchMethod(
         Invocation.method(
           #e,
-          [
-            message,
-            error,
-            stackTrace,
-          ],
+          [message],
+          {
+            #time: time,
+            #error: error,
+            #stackTrace: stackTrace,
+          },
         ),
         returnValueForMissingStub: null,
       );
   @override
   void wtf(
-    dynamic message, [
-    dynamic error,
+    dynamic message, {
+    DateTime? time,
+    Object? error,
     StackTrace? stackTrace,
-  ]) =>
+  }) =>
       super.noSuchMethod(
         Invocation.method(
           #wtf,
-          [
-            message,
-            error,
-            stackTrace,
-          ],
+          [message],
+          {
+            #time: time,
+            #error: error,
+            #stackTrace: stackTrace,
+          },
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void f(
+    dynamic message, {
+    DateTime? time,
+    Object? error,
+    StackTrace? stackTrace,
+  }) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #f,
+          [message],
+          {
+            #time: time,
+            #error: error,
+            #stackTrace: stackTrace,
+          },
         ),
         returnValueForMissingStub: null,
       );
   @override
   void log(
     _i7.Level? level,
-    dynamic message, [
-    dynamic error,
+    dynamic message, {
+    DateTime? time,
+    Object? error,
     StackTrace? stackTrace,
-  ]) =>
+  }) =>
       super.noSuchMethod(
         Invocation.method(
           #log,
           [
             level,
             message,
-            error,
-            stackTrace,
           ],
+          {
+            #time: time,
+            #error: error,
+            #stackTrace: stackTrace,
+          },
         ),
         returnValueForMissingStub: null,
       );
@@ -259,13 +313,14 @@ class MockMockLogger extends _i1.Mock implements _i3.MockLogger {
         returnValue: false,
       ) as bool);
   @override
-  void close() => super.noSuchMethod(
+  _i4.Future<void> close() => (super.noSuchMethod(
         Invocation.method(
           #close,
           [],
         ),
-        returnValueForMissingStub: null,
-      );
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
 }
 
 /// A class which mocks [MockRestClient].
