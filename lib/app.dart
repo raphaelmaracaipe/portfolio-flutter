@@ -40,9 +40,6 @@ class AppWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    //DartPluginRegistrant.ensureInitialized();
-
     return MaterialApp.router(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       theme: ThemeData(
