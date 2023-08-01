@@ -16,6 +16,7 @@ class UiAuthModule extends Module {
             countriesRepository: i(),
             logger: i(),
             userRepository: i(),
+            routeRepository: i(),
           ),
         )
       ];

@@ -4,6 +4,7 @@ import 'package:portfolio_flutter/config/app_route.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
 import 'package:portfolio_flutter/modules/core/data/countries_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/network/request/request_user_code.dart';
+import 'package:portfolio_flutter/modules/core/data/route_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/user_repository.dart';
 import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc_event.dart';
 import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc_state.dart';
@@ -11,15 +12,18 @@ import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc_state.dart';
 class UiAuthBloc extends Bloc<UiAuthBlocEvent, UiAuthBlocState> {
   late final CountriesRepository _countriesRepository;
   late final UserRepository _userRepository;
+  late final RouteRepository _routeRepository;
   late final Logger _logger;
 
   UiAuthBloc({
     required CountriesRepository countriesRepository,
     required UserRepository userRepository,
+    required RouteRepository routeRepository,
     required Logger logger,
   }) : super(UiAuthBlocUnknown()) {
     _userRepository = userRepository;
     _countriesRepository = countriesRepository;
+    _routeRepository = routeRepository;
     _logger = logger;
 
     on<GetListOfCountriesInAuth>(_onGetListOfCountries);
@@ -52,7 +56,7 @@ class UiAuthBloc extends Bloc<UiAuthBlocEvent, UiAuthBlocState> {
       );
 
       await _userRepository.requestCode(requestUserCode);
-      await _userRepository.saveRoute(AppRoute.uIValidCode);
+      await _routeRepository.save(AppRoute.uIValidCode);
 
       emitter(UiAuthBlocResponseSendCode(isSuccess: true));
     } catch (e) {
@@ -67,7 +71,7 @@ class UiAuthBloc extends Bloc<UiAuthBlocEvent, UiAuthBlocState> {
   ) async {
     emitter(UiAuthBlocLoading());
     try {
-      final String routeSaved = await _userRepository.getRouteSaved();
+      final String routeSaved = await _routeRepository.get();
       if (routeSaved.isNotEmpty) {
         emitter(UiAuthBlocchangeRoute(changeToRoute: routeSaved));
       } else {

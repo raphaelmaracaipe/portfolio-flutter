@@ -9,10 +9,12 @@ import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.
 import 'package:portfolio_flutter/modules/core/data/countries_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/network/enums/http_error_enum.dart';
 import 'package:portfolio_flutter/modules/core/data/network/exceptions/http_exception.dart';
+import 'package:portfolio_flutter/modules/core/data/route_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/user_repository.dart';
 import 'package:portfolio_flutter/modules/uiauth/uiauth_module.dart';
 import 'package:portfolio_flutter/modules/uiauth/uiauth_pages.dart';
 
+import 'bloc/uiauth_bloc_test.mocks.dart';
 import 'uiauth_pages_test.mocks.dart';
 
 class ModularNavigateMock extends Mock implements IModularNavigator {}
@@ -20,6 +22,8 @@ class ModularNavigateMock extends Mock implements IModularNavigator {}
 class UserRepositoryMock extends Mock implements UserRepository {}
 
 class CountriesRepositoryMock extends Mock implements CountriesRepository {}
+
+class RouteRepositoryMock extends Mock implements RouteRepository {}
 
 @GenerateMocks([
   ModularNavigateMock,
@@ -32,11 +36,13 @@ void main() {
   late UiAuthPage uiAuthPage;
   late MockUserRepositoryMock userRepositoryMock;
   late MockCountriesRepositoryMock countriesRepositoryMock;
+  late MockMockRouteRepository routeRepositoryMock;
   late MockModularNavigateMock modularNavigateMock;
 
   setUp(() {
     userRepositoryMock = MockUserRepositoryMock();
     countriesRepositoryMock = MockCountriesRepositoryMock();
+    routeRepositoryMock = MockMockRouteRepository();
     modularNavigateMock = MockModularNavigateMock();
     Modular.navigatorDelegate = modularNavigateMock;
 
@@ -45,6 +51,18 @@ void main() {
       replaceBinds: [
         Bind.instance<UserRepository>(userRepositoryMock),
         Bind.instance<CountriesRepository>(countriesRepositoryMock),
+        Bind.instance<RouteRepository>(routeRepositoryMock),
+      ],
+    );
+
+    when(countriesRepositoryMock.readJSON()).thenAnswer(
+      (_) async => [
+        CountryModel(
+          codeCountry: "test1",
+          countryName: "test2",
+          codeIson: "test3",
+          mask: "test4",
+        )
       ],
     );
 

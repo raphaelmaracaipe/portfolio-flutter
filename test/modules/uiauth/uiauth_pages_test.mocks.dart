@@ -262,32 +262,6 @@ class MockUserRepositoryMock extends _i1.Mock
           ),
         )),
       ) as _i5.Future<_i2.ResponseValidCode>);
-  @override
-  _i5.Future<void> saveRoute(String? typeScreen) => (super.noSuchMethod(
-        Invocation.method(
-          #saveRoute,
-          [typeScreen],
-        ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
-  @override
-  _i5.Future<String> getRouteSaved() => (super.noSuchMethod(
-        Invocation.method(
-          #getRouteSaved,
-          [],
-        ),
-        returnValue: _i5.Future<String>.value(''),
-      ) as _i5.Future<String>);
-  @override
-  _i5.Future<void> cleanRouteSaved() => (super.noSuchMethod(
-        Invocation.method(
-          #cleanRouteSaved,
-          [],
-        ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
 }
 
 /// A class which mocks [CountriesRepositoryMock].

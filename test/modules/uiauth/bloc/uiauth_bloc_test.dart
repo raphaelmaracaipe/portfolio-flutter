@@ -6,6 +6,7 @@ import 'package:mockito/mockito.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
 import 'package:portfolio_flutter/modules/core/data/countries_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/network/rest_client.dart';
+import 'package:portfolio_flutter/modules/core/data/route_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/user_repository.dart';
 import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc.dart';
 import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc_event.dart';
@@ -17,6 +18,8 @@ class MockCountriesRepository extends Mock implements CountriesRepository {}
 
 class MockUserRepository extends Mock implements UserRepository {}
 
+class MockRouteRepository extends Mock implements RouteRepository {}
+
 class MockLogger extends Mock implements Logger {}
 
 class MockRestClient extends Mock implements RestClient {}
@@ -26,11 +29,13 @@ class MockRestClient extends Mock implements RestClient {}
   MockUserRepository,
   MockLogger,
   MockRestClient,
+  MockRouteRepository
 ])
 void main() {
   late UiAuthBloc uiAuthBloc;
   late MockMockCountriesRepository mockCountriesRepository;
   late MockMockUserRepository mockMockUserRepository;
+  late MockMockRouteRepository mockRouteRepository;
   late MockMockLogger mockLogger;
   late MockMockRestClient mockRestClient;
 
@@ -46,12 +51,14 @@ void main() {
   setUp(() {
     mockCountriesRepository = MockMockCountriesRepository();
     mockMockUserRepository = MockMockUserRepository();
+    mockRouteRepository = MockMockRouteRepository();
     mockLogger = MockMockLogger();
     mockRestClient = MockMockRestClient();
 
     uiAuthBloc = UiAuthBloc(
       countriesRepository: mockCountriesRepository,
       userRepository: mockMockUserRepository,
+      routeRepository: mockRouteRepository,
       logger: mockLogger,
     );
   });
@@ -128,26 +135,22 @@ void main() {
   );
 
   blocTest<UiAuthBloc, UiAuthBlocState>(
-    'when have route saved should send state with route',
+    'when call event to check route',
     build: () {
-      when(mockMockUserRepository.getRouteSaved()).thenAnswer(
-        (_) async => '/testRoute',
-      );
+      when(mockRouteRepository.get()).thenAnswer((_) async => 'test');
       return uiAuthBloc;
     },
     act: (bloc) => bloc.add(CheckRoute()),
     expect: () => [
       UiAuthBlocLoading(),
-      UiAuthBlocchangeRoute(changeToRoute: ''),
+      UiAuthBlocchangeRoute(changeToRoute: 'test'),
     ],
   );
 
   blocTest<UiAuthBloc, UiAuthBlocState>(
-    'when do not have route saved should send state unknown',
+    'when call event to check route but not exist route saved',
     build: () {
-      when(mockMockUserRepository.getRouteSaved()).thenAnswer(
-        (_) async => '',
-      );
+      when(mockRouteRepository.get()).thenAnswer((_) async => '');
       return uiAuthBloc;
     },
     act: (bloc) => bloc.add(CheckRoute()),

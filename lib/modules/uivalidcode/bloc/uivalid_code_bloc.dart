@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
 import 'package:portfolio_flutter/modules/core/data/network/response/response_valid_code.dart';
+import 'package:portfolio_flutter/modules/core/data/route_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/user_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/network/exceptions/http_exception.dart';
 import 'package:portfolio_flutter/modules/uivalidcode/bloc/uivalid_code_bloc_event.dart';
@@ -8,11 +9,14 @@ import 'package:portfolio_flutter/modules/uivalidcode/bloc/uivalid_code_bloc_sta
 
 class UiValidCodeBloc extends Bloc<UiValidCodeBlocEvent, UiValidCodeBlocState> {
   late final UserRepository _userRepository;
+  late final RouteRepository _routeRepository;
 
   UiValidCodeBloc({
     required UserRepository userRepository,
+    required RouteRepository routeRepository,
   }) : super(const UiValidCodeBlocUnknown()) {
     _userRepository = userRepository;
+    _routeRepository = routeRepository;
 
     on<SendCodeToValidationEvent>(_onSendToValidationOfCode);
     on<CleanRouteSavedEvent>(_onCleanRouteSavedEvent);
@@ -39,7 +43,7 @@ class UiValidCodeBloc extends Bloc<UiValidCodeBlocEvent, UiValidCodeBlocState> {
     Emitter<UiValidCodeBlocState> emitter,
   ) async {
     emitter(const UiValidCodeBlocLoading());
-    await _userRepository.cleanRouteSaved();
+    await _routeRepository.clean();
     emitter(const UiValidCodeBlocCleanRoute());
   }
 }

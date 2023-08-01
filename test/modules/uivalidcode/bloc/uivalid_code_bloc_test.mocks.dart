@@ -70,27 +70,38 @@ class MockMockUserRepository extends _i1.Mock
           ),
         )),
       ) as _i4.Future<_i2.ResponseValidCode>);
+}
+
+/// A class which mocks [MockRouteRepository].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMockRouteRepository extends _i1.Mock
+    implements _i3.MockRouteRepository {
+  MockMockRouteRepository() {
+    _i1.throwOnMissingStub(this);
+  }
+
   @override
-  _i4.Future<void> saveRoute(String? typeScreen) => (super.noSuchMethod(
+  _i4.Future<void> save(String? typeScreen) => (super.noSuchMethod(
         Invocation.method(
-          #saveRoute,
+          #save,
           [typeScreen],
         ),
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
   @override
-  _i4.Future<String> getRouteSaved() => (super.noSuchMethod(
+  _i4.Future<String> get() => (super.noSuchMethod(
         Invocation.method(
-          #getRouteSaved,
+          #get,
           [],
         ),
         returnValue: _i4.Future<String>.value(''),
       ) as _i4.Future<String>);
   @override
-  _i4.Future<void> cleanRouteSaved() => (super.noSuchMethod(
+  _i4.Future<void> clean() => (super.noSuchMethod(
         Invocation.method(
-          #cleanRouteSaved,
+          #clean,
           [],
         ),
         returnValue: _i4.Future<void>.value(),

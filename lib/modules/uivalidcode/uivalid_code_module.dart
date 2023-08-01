@@ -14,6 +14,7 @@ class UiValidCodeModule extends Module {
         Bind.factory<UiValidCodeBloc>(
           (i) => UiValidCodeBloc(
             userRepository: i(),
+            routeRepository: i(),
           ),
         )
       ];

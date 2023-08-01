@@ -5,6 +5,7 @@ import 'package:mockito/mockito.dart';
 import 'package:portfolio_flutter/modules/core/data/network/enums/http_error_enum.dart';
 import 'package:portfolio_flutter/modules/core/data/network/exceptions/http_exception.dart';
 import 'package:portfolio_flutter/modules/core/data/network/response/response_valid_code.dart';
+import 'package:portfolio_flutter/modules/core/data/route_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/user_repository.dart';
 import 'package:portfolio_flutter/modules/uivalidcode/bloc/uivalid_code_bloc.dart';
 import 'package:portfolio_flutter/modules/uivalidcode/bloc/uivalid_code_bloc_event.dart';
@@ -14,14 +15,25 @@ import 'uivalid_code_bloc_test.mocks.dart';
 
 class MockUserRepository extends Mock implements UserRepository {}
 
-@GenerateMocks([MockUserRepository])
+class MockRouteRepository extends Mock implements RouteRepository {}
+
+@GenerateMocks([
+  MockUserRepository,
+  MockRouteRepository,
+])
 void main() {
   late UiValidCodeBloc uiValidCodeBloc;
   late MockMockUserRepository mockUserRepository;
+  late MockMockRouteRepository mockRouteRepository;
 
   setUp(() {
     mockUserRepository = MockMockUserRepository();
-    uiValidCodeBloc = UiValidCodeBloc(userRepository: mockUserRepository);
+    mockRouteRepository = MockMockRouteRepository();
+
+    uiValidCodeBloc = UiValidCodeBloc(
+      userRepository: mockUserRepository,
+      routeRepository: mockRouteRepository,
+    );
   });
 
   blocTest<UiValidCodeBloc, UiValidCodeBlocState>(
@@ -68,7 +80,7 @@ void main() {
   blocTest(
     'when clean route saved',
     build: () {
-      when(mockUserRepository.cleanRouteSaved()).thenAnswer((_) async {});
+      when(mockRouteRepository.clean()).thenAnswer((_) async {});
       return uiValidCodeBloc;
     },
     act: (bloc) => bloc.add(CleanRouteSavedEvent()),

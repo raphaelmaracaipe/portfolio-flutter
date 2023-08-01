@@ -93,32 +93,6 @@ class MockMockUserRepository extends _i1.Mock
           ),
         )),
       ) as _i4.Future<_i2.ResponseValidCode>);
-  @override
-  _i4.Future<void> saveRoute(String? typeScreen) => (super.noSuchMethod(
-        Invocation.method(
-          #saveRoute,
-          [typeScreen],
-        ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
-  @override
-  _i4.Future<String> getRouteSaved() => (super.noSuchMethod(
-        Invocation.method(
-          #getRouteSaved,
-          [],
-        ),
-        returnValue: _i4.Future<String>.value(''),
-      ) as _i4.Future<String>);
-  @override
-  _i4.Future<void> cleanRouteSaved() => (super.noSuchMethod(
-        Invocation.method(
-          #cleanRouteSaved,
-          [],
-        ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
 }
 
 /// A class which mocks [MockLogger].
@@ -357,4 +331,41 @@ class MockMockRestClient extends _i1.Mock implements _i3.MockRestClient {
           ),
         )),
       ) as _i4.Future<_i2.ResponseValidCode>);
+}
+
+/// A class which mocks [MockRouteRepository].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMockRouteRepository extends _i1.Mock
+    implements _i3.MockRouteRepository {
+  MockMockRouteRepository() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.Future<void> save(String? typeScreen) => (super.noSuchMethod(
+        Invocation.method(
+          #save,
+          [typeScreen],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+  @override
+  _i4.Future<String> get() => (super.noSuchMethod(
+        Invocation.method(
+          #get,
+          [],
+        ),
+        returnValue: _i4.Future<String>.value(''),
+      ) as _i4.Future<String>);
+  @override
+  _i4.Future<void> clean() => (super.noSuchMethod(
+        Invocation.method(
+          #clean,
+          [],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
 }

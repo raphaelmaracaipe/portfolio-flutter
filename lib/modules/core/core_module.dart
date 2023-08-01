@@ -8,6 +8,8 @@ import 'package:portfolio_flutter/modules/core/data/countries_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/countries_repository_impl.dart';
 import 'package:portfolio_flutter/modules/core/data/network/config/network_config.dart';
 import 'package:portfolio_flutter/modules/core/data/network/rest_client.dart';
+import 'package:portfolio_flutter/modules/core/data/route_repository.dart';
+import 'package:portfolio_flutter/modules/core/data/route_repository_impl.dart';
 import 'package:portfolio_flutter/modules/core/data/sp/route_sp.dart';
 import 'package:portfolio_flutter/modules/core/data/sp/route_sp_impl.dart';
 import 'package:portfolio_flutter/modules/core/data/user_repository.dart';
@@ -66,7 +68,9 @@ class CoreModule extends Module {
           export: true,
         ),
         Bind.factory<CountriesCode>(
-          (i) => CountriesCodeImpl(assetBundle: rootBundle),
+          (i) => CountriesCodeImpl(
+            assetBundle: rootBundle,
+          ),
           export: true,
         ),
         Bind.factory<Strings>(
@@ -82,7 +86,12 @@ class CoreModule extends Module {
         Bind.factory<UserRepository>(
           (i) => UserRepositoryImpl(
             restClient: i(),
-            sharedPreferences: i(),
+          ),
+          export: true,
+        ),
+        Bind.factory<RouteRepository>(
+          (i) => RouteRepositoryImpl(
+            routeSP: i(),
           ),
           export: true,
         ),
