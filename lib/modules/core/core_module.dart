@@ -8,12 +8,16 @@ import 'package:portfolio_flutter/modules/core/data/countries_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/countries_repository_impl.dart';
 import 'package:portfolio_flutter/modules/core/data/network/config/network_config.dart';
 import 'package:portfolio_flutter/modules/core/data/network/rest_client.dart';
+import 'package:portfolio_flutter/modules/core/data/sp/route_sp.dart';
+import 'package:portfolio_flutter/modules/core/data/sp/route_sp_impl.dart';
 import 'package:portfolio_flutter/modules/core/data/user_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/user_repository_impl.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization_impl.dart';
 import 'package:portfolio_flutter/modules/core/security/encryption_decrypt_aes.dart';
 import 'package:portfolio_flutter/modules/core/security/encryption_decrypt_aes_impl.dart';
+import 'package:portfolio_flutter/modules/core/utils/bytes.dart';
+import 'package:portfolio_flutter/modules/core/utils/bytes_impl.dart';
 import 'package:portfolio_flutter/modules/core/utils/strings.dart';
 import 'package:portfolio_flutter/modules/core/utils/strings_impl.dart';
 import 'package:portfolio_flutter/modules/core/widgets/bottomsheet/bottom_sheet.dart';
@@ -25,6 +29,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 class CoreModule extends Module {
   @override
   List<Bind<Object>> get binds => [
+        Bind.factory<RouteSP>(
+          (i) => RouteSPImpl(
+            bytes: i(),
+            encryptionDecryptAES: i(),
+            sharedPreferences: i(),
+          ),
+          export: true,
+        ),
+        Bind.factory<Bytes>(
+          (i) => BytesImpl(),
+          export: true,
+        ),
         Bind.factory<EncryptionDecryptAES>(
           (i) => EncryptionDecryptAESImpl(
             encryptionChannel: const MethodChannel(
