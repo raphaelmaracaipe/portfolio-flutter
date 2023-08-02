@@ -43,7 +43,6 @@ class _UiValidCodePages extends State<UiValidCodePages> {
 
     return WillPopScope(
       onWillPop: () async {
-        // Modular.to.pop();
         _bottomsheet.show(
           context: context,
           title: (_appLocalizations.localization?.generalAttention ?? ""),
