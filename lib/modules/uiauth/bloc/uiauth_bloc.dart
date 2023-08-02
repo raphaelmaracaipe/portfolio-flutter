@@ -28,7 +28,6 @@ class UiAuthBloc extends Bloc<UiAuthBlocEvent, UiAuthBlocState> {
 
     on<GetListOfCountriesInAuth>(_onGetListOfCountries);
     on<SendToRequestCode>(_onSendToRequestCode);
-    on<CheckRoute>(_onCheckRoute);
   }
 
   void _onGetListOfCountries(
@@ -62,23 +61,6 @@ class UiAuthBloc extends Bloc<UiAuthBlocEvent, UiAuthBlocState> {
     } catch (e) {
       _logger.e(e);
       emitter(UiAuthBlocResponseSendCode(isSuccess: false));
-    }
-  }
-
-  void _onCheckRoute(
-    CheckRoute event,
-    Emitter<UiAuthBlocState> emitter,
-  ) async {
-    emitter(UiAuthBlocLoading());
-    try {
-      final String routeSaved = await _routeRepository.get();
-      if (routeSaved.isNotEmpty) {
-        emitter(UiAuthBlocchangeRoute(changeToRoute: routeSaved));
-      } else {
-        emitter(UiAuthBlocUnknown());
-      }
-    } catch (e) {
-      _logger.e(e);
     }
   }
 }

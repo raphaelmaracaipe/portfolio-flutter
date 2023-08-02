@@ -4,5 +4,4 @@ enum UiAuthBlocStatus {
   loaded,
   error,
   codeRequest,
-  changeRoute,
 }

@@ -6,17 +6,14 @@ abstract class UiAuthBlocState extends Equatable {
   final UiAuthBlocStatus _status;
   final List<CountryModel> _countries;
   final bool? _isSuccessToRequestCode;
-  final String _changeToRoute;
 
   const UiAuthBlocState({
     required UiAuthBlocStatus status,
     required List<CountryModel> countries,
-    required String changeToRoute,
     required bool? isSuccessToRequestCode,
   })  : _status = status,
         _countries = countries,
-        _isSuccessToRequestCode = isSuccessToRequestCode,
-        _changeToRoute = changeToRoute;
+        _isSuccessToRequestCode = isSuccessToRequestCode;
 
   @override
   List<Object?> get props => [];
@@ -26,8 +23,6 @@ abstract class UiAuthBlocState extends Equatable {
   List<CountryModel> get countries => _countries;
 
   get isSuccess => _isSuccessToRequestCode;
-
-  String get navigateToRoute => _changeToRoute;
 }
 
 class UiAuthBlocLoading extends UiAuthBlocState {
@@ -36,7 +31,6 @@ class UiAuthBlocLoading extends UiAuthBlocState {
           status: UiAuthBlocStatus.loading,
           countries: [],
           isSuccessToRequestCode: null,
-          changeToRoute: '',
         );
 }
 
@@ -49,7 +43,6 @@ class UiAuthBlocLoaded extends UiAuthBlocState {
           countries: countries,
           status: UiAuthBlocStatus.loaded,
           isSuccessToRequestCode: null,
-          changeToRoute: '',
         );
 
   @override
@@ -62,7 +55,6 @@ class UiAuthBlocError extends UiAuthBlocState {
           countries: [],
           status: UiAuthBlocStatus.error,
           isSuccessToRequestCode: null,
-          changeToRoute: '',
         );
 }
 
@@ -72,7 +64,6 @@ class UiAuthBlocUnknown extends UiAuthBlocState {
           countries: [],
           status: UiAuthBlocStatus.unknown,
           isSuccessToRequestCode: null,
-          changeToRoute: '',
         );
 }
 
@@ -85,18 +76,5 @@ class UiAuthBlocResponseSendCode extends UiAuthBlocState {
           status: UiAuthBlocStatus.codeRequest,
           countries: [],
           isSuccessToRequestCode: isSuccess,
-          changeToRoute: '',
-        );
-}
-
-class UiAuthBlocchangeRoute extends UiAuthBlocState {
-  final String changeToRoute;
-
-  UiAuthBlocchangeRoute({required this.changeToRoute})
-      : super(
-          countries: [],
-          status: UiAuthBlocStatus.changeRoute,
-          isSuccessToRequestCode: null,
-          changeToRoute: changeToRoute,
         );
 }

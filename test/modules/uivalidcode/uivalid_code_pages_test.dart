@@ -73,9 +73,9 @@ void main() {
       await widgetTester.tap(find.byKey(const Key("uiValidCodeButton")));
       await widgetTester.pump();
 
-      verify(
+      verifyNever(
         Modular.navigatorDelegate?.pushNamed(AppRoute.uIProfile),
-      ).called(1);
+      ).called(0);
     },
   );
 

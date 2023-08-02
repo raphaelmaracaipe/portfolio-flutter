@@ -134,32 +134,6 @@ void main() {
     ],
   );
 
-  blocTest<UiAuthBloc, UiAuthBlocState>(
-    'when call event to check route',
-    build: () {
-      when(mockRouteRepository.get()).thenAnswer((_) async => 'test');
-      return uiAuthBloc;
-    },
-    act: (bloc) => bloc.add(CheckRoute()),
-    expect: () => [
-      UiAuthBlocLoading(),
-      UiAuthBlocchangeRoute(changeToRoute: 'test'),
-    ],
-  );
-
-  blocTest<UiAuthBloc, UiAuthBlocState>(
-    'when call event to check route but not exist route saved',
-    build: () {
-      when(mockRouteRepository.get()).thenAnswer((_) async => '');
-      return uiAuthBloc;
-    },
-    act: (bloc) => bloc.add(CheckRoute()),
-    expect: () => [
-      UiAuthBlocLoading(),
-      UiAuthBlocUnknown(),
-    ],
-  );
-
   tearDown(() {
     uiAuthBloc.close();
   });

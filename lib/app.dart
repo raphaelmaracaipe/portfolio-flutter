@@ -6,6 +6,7 @@ import 'package:portfolio_flutter/config/app_route.dart';
 import 'package:portfolio_flutter/modules/uiauth/uiauth_module.dart';
 import 'package:portfolio_flutter/modules/uicountry/uicountry_module.dart';
 import 'package:portfolio_flutter/modules/uiprofile/uiprofile_module.dart';
+import 'package:portfolio_flutter/modules/uisplash/uisplash_module.dart';
 import 'package:portfolio_flutter/modules/uivalidcode/uivalid_code_module.dart';
 
 class AppModule extends Module {
@@ -14,6 +15,10 @@ class AppModule extends Module {
 
   @override
   List<ModularRoute> get routes => [
+        ModuleRoute(
+          AppRoute.uiSplashScreen,
+          module: UiSplashModule(),
+        ),
         ModuleRoute(
           AppRoute.uIAuth,
           module: UiAuthModule(),

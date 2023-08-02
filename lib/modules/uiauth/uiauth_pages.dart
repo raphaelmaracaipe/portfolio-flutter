@@ -67,13 +67,9 @@ class UiAuthPageState extends State<UiAuthPage>
       bloc: _uiAuthBloc,
       builder: (context, state) {
         switch (state.status) {
-          case UiAuthBlocStatus.changeRoute:
-            Modular.to.pushNamed(state.navigateToRoute);
-            break;
           case UiAuthBlocStatus.loading:
             return loading.showLoading(_appLocalizations);
           case UiAuthBlocStatus.loaded:
-            _uiAuthBloc.add(CheckRoute());
             _countries = state.countries;
             break;
           case UiAuthBlocStatus.codeRequest:
@@ -99,10 +95,13 @@ class UiAuthPageState extends State<UiAuthPage>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset(
-                "assets/images/icon_app.svg",
-                color: Colors.white,
-                width: 150,
+              Hero(
+                tag: 'img_app',
+                child: SvgPicture.asset(
+                  "assets/images/icon_app.svg",
+                  color: Colors.white,
+                  width: 150,
+                ),
               ),
               Text(
                 (_appLocalizations.localization?.authTitle ?? ""),
