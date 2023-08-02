@@ -95,31 +95,9 @@ class UiAuthPageState extends State<UiAuthPage>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Hero(
-                tag: 'img_app',
-                child: SvgPicture.asset(
-                  "assets/images/icon_app.svg",
-                  color: Colors.white,
-                  width: 150,
-                ),
-              ),
-              Text(
-                (_appLocalizations.localization?.authTitle ?? ""),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 30,
-                  fontFamily: AppFonts.openSans,
-                ),
-              ),
-              Text(
-                (_appLocalizations.localization?.authTitle1 ?? ""),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontFamily: AppFonts.openSans,
-                  fontStyle: FontStyle.normal,
-                ),
-              ),
+              _heroOfImgApp(),
+              _titleOfApp(),
+              _titleOfMessageWelcome(),
             ],
           ),
         ),
@@ -131,177 +109,225 @@ class UiAuthPageState extends State<UiAuthPage>
           ) {
             return Transform.translate(
               offset: Offset(0, 100 * (1 - _animation.value)),
-              child: Opacity(
-                opacity: _animation.value,
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
-                    ),
-                  ),
-                  margin: const EdgeInsets.only(left: 20, right: 20),
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              margin: const EdgeInsets.only(bottom: 20),
-                              padding: const EdgeInsets.all(15),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: AppColors.colorGray,
-                                  width: 1,
-                                ),
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              child: GestureDetector(
-                                key: const Key("uiAuthCountry"),
-                                onTap: () {
-                                  Modular.to.pushNamed(AppRoute.uICountry);
-                                },
-                                child: Row(
-                                  children: [
-                                    _showFlagCountry(),
-                                    Expanded(
-                                      child: Text(
-                                        _getCountrySelected(),
-                                        style: const TextStyle(
-                                          fontSize: 18,
-                                          color: AppColors.colorGray,
-                                          fontFamily: AppFonts.openSans,
-                                        ),
-                                      ),
-                                    ),
-                                    const Icon(
-                                      Icons.chevron_right_rounded,
-                                      color: AppColors.colorGray,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 3,
-                            child: Container(
-                              margin: const EdgeInsets.only(right: 10),
-                              child: SizedBox(
-                                width: 100,
-                                child: TextField(
-                                  key: const Key("uiAuthFieldCountryCode"),
-                                  keyboardType: TextInputType.number,
-                                  controller: _codeCountryController,
-                                  decoration: InputDecoration(
-                                    focusedBorder: const OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: AppColors.colorGray,
-                                      ),
-                                    ),
-                                    border: const OutlineInputBorder(),
-                                    focusColor: AppColors.colorGray,
-                                    labelStyle: const TextStyle(
-                                      color: AppColors.colorGray,
-                                    ),
-                                    labelText: (_appLocalizations
-                                            .localization?.codCountry ??
-                                        ""),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 7,
-                            child: Container(
-                              margin: const EdgeInsets.only(left: 10),
-                              child: SizedBox(
-                                width: 100,
-                                child: TextField(
-                                  key: const Key("uiAuthFieldPhone"),
-                                  enabled: _enableFieldPhone,
-                                  keyboardType: TextInputType.number,
-                                  inputFormatters: [
-                                    FormattedPhone(
-                                        countryModel: _countrySelected),
-                                  ],
-                                  controller: _phoneNumberController,
-                                  decoration: InputDecoration(
-                                    focusedBorder: const OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: AppColors.colorGray,
-                                      ),
-                                    ),
-                                    border: const OutlineInputBorder(),
-                                    focusColor: AppColors.colorGray,
-                                    labelStyle: const TextStyle(
-                                      color: AppColors.colorGray,
-                                    ),
-                                    labelText: _appLocalizations
-                                            .localization?.fieldPhone ??
-                                        "",
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: Container(
-                              margin: const EdgeInsets.only(top: 20),
-                              child: ElevatedButton(
-                                onPressed: sendToServer,
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppColors.colorPrimary,
-                                ),
-                                key: const Key("uiAuthButtonSend"),
-                                child: Text(
-                                  (_appLocalizations.localization?.btnSignin ??
-                                      ""),
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.only(bottom: 10, top: 10),
-                            child: const Text(
-                              "Raphael Maracaipe",
-                              style: TextStyle(
-                                fontFamily: AppFonts.openSans,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.colorPrimary,
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
+              child: _buildFormToAuth(),
             );
           },
         ),
       ],
+    );
+  }
+
+  Opacity _buildFormToAuth() {
+    return Opacity(
+      opacity: _animation.value,
+      child: Container(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+        ),
+        margin: const EdgeInsets.only(left: 20, right: 20),
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            _buildSelectionCountry(),
+            _buildSelectionCodCountryAndNumberPhone(),
+            _buildSelectionButtonSend(),
+            _buildSelectionCopyright()
+          ],
+        ),
+      ),
+    );
+  }
+
+  Row _buildSelectionCopyright() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          margin: const EdgeInsets.only(bottom: 10, top: 10),
+          child: const Text(
+            "Raphael Maracaipe",
+            style: TextStyle(
+              fontFamily: AppFonts.openSans,
+              fontWeight: FontWeight.bold,
+              color: AppColors.colorPrimary,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Row _buildSelectionButtonSend() {
+    return Row(
+      children: [
+        Expanded(
+          flex: 1,
+          child: Container(
+            margin: const EdgeInsets.only(top: 20),
+            child: ElevatedButton(
+              onPressed: sendToServer,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.colorPrimary,
+              ),
+              key: const Key("uiAuthButtonSend"),
+              child: Text(
+                (_appLocalizations.localization?.btnSignin ?? ""),
+                style: const TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Row _buildSelectionCodCountryAndNumberPhone() {
+    return Row(
+      children: [
+        Expanded(
+          flex: 3,
+          child: Container(
+            margin: const EdgeInsets.only(right: 10),
+            child: SizedBox(
+              width: 100,
+              child: TextField(
+                key: const Key("uiAuthFieldCountryCode"),
+                keyboardType: TextInputType.number,
+                controller: _codeCountryController,
+                decoration: InputDecoration(
+                  focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: AppColors.colorGray,
+                    ),
+                  ),
+                  border: const OutlineInputBorder(),
+                  focusColor: AppColors.colorGray,
+                  labelStyle: const TextStyle(
+                    color: AppColors.colorGray,
+                  ),
+                  labelText: (_appLocalizations.localization?.codCountry ?? ""),
+                ),
+              ),
+            ),
+          ),
+        ),
+        Expanded(
+          flex: 7,
+          child: Container(
+            margin: const EdgeInsets.only(left: 10),
+            child: SizedBox(
+              width: 100,
+              child: TextField(
+                key: const Key("uiAuthFieldPhone"),
+                enabled: _enableFieldPhone,
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FormattedPhone(countryModel: _countrySelected),
+                ],
+                controller: _phoneNumberController,
+                decoration: InputDecoration(
+                  focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: AppColors.colorGray,
+                    ),
+                  ),
+                  border: const OutlineInputBorder(),
+                  focusColor: AppColors.colorGray,
+                  labelStyle: const TextStyle(
+                    color: AppColors.colorGray,
+                  ),
+                  labelText: _appLocalizations.localization?.fieldPhone ?? "",
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Row _buildSelectionCountry() {
+    return Row(
+      children: [
+        Expanded(
+          child: Container(
+            margin: const EdgeInsets.only(bottom: 20),
+            padding: const EdgeInsets.all(15),
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: AppColors.colorGray,
+                width: 1,
+              ),
+              borderRadius: BorderRadius.circular(6),
+            ),
+            child: GestureDetector(
+              key: const Key("uiAuthCountry"),
+              onTap: () {
+                Modular.to.pushNamed(AppRoute.uICountry);
+              },
+              child: Row(
+                children: [
+                  _showFlagCountry(),
+                  Expanded(
+                    child: Text(
+                      _getCountrySelected(),
+                      style: const TextStyle(
+                        fontSize: 18,
+                        color: AppColors.colorGray,
+                        fontFamily: AppFonts.openSans,
+                      ),
+                    ),
+                  ),
+                  const Icon(
+                    Icons.chevron_right_rounded,
+                    color: AppColors.colorGray,
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Text _titleOfMessageWelcome() {
+    return Text(
+      (_appLocalizations.localization?.authTitle1 ?? ""),
+      style: const TextStyle(
+        color: Colors.white,
+        fontSize: 12,
+        fontFamily: AppFonts.openSans,
+        fontStyle: FontStyle.normal,
+      ),
+    );
+  }
+
+  Text _titleOfApp() {
+    return Text(
+      (_appLocalizations.localization?.authTitle ?? ""),
+      style: const TextStyle(
+        color: Colors.white,
+        fontSize: 30,
+        fontFamily: AppFonts.openSans,
+      ),
+    );
+  }
+
+  Hero _heroOfImgApp() {
+    return Hero(
+      tag: 'img_app',
+      child: SvgPicture.asset(
+        "assets/images/icon_app.svg",
+        color: Colors.white,
+        width: 150,
+      ),
     );
   }
 
