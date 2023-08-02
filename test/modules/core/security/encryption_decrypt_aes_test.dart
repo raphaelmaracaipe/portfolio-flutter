@@ -26,7 +26,7 @@ void main() {
       encryptionChannel: methodChannelMock,
     );
 
-    dynamic test = await encryption.decryptData('test', key);
+    dynamic test = await encryption.decryptData(encrypted: 'test', key: key);
     expect(textReturned, test);
   });
 
@@ -41,7 +41,7 @@ void main() {
     );
 
     try {
-      await encryption.decryptData('encrypted', key);
+      await encryption.decryptData(encrypted: 'encrypted', key: key);
       expect(false, true);
     } catch (e) {
       expect(e.toString().contains(textTest), true);
@@ -58,7 +58,7 @@ void main() {
       encryptionChannel: methodChannelMock,
     );
 
-    dynamic test = await encryption.encryptData('test', key);
+    dynamic test = await encryption.encryptData(text: 'test', key: key);
     expect(textReturned, test);
   });
 
@@ -73,7 +73,7 @@ void main() {
     );
 
     try {
-      await encryption.encryptData('encrypted', key);
+      await encryption.encryptData(text: 'encrypted', key: key);
       expect(false, true);
     } catch (e) {
       expect(e.toString().contains(textTest), true);

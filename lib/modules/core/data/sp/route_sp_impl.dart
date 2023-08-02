@@ -37,8 +37,8 @@ class RouteSPImpl extends RouteSP {
   @override
   Future<void> save(String route) async {
     dynamic routeEncrypted = await encryptionDecryptAES.encryptData(
-      route,
-      bytes.convertBytesToString(_key),
+      text: route,
+      key: bytes.convertBytesToString(_key),
     );
 
     final SharedPreferences sp = await sharedPreferences;
@@ -47,13 +47,14 @@ class RouteSPImpl extends RouteSP {
 
   @override
   Future<String> get() async {
+    return '';
     final SharedPreferences sp = await sharedPreferences;
     final String routeEncrypted = sp.getString(_typeScreenKey) ?? "";
 
     if (routeEncrypted.isNotEmpty) {
       return await encryptionDecryptAES.decryptData(
-        routeEncrypted,
-        bytes.convertBytesToString(_key),
+        encrypted: routeEncrypted,
+        key: bytes.convertBytesToString(_key),
       );
     }
 

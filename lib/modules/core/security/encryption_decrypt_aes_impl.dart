@@ -3,16 +3,16 @@ import 'package:portfolio_flutter/modules/core/security/encryption_decrypt_aes.d
 
 class EncryptionDecryptAESImpl extends EncryptionDecryptAES {
   final MethodChannel encryptionChannel;
+
   EncryptionDecryptAESImpl({
     required this.encryptionChannel,
   });
 
-  // final MethodChannel _encryptionChannel = const MethodChannel(
-  //   'com.example.portfolio_flutter/encdesc',
-  // );
-
   @override
-  Future decryptData(dynamic encrypted, String key) async {
+  Future decryptData({
+    required dynamic encrypted,
+    required String key,
+  }) async {
     try {
       return await encryptionChannel.invokeMethod('decrypt', {
         'data': encrypted,
@@ -24,12 +24,15 @@ class EncryptionDecryptAESImpl extends EncryptionDecryptAES {
   }
 
   @override
-  Future encryptData(String encrypted, String key) async {
+  Future encryptData({
+    required String text,
+    required String key,
+  }) async {
     try {
       return await encryptionChannel.invokeMethod(
         'encrypt',
         {
-          'data': encrypted,
+          'data': text,
           'key': key,
         },
       );
