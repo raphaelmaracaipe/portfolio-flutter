@@ -37,7 +37,10 @@ void main() {
 
   test('when save route', () async {
     when(
-      encryptionDecryptAESMock.encryptData(text: any, key: any),
+      encryptionDecryptAESMock.encryptData(
+        text: anyNamed('text'),
+        key: anyNamed('key'),
+      ),
     ).thenAnswer((_) async => 'test');
 
     when(
@@ -55,7 +58,10 @@ void main() {
   test('when get route save', () async {
     String textOfText = 'test';
     when(
-      encryptionDecryptAESMock.decryptData(encrypted: any, key: any),
+      encryptionDecryptAESMock.decryptData(
+        encrypted: anyNamed('encrypted'),
+        key: anyNamed('key'),
+      ),
     ).thenAnswer((_) async => textOfText);
 
     when(
