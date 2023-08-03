@@ -39,11 +39,11 @@ class CoreModule extends Module {
           ),
           export: true,
         ),
-        Bind.factory<Bytes>(
+        Bind<Bytes>(
           (i) => BytesImpl(),
           export: true,
         ),
-        Bind.factory<EncryptionDecryptAES>(
+        Bind<EncryptionDecryptAES>(
           (i) => EncryptionDecryptAESImpl(
             encryptionChannel: const MethodChannel(
               'com.example.portfolio_flutter/encdesc',
@@ -51,45 +51,45 @@ class CoreModule extends Module {
           ),
           export: true,
         ),
-        Bind.factory<Future<SharedPreferences>>(
+        Bind<Future<SharedPreferences>>(
           (i) => SharedPreferences.getInstance(),
           export: true,
         ),
-        Bind.factory<Bottomsheet>(
+        Bind<Bottomsheet>(
           (i) => BottomsheetImpl(),
           export: true,
         ),
-        Bind.factory<AppLocalization>(
+        Bind<AppLocalization>(
           (i) => AppLocalizationImpl(),
           export: true,
         ),
-        Bind.factory<Loading>(
+        Bind<Loading>(
           (i) => LoadingImpl(),
           export: true,
         ),
-        Bind.factory<CountriesCode>(
+        Bind<CountriesCode>(
           (i) => CountriesCodeImpl(
             assetBundle: rootBundle,
           ),
           export: true,
         ),
-        Bind.factory<Strings>(
+        Bind<Strings>(
           (i) => StringsImpl(),
           export: true,
         ),
-        Bind.factory<CountriesRepository>(
+        Bind<CountriesRepository>(
           (i) => CountriesRepositoryImpl(
             countriesCode: i(),
           ),
           export: true,
         ),
-        Bind.factory<UserRepository>(
+        Bind<UserRepository>(
           (i) => UserRepositoryImpl(
             restClient: i(),
           ),
           export: true,
         ),
-        Bind.factory<RouteRepository>(
+        Bind<RouteRepository>(
           (i) => RouteRepositoryImpl(
             routeSP: i(),
           ),
@@ -105,7 +105,7 @@ class CoreModule extends Module {
           ),
           export: true,
         ),
-        Bind.factory<Logger>(
+        Bind<Logger>(
           (i) => Logger(),
           export: true,
         ),
