@@ -38,12 +38,12 @@ class _FakeResponseValidCode_0 extends _i1.SmartFake
         );
 }
 
-/// A class which mocks [MockCountriesRepository].
+/// A class which mocks [CountriesRepositoryMock].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockMockCountriesRepository extends _i1.Mock
-    implements _i3.MockCountriesRepository {
-  MockMockCountriesRepository() {
+class MockCountriesRepositoryMock extends _i1.Mock
+    implements _i3.CountriesRepositoryMock {
+  MockCountriesRepositoryMock() {
     _i1.throwOnMissingStub(this);
   }
 
@@ -58,12 +58,12 @@ class MockMockCountriesRepository extends _i1.Mock
       ) as _i4.Future<List<_i5.CountryModel>>);
 }
 
-/// A class which mocks [MockUserRepository].
+/// A class which mocks [UserRepositoryMock].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockMockUserRepository extends _i1.Mock
-    implements _i3.MockUserRepository {
-  MockMockUserRepository() {
+class MockUserRepositoryMock extends _i1.Mock
+    implements _i3.UserRepositoryMock {
+  MockUserRepositoryMock() {
     _i1.throwOnMissingStub(this);
   }
 
@@ -95,11 +95,11 @@ class MockMockUserRepository extends _i1.Mock
       ) as _i4.Future<_i2.ResponseValidCode>);
 }
 
-/// A class which mocks [MockLogger].
+/// A class which mocks [LoggerMock].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockMockLogger extends _i1.Mock implements _i3.MockLogger {
-  MockMockLogger() {
+class MockLoggerMock extends _i1.Mock implements _i3.LoggerMock {
+  MockLoggerMock() {
     _i1.throwOnMissingStub(this);
   }
 
@@ -297,11 +297,11 @@ class MockMockLogger extends _i1.Mock implements _i3.MockLogger {
       ) as _i4.Future<void>);
 }
 
-/// A class which mocks [MockRestClient].
+/// A class which mocks [RestClientMock].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockMockRestClient extends _i1.Mock implements _i3.MockRestClient {
-  MockMockRestClient() {
+class MockRestClientMock extends _i1.Mock implements _i3.RestClientMock {
+  MockRestClientMock() {
     _i1.throwOnMissingStub(this);
   }
 
@@ -333,12 +333,12 @@ class MockMockRestClient extends _i1.Mock implements _i3.MockRestClient {
       ) as _i4.Future<_i2.ResponseValidCode>);
 }
 
-/// A class which mocks [MockRouteRepository].
+/// A class which mocks [RouteRepositoryMock].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockMockRouteRepository extends _i1.Mock
-    implements _i3.MockRouteRepository {
-  MockMockRouteRepository() {
+class MockRouteRepositoryMock extends _i1.Mock
+    implements _i3.RouteRepositoryMock {
+  MockRouteRepositoryMock() {
     _i1.throwOnMissingStub(this);
   }
 

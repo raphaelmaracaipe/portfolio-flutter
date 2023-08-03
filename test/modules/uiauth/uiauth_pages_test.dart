@@ -14,7 +14,6 @@ import 'package:portfolio_flutter/modules/core/data/user_repository.dart';
 import 'package:portfolio_flutter/modules/uiauth/uiauth_module.dart';
 import 'package:portfolio_flutter/modules/uiauth/uiauth_pages.dart';
 
-import 'bloc/uiauth_bloc_test.mocks.dart';
 import 'uiauth_pages_test.mocks.dart';
 
 class ModularNavigateMock extends Mock implements IModularNavigator {}
@@ -29,6 +28,7 @@ class RouteRepositoryMock extends Mock implements RouteRepository {}
   ModularNavigateMock,
   UserRepositoryMock,
   CountriesRepositoryMock,
+  RouteRepositoryMock,
 ])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -36,13 +36,13 @@ void main() {
   late UiAuthPage uiAuthPage;
   late MockUserRepositoryMock userRepositoryMock;
   late MockCountriesRepositoryMock countriesRepositoryMock;
-  late MockMockRouteRepository routeRepositoryMock;
+  late MockRouteRepositoryMock routeRepositoryMock;
   late MockModularNavigateMock modularNavigateMock;
 
   setUp(() {
     userRepositoryMock = MockUserRepositoryMock();
     countriesRepositoryMock = MockCountriesRepositoryMock();
-    routeRepositoryMock = MockMockRouteRepository();
+    routeRepositoryMock = MockRouteRepositoryMock();
     modularNavigateMock = MockModularNavigateMock();
     Modular.navigatorDelegate = modularNavigateMock;
 

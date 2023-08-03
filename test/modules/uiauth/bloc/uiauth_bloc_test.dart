@@ -5,7 +5,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
 import 'package:portfolio_flutter/modules/core/data/countries_repository.dart';
-import 'package:portfolio_flutter/modules/core/data/network/rest_client.dart';
+import 'package:portfolio_flutter/modules/core/data/network/rest_user.dart';
 import 'package:portfolio_flutter/modules/core/data/route_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/user_repository.dart';
 import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc.dart';
@@ -14,30 +14,30 @@ import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc_state.dart';
 
 import 'uiauth_bloc_test.mocks.dart';
 
-class MockCountriesRepository extends Mock implements CountriesRepository {}
+class CountriesRepositoryMock extends Mock implements CountriesRepository {}
 
-class MockUserRepository extends Mock implements UserRepository {}
+class UserRepositoryMock extends Mock implements UserRepository {}
 
-class MockRouteRepository extends Mock implements RouteRepository {}
+class RouteRepositoryMock extends Mock implements RouteRepository {}
 
-class MockLogger extends Mock implements Logger {}
+class LoggerMock extends Mock implements Logger {}
 
-class MockRestClient extends Mock implements RestClient {}
+class RestClientMock extends Mock implements RestUser {}
 
 @GenerateMocks([
-  MockCountriesRepository,
-  MockUserRepository,
-  MockLogger,
-  MockRestClient,
-  MockRouteRepository
+  CountriesRepositoryMock,
+  UserRepositoryMock,
+  LoggerMock,
+  RestClientMock,
+  RouteRepositoryMock
 ])
 void main() {
   late UiAuthBloc uiAuthBloc;
-  late MockMockCountriesRepository mockCountriesRepository;
-  late MockMockUserRepository mockMockUserRepository;
-  late MockMockRouteRepository mockRouteRepository;
-  late MockMockLogger mockLogger;
-  late MockMockRestClient mockRestClient;
+  late MockCountriesRepositoryMock countriesRepositoryMock;
+  late MockUserRepositoryMock userRepositoryMock;
+  late MockRouteRepositoryMock routeRepositoryMock;
+  late MockLoggerMock loggerMock;
+  late MockRestClientMock restClientMock;
 
   List<CountryModel> countries = [
     CountryModel(
@@ -49,24 +49,24 @@ void main() {
   ];
 
   setUp(() {
-    mockCountriesRepository = MockMockCountriesRepository();
-    mockMockUserRepository = MockMockUserRepository();
-    mockRouteRepository = MockMockRouteRepository();
-    mockLogger = MockMockLogger();
-    mockRestClient = MockMockRestClient();
+    countriesRepositoryMock = MockCountriesRepositoryMock();
+    userRepositoryMock = MockUserRepositoryMock();
+    routeRepositoryMock = MockRouteRepositoryMock();
+    loggerMock = MockLoggerMock();
+    restClientMock = MockRestClientMock();
 
     uiAuthBloc = UiAuthBloc(
-      countriesRepository: mockCountriesRepository,
-      userRepository: mockMockUserRepository,
-      routeRepository: mockRouteRepository,
-      logger: mockLogger,
+      countriesRepository: countriesRepositoryMock,
+      userRepository: userRepositoryMock,
+      routeRepository: routeRepositoryMock,
+      logger: loggerMock,
     );
   });
 
   blocTest<UiAuthBloc, UiAuthBlocState>(
     'when send consult to repository bloc return state loaded',
     build: () {
-      when(mockCountriesRepository.readJSON()).thenAnswer(
+      when(countriesRepositoryMock.readJSON()).thenAnswer(
         (_) async => countries,
       );
       return uiAuthBloc;
@@ -81,7 +81,7 @@ void main() {
   blocTest<UiAuthBloc, UiAuthBlocState>(
     'when send consult to repository but return empty list',
     build: () {
-      when(mockCountriesRepository.readJSON()).thenAnswer((_) async => []);
+      when(countriesRepositoryMock.readJSON()).thenAnswer((_) async => []);
       return uiAuthBloc;
     },
     act: (bloc) => bloc.add(GetListOfCountriesInAuth()),
@@ -94,7 +94,7 @@ void main() {
   blocTest<UiAuthBloc, UiAuthBlocState>(
     'when send consult to repository but return error',
     build: () {
-      when(mockCountriesRepository.readJSON()).thenThrow(
+      when(countriesRepositoryMock.readJSON()).thenThrow(
         Exception("test error"),
       );
       return uiAuthBloc;
@@ -109,7 +109,7 @@ void main() {
   blocTest<UiAuthBloc, UiAuthBlocState>(
     'when send code phone to server and api return success',
     build: () {
-      when(mockRestClient.requestCode(any)).thenAnswer(
+      when(restClientMock.requestCode(any)).thenAnswer(
         (_) async => Future.value,
       );
       return uiAuthBloc;
@@ -124,7 +124,7 @@ void main() {
   blocTest<UiAuthBloc, UiAuthBlocState>(
     'when send code phone to server and api return error',
     build: () {
-      when(mockRestClient.requestCode(any)).thenAnswer((_) async => []);
+      when(restClientMock.requestCode(any)).thenAnswer((_) async => []);
       return uiAuthBloc;
     },
     act: (bloc) => bloc.add(SendToRequestCode(phoneNumber: "1234567890")),

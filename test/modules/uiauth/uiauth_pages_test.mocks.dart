@@ -283,3 +283,40 @@ class MockCountriesRepositoryMock extends _i1.Mock
             _i5.Future<List<_i9.CountryModel>>.value(<_i9.CountryModel>[]),
       ) as _i5.Future<List<_i9.CountryModel>>);
 }
+
+/// A class which mocks [RouteRepositoryMock].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockRouteRepositoryMock extends _i1.Mock
+    implements _i3.RouteRepositoryMock {
+  MockRouteRepositoryMock() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Future<void> save(String? typeScreen) => (super.noSuchMethod(
+        Invocation.method(
+          #save,
+          [typeScreen],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+  @override
+  _i5.Future<String> get() => (super.noSuchMethod(
+        Invocation.method(
+          #get,
+          [],
+        ),
+        returnValue: _i5.Future<String>.value(''),
+      ) as _i5.Future<String>);
+  @override
+  _i5.Future<void> clean() => (super.noSuchMethod(
+        Invocation.method(
+          #clean,
+          [],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+}
