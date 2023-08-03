@@ -7,7 +7,7 @@ import 'package:portfolio_flutter/modules/core/data/assets/countries_codes_impl.
 import 'package:portfolio_flutter/modules/core/data/countries_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/countries_repository_impl.dart';
 import 'package:portfolio_flutter/modules/core/data/network/config/network_config.dart';
-import 'package:portfolio_flutter/modules/core/data/network/rest_client.dart';
+import 'package:portfolio_flutter/modules/core/data/network/rest_user.dart';
 import 'package:portfolio_flutter/modules/core/data/route_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/route_repository_impl.dart';
 import 'package:portfolio_flutter/modules/core/data/sp/route_sp.dart';
