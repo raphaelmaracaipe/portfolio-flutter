@@ -95,9 +95,12 @@ class CoreModule extends Module {
           ),
           export: true,
         ),
-        Bind.factory<RestClient>(
-          (i) => RestClient(
-            NetworkConfig.config(),
+        Bind<RestUser>(
+          (i) => RestUser(
+            NetworkConfig.config(
+              keys: i(),
+              encryptionDecryptAES: i(),
+            ),
             baseUrl: (env?.baseUrl ?? ""),
           ),
           export: true,

@@ -35,11 +35,11 @@ class _FakeResponseValidCode_0 extends _i1.SmartFake
         );
 }
 
-/// A class which mocks [MockRestClient].
+/// A class which mocks [RestUserMock].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockMockRestClient extends _i1.Mock implements _i3.MockRestClient {
-  MockMockRestClient() {
+class MockRestUserMock extends _i1.Mock implements _i3.RestUserMock {
+  MockRestUserMock() {
     _i1.throwOnMissingStub(this);
   }
 

@@ -4,11 +4,11 @@ import 'package:portfolio_flutter/modules/core/data/network/request/request_user
 import 'package:portfolio_flutter/modules/core/data/network/response/response_valid_code.dart';
 import 'package:retrofit/retrofit.dart';
 
-part 'rest_client.g.dart';
+part 'rest_user.g.dart';
 
 @RestApi()
-abstract class RestClient {
-  factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
+abstract class RestUser {
+  factory RestUser(Dio dio, {String baseUrl}) = _RestUser;
 
   @POST("/v1/users/code")
   Future<void> requestCode(@Body() RequestUserCode requestUserCode);

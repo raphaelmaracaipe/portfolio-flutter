@@ -6,26 +6,26 @@ import 'package:portfolio_flutter/modules/core/data/network/enums/http_error_enu
 import 'package:portfolio_flutter/modules/core/data/network/exceptions/http_exception.dart';
 import 'package:portfolio_flutter/modules/core/data/network/request/request_user_code.dart';
 import 'package:portfolio_flutter/modules/core/data/network/response/response_valid_code.dart';
-import 'package:portfolio_flutter/modules/core/data/network/rest_client.dart';
+import 'package:portfolio_flutter/modules/core/data/network/rest_user.dart';
 import 'package:portfolio_flutter/modules/core/data/user_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/user_repository_impl.dart';
 
 import 'user_repository_test.mocks.dart';
 
-class MockRestClient extends Mock implements RestClient {}
+class RestUserMock extends Mock implements RestUser {}
 
 @GenerateMocks([
-  MockRestClient,
+  RestUserMock,
 ])
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  final MockMockRestClient mockRestClient = MockMockRestClient();
+  final MockRestUserMock restUserMock = MockRestUserMock();
 
   test('when send to request code with success', () async {
-    when(mockRestClient.requestCode(any)).thenAnswer((_) async => {});
+    when(restUserMock.requestCode(any)).thenAnswer((_) async => {});
 
     UserRepository userRepository = UserRepositoryImpl(
-      restClient: mockRestClient,
+      restClient: restUserMock,
     );
 
     try {
@@ -38,14 +38,14 @@ void main() {
   });
 
   test('when send to request code with fail', () async {
-    when(mockRestClient.requestCode(any)).thenThrow(
+    when(restUserMock.requestCode(any)).thenThrow(
       HttpException.putEnum(
         HttpErrorEnum.ERROR_GENERAL,
       ),
     );
 
     UserRepository userRepository = UserRepositoryImpl(
-      restClient: mockRestClient,
+      restClient: restUserMock,
     );
 
     try {
@@ -59,13 +59,13 @@ void main() {
 
   test('when send code to validation api return success', () async {
     when(
-      mockRestClient.requestValidCode(any),
+      restUserMock.requestValidCode(any),
     ).thenAnswer(
       (_) async => ResponseValidCode(accessToken: "AAA", refreshToken: "BBB"),
     );
 
     UserRepository userRepository = UserRepositoryImpl(
-      restClient: mockRestClient,
+      restClient: restUserMock,
     );
 
     try {
@@ -79,7 +79,7 @@ void main() {
 
   test('when send code to validation api return error', () async {
     when(
-      mockRestClient.requestValidCode(any),
+      restUserMock.requestValidCode(any),
     ).thenThrow(
       HttpException.putEnum(
         HttpErrorEnum.ERROR_GENERAL,
@@ -87,7 +87,7 @@ void main() {
     );
 
     UserRepository userRepository = UserRepositoryImpl(
-      restClient: mockRestClient,
+      restClient: restUserMock,
     );
 
     try {

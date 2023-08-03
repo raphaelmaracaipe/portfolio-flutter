@@ -5,11 +5,11 @@ import 'package:portfolio_flutter/modules/core/data/network/enums/http_error_enu
 import 'package:portfolio_flutter/modules/core/data/network/exceptions/http_exception.dart';
 import 'package:portfolio_flutter/modules/core/data/network/request/request_user_code.dart';
 import 'package:portfolio_flutter/modules/core/data/network/response/response_valid_code.dart';
-import 'package:portfolio_flutter/modules/core/data/network/rest_client.dart';
+import 'package:portfolio_flutter/modules/core/data/network/rest_user.dart';
 
 void main() {
   Dio? dio;
-  RestClient? restClient;
+  RestUser? restClient;
   late DioAdapter mockAdapter;
 
   setUp(() {
@@ -19,7 +19,7 @@ void main() {
     mockAdapter = DioAdapter(dio: dio!);
     dio?.httpClientAdapter = mockAdapter;
 
-    restClient = RestClient(dio!, baseUrl: '');
+    restClient = RestUser(dio!, baseUrl: '');
   });
 
   test('when request code but api return success', () async {
