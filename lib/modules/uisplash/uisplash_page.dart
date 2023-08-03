@@ -42,7 +42,7 @@ class UiSplashPage extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 50),
-                    child: LoadingAnimationWidget.inkDrop(
+                    child: LoadingAnimationWidget.prograssiveDots(
                       size: 50,
                       color: Colors.white,
                       key: const Key('splash_screen_loading'),
@@ -73,7 +73,7 @@ class UiSplashPage extends StatelessWidget {
 
   void _redirect() {
     Future.delayed(const Duration(seconds: 2), () {
-      _uiSplashBloc.add(GetRouteSaved());
+      // _uiSplashBloc.add(GetRouteSaved());
     });
   }
 }
