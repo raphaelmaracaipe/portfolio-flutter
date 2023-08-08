@@ -14,6 +14,7 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   const String key = 'ABCDEFGYUITRG65@';
+  const String iv = 'a';
   final MockMethodChannelMock methodChannelMock = MockMethodChannelMock();
 
   test('when send data to decrypted and return data with success', () async {
@@ -26,7 +27,11 @@ void main() {
       encryptionChannel: methodChannelMock,
     );
 
-    dynamic test = await encryption.decryptData(encrypted: 'test', key: key);
+    dynamic test = await encryption.decryptData(
+      encrypted: 'test',
+      key: key,
+      iv: iv,
+    );
     expect(textReturned, test);
   });
 
@@ -41,7 +46,7 @@ void main() {
     );
 
     try {
-      await encryption.decryptData(encrypted: 'encrypted', key: key);
+      await encryption.decryptData(encrypted: 'encrypted', key: key, iv: iv);
       expect(false, true);
     } catch (e) {
       expect(e.toString().contains(textTest), true);
@@ -58,7 +63,7 @@ void main() {
       encryptionChannel: methodChannelMock,
     );
 
-    dynamic test = await encryption.encryptData(text: 'test', key: key);
+    dynamic test = await encryption.encryptData(text: 'test', key: key, iv: iv);
     expect(textReturned, test);
   });
 
@@ -73,7 +78,7 @@ void main() {
     );
 
     try {
-      await encryption.encryptData(text: 'encrypted', key: key);
+      await encryption.encryptData(text: 'encrypted', key: key, iv: iv);
       expect(false, true);
     } catch (e) {
       expect(e.toString().contains(textTest), true);

@@ -12,11 +12,13 @@ class EncryptionDecryptAESImpl extends EncryptionDecryptAES {
   Future decryptData({
     required dynamic encrypted,
     required String key,
+    required String iv,
   }) async {
     try {
       return await encryptionChannel.invokeMethod('decrypt', {
         'data': encrypted,
         'key': key,
+        'iv': iv,
       });
     } on PlatformException catch (e) {
       throw Exception(e.message);
@@ -27,6 +29,7 @@ class EncryptionDecryptAESImpl extends EncryptionDecryptAES {
   Future encryptData({
     required String text,
     required String key,
+    required String iv,
   }) async {
     try {
       return await encryptionChannel.invokeMethod(
@@ -34,6 +37,7 @@ class EncryptionDecryptAESImpl extends EncryptionDecryptAES {
         {
           'data': text,
           'key': key,
+          'iv': iv,
         },
       );
     } on PlatformException catch (e) {
