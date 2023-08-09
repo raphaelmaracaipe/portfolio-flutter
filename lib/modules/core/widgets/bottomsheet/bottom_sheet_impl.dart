@@ -4,14 +4,16 @@ import 'package:portfolio_flutter/modules/core/widgets/bottomsheet/bottom_sheet.
 
 class BottomsheetImpl extends Bottomsheet {
   @override
-  void show({
+  Future<void> show({
     required BuildContext context,
     required String title,
     required String text,
     required String btnText,
     required Function onBtnClick,
-  }) {
-    showModalBottomSheet(
+    enableDrag = true,
+  }) async {
+    await showModalBottomSheet<void>(
+      enableDrag: enableDrag,
       context: context,
       builder: (BuildContext buildContext) {
         return SizedBox(

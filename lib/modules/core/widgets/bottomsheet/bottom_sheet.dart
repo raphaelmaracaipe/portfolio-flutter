@@ -7,5 +7,6 @@ abstract class Bottomsheet {
     required String text,
     required String btnText,
     required Function onBtnClick,
+    enableDrag = true,
   });
 }
