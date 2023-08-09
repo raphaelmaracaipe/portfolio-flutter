@@ -1,26 +1,38 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:dio/dio.dart';
+import 'package:portfolio_flutter/modules/core/data/network/interceptors/dio_encrypted_interceptor.dart';
+import 'package:portfolio_flutter/modules/core/data/sp/device_sp.dart';
+import 'package:portfolio_flutter/modules/core/data/sp/key_sp.dart';
+import 'package:portfolio_flutter/modules/core/security/encryption_decrypt_aes.dart';
+import 'package:portfolio_flutter/modules/core/security/keys.dart';
+import 'package:portfolio_flutter/modules/core/utils/bytes.dart';
 
 class NetworkConfig {
-  static Dio config() => Dio(
-        BaseOptions(
-          contentType: ContentType.json.toString(),
-          connectTimeout: const Duration(seconds: 30),
-          headers: {
-            "x-api-key": _randomApiKey(),
-          },
-        ),
-      );
+  static Dio config({
+    required EncryptionDecryptAES encryptionDecryptAES,
+    required Keys keys,
+    required KeySP keySP,
+    required DeviceSP deviceSP,
+    required Bytes bytes,
+  }) {
+    final Dio dio = Dio(
+      BaseOptions(
+        contentType: ContentType.json.toString(),
+        connectTimeout: const Duration(seconds: 30),
+      ),
+    );
 
-  static String _randomApiKey() {
-    final List<String> keys = [
-      'd2e621a6646a4211768cd68e26f21228a81',
-      'ca03na188ame03u1d78620de67282882a84'
-    ];
+    dio.interceptors.add(
+      DioEncryptedInterceptor(
+        encryptionDecryptAES: encryptionDecryptAES,
+        keys: keys,
+        keySP: keySP,
+        deviceSP: deviceSP,
+        bytes: bytes,
+      ),
+    );
 
-    final Random random = Random();
-    return keys[random.nextInt(keys.length)];
+    return dio;
   }
 }
