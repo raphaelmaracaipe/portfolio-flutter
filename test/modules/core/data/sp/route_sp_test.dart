@@ -38,6 +38,7 @@ void main() {
   test('when save route', () async {
     when(
       encryptionDecryptAESMock.encryptData(
+        iv: anyNamed('iv'),
         text: anyNamed('text'),
         key: anyNamed('key'),
       ),
@@ -59,6 +60,7 @@ void main() {
     String textOfText = 'test';
     when(
       encryptionDecryptAESMock.decryptData(
+        iv: anyNamed('iv'),
         encrypted: anyNamed('encrypted'),
         key: anyNamed('key'),
       ),

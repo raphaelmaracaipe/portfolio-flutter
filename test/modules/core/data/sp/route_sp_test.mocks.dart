@@ -33,6 +33,7 @@ class MockEncryptionDecryptAESMock extends _i1.Mock
   _i3.Future<dynamic> encryptData({
     required String? text,
     required String? key,
+    required String? iv,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -41,6 +42,7 @@ class MockEncryptionDecryptAESMock extends _i1.Mock
           {
             #text: text,
             #key: key,
+            #iv: iv,
           },
         ),
         returnValue: _i3.Future<dynamic>.value(),
@@ -49,6 +51,7 @@ class MockEncryptionDecryptAESMock extends _i1.Mock
   _i3.Future<dynamic> decryptData({
     required dynamic encrypted,
     required String? key,
+    required String? iv,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -57,6 +60,7 @@ class MockEncryptionDecryptAESMock extends _i1.Mock
           {
             #encrypted: encrypted,
             #key: key,
+            #iv: iv,
           },
         ),
         returnValue: _i3.Future<dynamic>.value(),
