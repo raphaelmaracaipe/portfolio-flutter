@@ -25,12 +25,14 @@ class MainActivity : FlutterActivity() {
             if (call.method.equals("encrypt")) {
                 val data = call.argument<String>("data")
                 val key = call.argument<String>("key")
-                val cipher = CryptoHelper.encrypt(data, key)
+                val iv = call.argument<String>("iv")
+                val cipher = CryptoHelper.encrypt(data, key, iv)
                 result.success(cipher)
             } else if (call.method.equals("decrypt")) {
                 val data = call.argument<String>("data")
                 val key = call.argument<String>("key")
-                val jsonString = CryptoHelper.decrypt(data, key)
+                val iv = call.argument<String>("iv")
+                val jsonString = CryptoHelper.decrypt(data, key, iv)
                 result.success(jsonString)
             } else {
                 result.notImplemented()
