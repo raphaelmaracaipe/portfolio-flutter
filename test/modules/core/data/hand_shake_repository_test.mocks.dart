@@ -68,7 +68,7 @@ class MockKeySpMock extends _i1.Mock implements _i2.KeySpMock {
         returnValueForMissingStub: _i3.Future<void>.value(),
       ) as _i3.Future<void>);
   @override
-  _i3.Future<void> saveIV(String? iv) => (super.noSuchMethod(
+  _i3.Future<void> saveSeed(String? iv) => (super.noSuchMethod(
         Invocation.method(
           #saveIV,
           [iv],

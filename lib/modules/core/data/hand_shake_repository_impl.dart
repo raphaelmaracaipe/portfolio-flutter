@@ -33,7 +33,7 @@ class HandShakeRepositoryImpl extends HandShakeRepository {
       );
 
       final seedGenerated = key.generateKey(16);
-      await keySP.saveIV(seedGenerated);
+      await keySP.saveSeed(seedGenerated);
       await keySP.saveKey(keyGenerated);
     } on DioException catch (e) {
       throw HttpException(e);

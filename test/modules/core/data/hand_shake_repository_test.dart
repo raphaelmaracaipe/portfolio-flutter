@@ -64,7 +64,7 @@ void main() {
 
   test('when send request to server return success', () async {
     when(keySpMock.isExistKeyAndIVSaved()).thenAnswer((_) async => false);
-    when(keySpMock.saveIV(any)).thenAnswer((_) async {});
+    when(keySpMock.saveSeed(any)).thenAnswer((_) async {});
     when(keySpMock.saveKey(any)).thenAnswer((_) async {});
     when(
       restHandShakeMock.requestHandShake(any),
@@ -79,7 +79,7 @@ void main() {
     try {
       await handShakeRepository.send();
       expect(true, true);
-    } on HttpException catch (e) {
+    } on HttpException {
       expect(true, false);
     }
   });
