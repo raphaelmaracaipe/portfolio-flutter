@@ -29,3 +29,10 @@ class UiSplashBlocRoute extends UiSplashBlocState {
           routeName: routeName,
         );
 }
+
+class UiSplashBlocFinishHandShake extends UiSplashBlocState {
+  const UiSplashBlocFinishHandShake()
+      : super(
+          status: UiSplashBlocStatus.finishHandShake,
+        );
+}

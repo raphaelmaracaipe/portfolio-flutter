@@ -1,1 +1,1 @@
-enum UiSplashBlocStatus { unknown, getRoute }
+enum UiSplashBlocStatus { unknown, getRoute, finishHandShake }
