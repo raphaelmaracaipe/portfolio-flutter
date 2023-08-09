@@ -7,9 +7,12 @@ import javax.crypto.NoSuchPaddingException
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
-class CryptoHelper {
-    private val ivSpec: IvParameterSpec = IvParameterSpec(intArrayToByteArray(ivKey))
-    private val keySpec: SecretKeySpec = SecretKeySpec(keyValue!!.toByteArray(), "AES")
+class CryptoHelper(
+    ivKey: String,
+    keyValue: String
+) {
+    private val ivSpec: IvParameterSpec = IvParameterSpec(ivKey.toByteArray())
+    private val keySpec: SecretKeySpec = SecretKeySpec(keyValue.toByteArray(), "AES")
     private var cipher: Cipher? = null
 
     init {
@@ -64,21 +67,28 @@ class CryptoHelper {
     }
 
     companion object {
-        var keyValue: String? = null
-        private val ivKey = intArrayOf(82, 70, 50, 50, 83, 87, 55, 54, 66, 86, 56, 51, 69, 68, 72, 56)
-
         @Throws(Exception::class)
-        fun encrypt(valueToEncrypt: String?, key: String?): String {
-            keyValue = key
-            val enc = CryptoHelper()
-            return Base64.encodeToString(enc.encryptInternal(valueToEncrypt), Base64.DEFAULT)
+        fun encrypt(valueToEncrypt: String?, key: String?, iv: String?): String {
+            return if(iv != null && key != null) {
+                val enc = CryptoHelper(
+                    ivKey = iv, keyValue = key
+                )
+                Base64.encodeToString(enc.encryptInternal(valueToEncrypt), Base64.DEFAULT)
+            } else {
+                ""
+            }
         }
 
         @Throws(Exception::class)
-        fun decrypt(valueToDecrypt: String?, key: String?): String {
-            keyValue = key
-            val enc = CryptoHelper()
-            return String(enc.decryptInternal(valueToDecrypt))
+        fun decrypt(valueToDecrypt: String?, key: String?, iv: String?): String {
+            return if(iv != null && key != null) {
+                val enc = CryptoHelper(
+                    ivKey = iv, keyValue = key
+                )
+                String(enc.decryptInternal(valueToDecrypt))
+            } else {
+                ""
+            }
         }
     }
 }
