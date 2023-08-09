@@ -33,7 +33,11 @@ class UiSplashBloc extends Bloc<UiSplashBlocEvent, UiSplashBlocState> {
     SendCodeToServer event,
     Emitter<UiSplashBlocState> emitter,
   ) async {
-    await handShakeRepository.send();
-    emitter(const UiSplashBlocFinishHandShake());
+    try {
+      await handShakeRepository.send();
+      emitter(const UiSplashBlocFinishHandShake());
+    } catch (_) {
+      emitter(const UiSplashBlocHandShakeError());
+    }
   }
 }

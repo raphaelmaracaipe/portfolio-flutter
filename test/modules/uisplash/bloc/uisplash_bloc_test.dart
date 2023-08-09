@@ -70,4 +70,17 @@ void main() {
       const UiSplashBlocFinishHandShake(),
     ],
   );
+
+  blocTest<UiSplashBloc, UiSplashBlocState>(
+    'when send code to server but return error',
+    build: () {
+      when(handShakeRepositoryMock.send()).thenThrow(Exception("error"));
+      return uiSplashBloc;
+    },
+    act: (bloc) => bloc.add(SendCodeToServer()),
+    expect: () => [
+      const UiSplashBlocHandShakeError(),
+    ],
+  );
+
 }

@@ -36,3 +36,10 @@ class UiSplashBlocFinishHandShake extends UiSplashBlocState {
           status: UiSplashBlocStatus.finishHandShake,
         );
 }
+
+class UiSplashBlocHandShakeError extends UiSplashBlocState {
+  const UiSplashBlocHandShakeError()
+      : super(
+          status: UiSplashBlocStatus.errorHandShake,
+        );
+}
