@@ -17,7 +17,7 @@ class UiSplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _redirect();
+    _callServerToRegisterKey();
 
     return MaterialApp(
       home: Scaffold(
@@ -57,14 +57,25 @@ class UiSplashPage extends StatelessWidget {
     );
   }
 
+  void _callServerToRegisterKey() {
+    _uiSplashBloc.add(SendCodeToServer());
+  }
+
   _buildBloc() {
     return BlocBuilder<UiSplashBloc, UiSplashBlocState>(
       bloc: _uiSplashBloc,
       builder: (context, state) {
-        if (state.status == UiSplashBlocStatus.getRoute) {
-          Modular.to.pushReplacementNamed(
-            state.routeName.isNotEmpty ? state.routeName : AppRoute.uIAuth,
-          );
+        switch (state.status) {
+          case UiSplashBlocStatus.getRoute:
+            Modular.to.pushReplacementNamed(
+              state.routeName.isNotEmpty ? state.routeName : AppRoute.uIAuth,
+            );
+            break;
+          case UiSplashBlocStatus.finishHandShake:
+            _redirect();
+            break;
+          default:
+            return Container();
         }
         return Container();
       },
@@ -73,7 +84,7 @@ class UiSplashPage extends StatelessWidget {
 
   void _redirect() {
     Future.delayed(const Duration(seconds: 2), () {
-      // _uiSplashBloc.add(GetRouteSaved());
+      _uiSplashBloc.add(GetRouteSaved());
     });
   }
 }

@@ -15,6 +15,8 @@ class UiSplashModule extends Module {
         Bind.factory<UiSplashBloc>(
           (i) => UiSplashBloc(
             routeRepository: i(),
+            key: i(),
+            handShakeRepository: i(),
           ),
         ),
       ];
