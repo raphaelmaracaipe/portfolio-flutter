@@ -1,4 +1,4 @@
-package com.example.portfolio_flutter.security
+package br.com.raphaelmaracaipe.portfolio_flutter.security
 
 import android.util.Base64
 import java.security.NoSuchAlgorithmException

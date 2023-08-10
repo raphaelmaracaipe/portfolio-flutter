@@ -1,14 +1,14 @@
-package com.example.portfolio_flutter
+package br.com.raphaelmaracaipe.portfolio_flutter
 
 import android.os.Bundle
-import com.example.portfolio_flutter.security.CryptoHelper
+import br.com.raphaelmaracaipe.portfolio_flutter.security.CryptoHelper
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 
 class MainActivity : FlutterActivity() {
 
-    private val CHANNEL = "com.example.portfolio_flutter/encdesc";
+    private val CHANNEL = "br.com.raphaelmaracaipe.portfolio_flutter/encdesc";
 
     private lateinit var channel: MethodChannel
 

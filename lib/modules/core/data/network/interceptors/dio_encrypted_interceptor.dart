@@ -38,6 +38,23 @@ class DioEncryptedInterceptor extends Interceptor {
     return handler.next(response);
   }
 
+  @override
+  Future<void> onRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
+    final iv = await _getSeed();
+    await _encryptDataToSendInBody(options, iv);
+
+    options.headers = {
+      "x-api-key": _randomApiKey(),
+      "device_id": await deviceSP.getDeviceID(),
+      "seed": await _encryptIV(iv),
+    };
+
+    return handler.next(options);
+  }
+
   Future<void> _executePartOfStringToMap(Response<dynamic> response) async {
     String dataDecrypted = await _decryptedBody(response);
     if (dataDecrypted.isNotEmpty) {
@@ -54,23 +71,6 @@ class DioEncryptedInterceptor extends Interceptor {
       iv: await _getSeed(),
     );
     return dataDecrypted;
-  }
-
-  @override
-  Future<void> onRequest(
-    RequestOptions options,
-    RequestInterceptorHandler handler,
-  ) async {
-    final iv = await _getSeed();
-    await _encryptDataToSendInBody(options, iv);
-
-    options.headers = {
-      "x-api-key": _randomApiKey(),
-      "device_id": await deviceSP.getDeviceID(),
-      "seed": await _encryptIV(iv),
-    };
-
-    return handler.next(options);
   }
 
   Future<void> _encryptDataToSendInBody(

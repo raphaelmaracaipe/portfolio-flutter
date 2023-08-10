@@ -75,7 +75,7 @@ class CoreModule extends Module {
         Bind<EncryptionDecryptAES>(
           (i) => EncryptionDecryptAESImpl(
             encryptionChannel: const MethodChannel(
-              'com.example.portfolio_flutter/encdesc',
+              'br.com.raphaelmaracaipe.portfolio_flutter/encdesc',
             ),
           ),
           export: true,
