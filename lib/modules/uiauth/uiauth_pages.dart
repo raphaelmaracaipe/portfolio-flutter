@@ -96,8 +96,6 @@ class UiAuthPageState extends State<UiAuthPage>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _heroOfImgApp(),
-              _titleOfApp(),
-              _titleOfMessageWelcome(),
             ],
           ),
         ),
@@ -294,29 +292,6 @@ class UiAuthPageState extends State<UiAuthPage>
           ),
         ),
       ],
-    );
-  }
-
-  Text _titleOfMessageWelcome() {
-    return Text(
-      (_appLocalizations.localization?.authTitle1 ?? ""),
-      style: const TextStyle(
-        color: Colors.white,
-        fontSize: 12,
-        fontFamily: AppFonts.openSans,
-        fontStyle: FontStyle.normal,
-      ),
-    );
-  }
-
-  Text _titleOfApp() {
-    return Text(
-      (_appLocalizations.localization?.authTitle ?? ""),
-      style: const TextStyle(
-        color: Colors.white,
-        fontSize: 30,
-        fontFamily: AppFonts.openSans,
-      ),
     );
   }
 
