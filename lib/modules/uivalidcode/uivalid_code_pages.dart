@@ -116,111 +116,135 @@ class _UiValidCodePages extends State<UiValidCodePages> {
         Expanded(
           child: Column(
             children: [
-              Container(
-                margin: const EdgeInsets.only(top: 30),
-                child: Text(
-                  (_appLocalizations.localization?.validCodeText ?? ""),
-                  style: const TextStyle(
-                    color: AppColors.colorGray,
-                    fontFamily: AppFonts.openSans,
-                  ),
-                ),
-              ),
-              Visibility(
-                visible: (_textMsgError.isNotEmpty),
-                child: Container(
-                  key: const Key("uiValidCodeContainerMsgError"),
-                  margin: const EdgeInsets.only(top: 20, right: 30, left: 30),
-                  child: Text(
-                    _textMsgError,
-                    key: const Key("uiValidCodeMsgError"),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontFamily: AppFonts.openSans,
-                      color: AppColors.colorError,
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(right: 30, left: 30),
-                child: TextField(
-                  key: const Key("uiValidCodeTextCode"),
-                  controller: _inputCodeController,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    LengthLimitingTextInputFormatter(6),
-                    FilteringTextInputFormatter.digitsOnly,
-                  ],
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 60,
-                    fontFamily: AppFonts.openSans,
-                  ),
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    hintText: '000000',
-                  ),
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 30),
-                child: Visibility(
-                  visible: (_hourConverted != "00:00"),
-                  child: Text(
-                    _hourConverted,
-                    style: const TextStyle(
-                      fontFamily: AppFonts.openSans,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.colorGray,
-                    ),
-                  ),
-                ),
-              ),
+              _buildTitle(),
+              _buildMsgError(),
+              _buildInputCodeToValidation(),
+              _buildCountDownTime(),
             ],
           ),
         ),
         Column(
           children: [
-            Visibility(
-              visible: (_hourConverted == "00:00" || _hourConverted.isEmpty),
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _secondsRemaining = 60;
-                    _startTimerToValidateCode();
-                  });
-                },
-                child: Text(
-                  _appLocalizations.localization?.validCodeSendAgain ?? "",
-                  style: const TextStyle(
-                    fontFamily: AppFonts.openSans,
-                    color: AppColors.colorGray,
-                    fontSize: 12,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.only(
-                top: 5,
-                right: 20,
-                left: 20,
-                bottom: 20,
-              ),
-              width: double.infinity,
-              child: ElevatedButton(
-                key: const Key("uiValidCodeButton"),
-                onPressed: _enabledButton ? sendCodeToServer : null,
-                child: Text(
-                  (_appLocalizations.localization?.validCodeBtnSend ?? ""),
-                ),
-              ),
-            ),
+            _buildLinkToSendAgain(),
+            _buildButtonSendToValidation(),
           ],
         )
       ],
+    );
+  }
+
+  Container _buildButtonSendToValidation() {
+    return Container(
+      padding: const EdgeInsets.only(
+        top: 5,
+        right: 20,
+        left: 20,
+        bottom: 20,
+      ),
+      width: double.infinity,
+      child: ElevatedButton(
+        key: const Key("uiValidCodeButton"),
+        onPressed: _enabledButton ? sendCodeToServer : null,
+        child: Text(
+          (_appLocalizations.localization?.validCodeBtnSend ?? ""),
+        ),
+      ),
+    );
+  }
+
+  Visibility _buildLinkToSendAgain() {
+    return Visibility(
+      visible: (_hourConverted == "00:00" || _hourConverted.isEmpty),
+      child: GestureDetector(
+        onTap: () {
+          setState(() {
+            _secondsRemaining = 60;
+            _startTimerToValidateCode();
+          });
+        },
+        child: Text(
+          _appLocalizations.localization?.validCodeSendAgain ?? "",
+          style: const TextStyle(
+            fontFamily: AppFonts.openSans,
+            color: AppColors.colorGray,
+            fontSize: 12,
+            decoration: TextDecoration.underline,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Container _buildCountDownTime() {
+    return Container(
+      margin: const EdgeInsets.only(top: 30),
+      child: Visibility(
+        visible: (_hourConverted != "00:00"),
+        child: Text(
+          _hourConverted,
+          style: const TextStyle(
+            fontFamily: AppFonts.openSans,
+            fontWeight: FontWeight.bold,
+            color: AppColors.colorGray,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Container _buildInputCodeToValidation() {
+    return Container(
+      margin: const EdgeInsets.only(right: 30, left: 30),
+      child: TextField(
+        key: const Key("uiValidCodeTextCode"),
+        controller: _inputCodeController,
+        keyboardType: TextInputType.number,
+        inputFormatters: [
+          LengthLimitingTextInputFormatter(6),
+          FilteringTextInputFormatter.digitsOnly,
+        ],
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+          fontSize: 60,
+          fontFamily: AppFonts.openSans,
+        ),
+        decoration: const InputDecoration(
+          border: InputBorder.none,
+          hintText: '000000',
+        ),
+      ),
+    );
+  }
+
+  Visibility _buildMsgError() {
+    return Visibility(
+      visible: (_textMsgError.isNotEmpty),
+      child: Container(
+        key: const Key("uiValidCodeContainerMsgError"),
+        margin: const EdgeInsets.only(top: 20, right: 30, left: 30),
+        child: Text(
+          _textMsgError,
+          key: const Key("uiValidCodeMsgError"),
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontFamily: AppFonts.openSans,
+            color: AppColors.colorError,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Container _buildTitle() {
+    return Container(
+      margin: const EdgeInsets.only(top: 30),
+      child: Text(
+        (_appLocalizations.localization?.validCodeText ?? ""),
+        style: const TextStyle(
+          color: AppColors.colorGray,
+          fontFamily: AppFonts.openSans,
+        ),
+      ),
     );
   }
 
