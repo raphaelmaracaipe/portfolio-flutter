@@ -62,6 +62,26 @@ void main() {
     }
   });
 
+  test('when send request to server but return error generic', () async {
+    when(keySpMock.isExistKeyAndIVSaved()).thenAnswer((_) async => false);
+    when(
+      restHandShakeMock.requestHandShake(any),
+    ).thenThrow(Exception("error"));
+
+    HandShakeRepository handShakeRepository = HandShakeRepositoryImpl(
+      keySP: keySpMock,
+      restHandShake: restHandShakeMock,
+      key: KeysImpl(),
+    );
+
+    try {
+      await handShakeRepository.send();
+      expect(true, false);
+    } on HttpException catch (e) {
+      expect(HttpErrorEnum.ERROR_GENERAL, e.enumError);
+    }
+  });
+
   test('when send request to server return success', () async {
     when(keySpMock.isExistKeyAndIVSaved()).thenAnswer((_) async => false);
     when(keySpMock.saveSeed(any)).thenAnswer((_) async {});

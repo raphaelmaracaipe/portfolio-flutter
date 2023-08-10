@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -78,6 +79,23 @@ void main() {
   });
 
   test('when send code to validation api return error', () async {
+    when(
+      restUserMock.requestValidCode(any),
+    ).thenThrow(DioException(requestOptions: RequestOptions()));
+
+    UserRepository userRepository = UserRepositoryImpl(
+      restClient: restUserMock,
+    );
+
+    try {
+      await userRepository.requestValidCode("1");
+      expect(false, true);
+    } on HttpException catch (e) {
+      expect(e.enumError, HttpErrorEnum.UNKNOWN);
+    }
+  });
+
+  test('when send code to validation api return error generic', () async {
     when(
       restUserMock.requestValidCode(any),
     ).thenThrow(

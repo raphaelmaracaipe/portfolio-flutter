@@ -4,11 +4,16 @@ import 'package:portfolio_flutter/modules/core/data/network/enums/http_error_enu
 class HttpException implements Exception {
   int code = 0;
 
-  HttpException(DioException exception) {
-    if (exception.response == null) {
+  HttpException({
+    DioException? exception,
+    HttpErrorEnum errorEnum = HttpErrorEnum.UNKNOWN,
+  }) {
+    if(errorEnum != HttpErrorEnum.UNKNOWN){
+      code = errorEnum.code;
+    } else if (exception?.response == null) {
       code = 0;
     } else {
-      final Map<String, dynamic> dataError = exception.response?.data;
+      final Map<String, dynamic> dataError = exception?.response?.data;
       code = dataError["message"];
     }
   }

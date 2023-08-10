@@ -50,7 +50,7 @@ void main() {
       await restHandShake?.requestHandShake(requestHandShake);
       expect(true, false);
     } on DioException catch (exception) {
-      final HttpException httpException = HttpException(exception);
+      final HttpException httpException = HttpException(exception: exception);
       expect(httpException.enumError, HttpErrorEnum.USER_SEND_CODE_INVALID);
     }
   });

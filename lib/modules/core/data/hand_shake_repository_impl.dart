@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:portfolio_flutter/modules/core/data/network/enums/http_error_enum.dart';
 import 'package:portfolio_flutter/modules/core/data/network/exceptions/http_exception.dart';
 import 'package:portfolio_flutter/modules/core/data/network/request/request_hand_shake.dart';
 import 'package:portfolio_flutter/modules/core/data/network/rest_hand_shake.dart';
@@ -36,7 +37,9 @@ class HandShakeRepositoryImpl extends HandShakeRepository {
       await keySP.saveSeed(seedGenerated);
       await keySP.saveKey(keyGenerated);
     } on DioException catch (e) {
-      throw HttpException(e);
+      throw HttpException(exception: e);
+    } catch (e) {
+      throw HttpException(errorEnum: HttpErrorEnum.ERROR_GENERAL);
     }
   }
 }

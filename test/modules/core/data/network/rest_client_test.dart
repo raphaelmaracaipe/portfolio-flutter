@@ -81,7 +81,7 @@ void main() {
       await restClient?.requestValidCode("1");
       expect(false, true);
     } on DioException catch (exception) {
-      final HttpException httpException = HttpException(exception);
+      final HttpException httpException = HttpException(exception: exception);
       expect(httpException.enumError, HttpErrorEnum.USER_SEND_CODE_INVALID);
     }
   });
