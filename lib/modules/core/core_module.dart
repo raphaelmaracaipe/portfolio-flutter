@@ -40,8 +40,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 class CoreModule extends Module {
   @override
   List<Bind<Object>> get binds => [
-        Bind<Keys>(
-          (i) => KeysImpl(),
+        ..._sharedPreferences,
+        ..._securities,
+        ..._utils,
+        ..._widgets,
+        ..._assets,
+        ..._repositories,
+        ..._rests,
+        ..._localizations,
+        Bind<Logger>((i) => Logger(), export: true),
+      ];
+
+  List<Bind<Object>> get _sharedPreferences => [
+        Bind<Future<SharedPreferences>>(
+          (i) => SharedPreferences.getInstance(),
           export: true,
         ),
         Bind<RouteSP>(
@@ -68,8 +80,11 @@ class CoreModule extends Module {
           ),
           export: true,
         ),
-        Bind<Bytes>(
-          (i) => BytesImpl(),
+      ];
+
+  List<Bind<Object>> get _securities => [
+        Bind<Keys>(
+          (i) => KeysImpl(),
           export: true,
         ),
         Bind<EncryptionDecryptAES>(
@@ -80,32 +95,40 @@ class CoreModule extends Module {
           ),
           export: true,
         ),
-        Bind<Future<SharedPreferences>>(
-          (i) => SharedPreferences.getInstance(),
-          export: true,
-        ),
-        Bind<Bottomsheet>(
-          (i) => BottomsheetImpl(),
-          export: true,
-        ),
-        Bind<AppLocalization>(
-          (i) => AppLocalizationImpl(),
-          export: true,
-        ),
-        Bind<Loading>(
-          (i) => LoadingImpl(),
-          export: true,
-        ),
-        Bind<CountriesCode>(
-          (i) => CountriesCodeImpl(
-            assetBundle: rootBundle,
-          ),
+      ];
+
+  List<Bind<Object>> get _utils => [
+        Bind<Bytes>(
+          (i) => BytesImpl(),
           export: true,
         ),
         Bind<Strings>(
           (i) => StringsImpl(),
           export: true,
         ),
+      ];
+
+  List<Bind<Object>> get _widgets => [
+        Bind<Bottomsheet>(
+          (i) => BottomsheetImpl(),
+          export: true,
+        ),
+        Bind<Loading>(
+          (i) => LoadingImpl(),
+          export: true,
+        ),
+      ];
+
+  List<Bind<Object>> get _assets => [
+        Bind<CountriesCode>(
+          (i) => CountriesCodeImpl(
+            assetBundle: rootBundle,
+          ),
+          export: true,
+        ),
+      ];
+
+  List<Bind<Object>> get _repositories => [
         Bind<CountriesRepository>(
           (i) => CountriesRepositoryImpl(
             countriesCode: i(),
@@ -132,6 +155,9 @@ class CoreModule extends Module {
           ),
           export: true,
         ),
+      ];
+
+  List<Bind<Object>> get _rests => [
         Bind<RestUser>(
           (i) => RestUser(
             NetworkConfig.config(
@@ -158,8 +184,11 @@ class CoreModule extends Module {
           ),
           export: true,
         ),
-        Bind<Logger>(
-          (i) => Logger(),
+      ];
+
+  List<Bind<Object>> get _localizations => [
+        Bind<AppLocalization>(
+          (i) => AppLocalizationImpl(),
           export: true,
         ),
       ];
