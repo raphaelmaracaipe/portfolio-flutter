@@ -17,16 +17,10 @@ import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc_state.dart';
 import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc_status.dart';
 
 class UiAuthPage extends StatefulWidget {
-  UiAuthPage({super.key});
-
-  final UiAuthPageState _state = UiAuthPageState();
-
-  set countries(CountryModel countrySelected) {
-    _state._countrySelected = countrySelected;
-  }
+  const UiAuthPage({super.key});
 
   @override
-  State<UiAuthPage> createState() => _state;
+  State<UiAuthPage> createState() => UiAuthPageState();
 }
 
 class UiAuthPageState extends State<UiAuthPage>
