@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./docs/icon_app.png" width="200" alt="Portfolio - Logo" />
+  <img src="./docs/img/icon_app.png" width="200" alt="Portfolio - Logo" />
 </p>
   <p align="center">Projeto de portfólio para o envio de mensagens</p>
 
@@ -8,7 +8,7 @@ Bem-vindo ao meu aplicativo de mensagens! Aqui você poderá enviar e receber me
 
 ## Dependência entre módulos
 <p align="center">
-  <img src="./docs/modules.png" width="600" alt="Portfolio - Flutter - Modules" />
+  <img src="./docs/img/modules.png" width="600" alt="Portfolio - Flutter - Modules" />
 </p>
 
 ## Links
