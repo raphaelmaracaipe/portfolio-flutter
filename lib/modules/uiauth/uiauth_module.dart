@@ -14,7 +14,6 @@ class UiAuthModule extends Module {
         Bind.factory<UiAuthBloc>(
           (i) => UiAuthBloc(
             countriesRepository: i(),
-            logger: i(),
             userRepository: i(),
             routeRepository: i(),
           ),

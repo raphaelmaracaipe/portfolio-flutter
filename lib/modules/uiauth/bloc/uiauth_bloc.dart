@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:logger/logger.dart';
 import 'package:portfolio_flutter/config/app_route.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
 import 'package:portfolio_flutter/modules/core/data/countries_repository.dart';
@@ -13,18 +12,15 @@ class UiAuthBloc extends Bloc<UiAuthBlocEvent, UiAuthBlocState> {
   late final CountriesRepository _countriesRepository;
   late final UserRepository _userRepository;
   late final RouteRepository _routeRepository;
-  late final Logger _logger;
 
   UiAuthBloc({
     required CountriesRepository countriesRepository,
     required UserRepository userRepository,
     required RouteRepository routeRepository,
-    required Logger logger,
   }) : super(UiAuthBlocUnknown()) {
     _userRepository = userRepository;
     _countriesRepository = countriesRepository;
     _routeRepository = routeRepository;
-    _logger = logger;
 
     on<GetListOfCountriesInAuth>(_onGetListOfCountries);
     on<SendToRequestCode>(_onSendToRequestCode);
@@ -38,8 +34,7 @@ class UiAuthBloc extends Bloc<UiAuthBlocEvent, UiAuthBlocState> {
     try {
       List<CountryModel> countries = await _countriesRepository.readJSON();
       emitter(UiAuthBlocLoaded(countries));
-    } catch (e) {
-      _logger.e(e);
+    } on Exception catch (_) {
       emitter(UiAuthBlocError());
     }
   }
@@ -58,8 +53,7 @@ class UiAuthBloc extends Bloc<UiAuthBlocEvent, UiAuthBlocState> {
       await _routeRepository.save(AppRoute.uIValidCode);
 
       emitter(UiAuthBlocResponseSendCode(isSuccess: true));
-    } catch (e) {
-      _logger.e(e);
+    } on Exception catch (_) {
       emitter(UiAuthBlocResponseSendCode(isSuccess: false));
     }
   }

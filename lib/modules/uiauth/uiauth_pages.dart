@@ -163,7 +163,6 @@ class UiAuthPageState extends State<UiAuthPage>
     return Row(
       children: [
         Expanded(
-          flex: 1,
           child: Container(
             margin: const EdgeInsets.only(top: 20),
             child: ElevatedButton(
@@ -260,7 +259,6 @@ class UiAuthPageState extends State<UiAuthPage>
             decoration: BoxDecoration(
               border: Border.all(
                 color: AppColors.colorGray,
-                width: 1,
               ),
               borderRadius: BorderRadius.circular(6),
             ),

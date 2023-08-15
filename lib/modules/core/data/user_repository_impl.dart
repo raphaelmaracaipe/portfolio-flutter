@@ -26,7 +26,7 @@ class UserRepositoryImpl extends UserRepository {
       return await restClient.requestValidCode(code);
     } on DioException catch (e) {
       throw HttpException(exception: e);
-    } catch (e) {
+    } on Exception catch (_) {
       throw HttpException(errorEnum: HttpErrorEnum.ERROR_GENERAL);
     }
   }

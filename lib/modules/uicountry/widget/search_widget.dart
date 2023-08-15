@@ -90,7 +90,7 @@ class _SearchWidgetState extends State<SearchWidget> {
       if (_selectedCountry.isEmpty && _searchController.text.isEmpty) {
         _selectedCountry = widget.countries;
       }
-    } catch (_) {
+    } on Exception catch (_) {
       _selectedCountry = widget.countries;
     }
   }
@@ -102,8 +102,6 @@ class _SearchWidgetState extends State<SearchWidget> {
         Modular.to.pushReplacementNamed(AppRoute.uIAuth, arguments: country);
       },
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
             padding: const EdgeInsets.only(

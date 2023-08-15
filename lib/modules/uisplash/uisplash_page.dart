@@ -15,7 +15,7 @@ import 'package:portfolio_flutter/modules/uisplash/bloc/uisplash_bloc_state.dart
 import 'package:portfolio_flutter/modules/uisplash/bloc/uisplash_bloc_status.dart';
 
 class UiSplashPage extends StatefulWidget {
-  UiSplashPage({super.key});
+  const UiSplashPage({super.key});
 
   @override
   State<UiSplashPage> createState() => _UiSplashPageState();

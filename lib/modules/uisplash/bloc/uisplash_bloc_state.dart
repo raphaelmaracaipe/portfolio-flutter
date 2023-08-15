@@ -21,6 +21,7 @@ class UiSplashBlocUnknown extends UiSplashBlocState {
 }
 
 class UiSplashBlocRoute extends UiSplashBlocState {
+  @override
   final String routeName;
 
   const UiSplashBlocRoute({required this.routeName})

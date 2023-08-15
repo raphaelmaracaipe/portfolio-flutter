@@ -118,7 +118,7 @@ class DioEncryptedInterceptor extends Interceptor {
         iv: bytes.convertBytesToString(AppKey.seedDefault),
       );
       return ivEncrypted.replaceAll("\n", "");
-    } catch (e) {
+    } on Exception catch (_) {
       return iv;
     }
   }

@@ -20,14 +20,11 @@ class UserRepositoryMock extends Mock implements UserRepository {}
 
 class RouteRepositoryMock extends Mock implements RouteRepository {}
 
-class LoggerMock extends Mock implements Logger {}
-
 class RestClientMock extends Mock implements RestUser {}
 
 @GenerateMocks([
   CountriesRepositoryMock,
   UserRepositoryMock,
-  LoggerMock,
   RestClientMock,
   RouteRepositoryMock
 ])
@@ -36,7 +33,6 @@ void main() {
   late MockCountriesRepositoryMock countriesRepositoryMock;
   late MockUserRepositoryMock userRepositoryMock;
   late MockRouteRepositoryMock routeRepositoryMock;
-  late MockLoggerMock loggerMock;
   late MockRestClientMock restClientMock;
 
   List<CountryModel> countries = [
@@ -52,14 +48,12 @@ void main() {
     countriesRepositoryMock = MockCountriesRepositoryMock();
     userRepositoryMock = MockUserRepositoryMock();
     routeRepositoryMock = MockRouteRepositoryMock();
-    loggerMock = MockLoggerMock();
     restClientMock = MockRestClientMock();
 
     uiAuthBloc = UiAuthBloc(
       countriesRepository: countriesRepositoryMock,
       userRepository: userRepositoryMock,
       routeRepository: routeRepositoryMock,
-      logger: loggerMock,
     );
   });
 

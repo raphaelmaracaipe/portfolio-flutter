@@ -38,7 +38,7 @@ class HandShakeRepositoryImpl extends HandShakeRepository {
       await keySP.saveKey(keyGenerated);
     } on DioException catch (e) {
       throw HttpException(exception: e);
-    } catch (e) {
+    } on Exception catch (_) {
       throw HttpException(errorEnum: HttpErrorEnum.ERROR_GENERAL);
     }
   }

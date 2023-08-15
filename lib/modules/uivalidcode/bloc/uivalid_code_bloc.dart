@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:logger/logger.dart';
 import 'package:portfolio_flutter/config/app_route.dart';
 import 'package:portfolio_flutter/modules/core/data/network/response/response_valid_code.dart';
 import 'package:portfolio_flutter/modules/core/data/route_repository.dart';

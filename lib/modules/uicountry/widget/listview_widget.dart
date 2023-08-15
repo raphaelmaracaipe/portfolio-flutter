@@ -21,7 +21,6 @@ class ListViewWidget extends StatelessWidget {
       key: const Key("listViewUiCountryContainer"),
       margin: const EdgeInsets.only(top: 10),
       child: ListView.builder(
-        scrollDirection: Axis.vertical,
         itemCount: _countries.length,
         itemBuilder: (context, index) {
           return GestureDetector(
@@ -34,8 +33,6 @@ class ListViewWidget extends StatelessWidget {
             },
             child: Row(
               key: const Key("listViewUiCountryItemRow"),
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(

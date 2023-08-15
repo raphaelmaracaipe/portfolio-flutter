@@ -25,7 +25,7 @@ class UiSplashModule extends Module {
   List<ModularRoute> get routes => [
         ChildRoute(
           '/',
-          child: (context, args) => UiSplashPage(),
+          child: (context, args) => const UiSplashPage(),
         ),
       ];
 }

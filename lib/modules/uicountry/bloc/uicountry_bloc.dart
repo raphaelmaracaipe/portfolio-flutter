@@ -21,7 +21,7 @@ class UICountryBloc extends Bloc<UiCountryBlocEvent, UiCountryBlocState> {
     try {
       List<CountryModel> countries = await _countriesRepository.readJSON();
       emitter(UiCountryBlocLoaded(countries));
-    } catch (_) {
+    } on Exception catch (_) {
       emitter(UiCountryBlocError());
     }
   }
