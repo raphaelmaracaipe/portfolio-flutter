@@ -12,7 +12,8 @@ Bem-vindo ao meu aplicativo de mensagens! Aqui você poderá enviar e receber me
 </p>
 
 ## Estrutura do projeto
-- [Inteceptor](./docs/inteceptor.md) - Comunicação entre app e a api.
+- [Inteceptor] - Comunicação entre app e a api.
+  - [Verificação e registro da chave](./docs/inteceptor_register_generate.md) - Realiza o registro e geração da chave para encriptar o decriptar a comunicação entre a api e mobile.
 
 
 ## Autor
