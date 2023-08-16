@@ -37,42 +37,40 @@ class _UiSplashPageState extends State<UiSplashPage> {
     _appLocalization.context = context;
     _callServerToRegisterKey();
 
-    return MaterialApp(
-      home: Scaffold(
-        body: Stack(
-          children: [
-            _buildBloc(context),
-            OverflowBox(
-              child: Container(
-                key: const Key('uisplash_container'),
-                width: double.infinity,
-                height: double.infinity,
-                color: AppColors.colorPrimary,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Hero(
-                      tag: 'img_app',
-                      child: SvgPicture.asset(
-                        "assets/images/icon_app.svg",
-                        color: Colors.white,
-                        width: 150,
-                      ),
+    return Scaffold(
+      body: Stack(
+        children: [
+          _buildBloc(context),
+          OverflowBox(
+            child: Container(
+              key: const Key('uisplash_container'),
+              width: double.infinity,
+              height: double.infinity,
+              color: AppColors.colorPrimary,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Hero(
+                    tag: 'img_app',
+                    child: SvgPicture.asset(
+                      "assets/images/icon_app.svg",
+                      color: Colors.white,
+                      width: 150,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 50),
-                      child: LoadingAnimationWidget.prograssiveDots(
-                        size: 50,
-                        color: Colors.white,
-                        key: const Key('splash_screen_loading'),
-                      ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 50),
+                    child: LoadingAnimationWidget.prograssiveDots(
+                      size: 50,
+                      color: Colors.white,
+                      key: const Key('splash_screen_loading'),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
