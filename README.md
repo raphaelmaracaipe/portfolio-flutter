@@ -12,6 +12,7 @@ Bem-vindo ao meu aplicativo de mensagens! Aqui você poderá enviar e receber me
 </p>
 
 ## Estrutura do projeto
+- [Inteceptor body](./docs/inteceptor_body.md) - É necessário realizar o encrypt e decrypt do body de todas as requisições para api.
 - [Verificação e registro da chave](./docs/register_generate.md) - Realiza o registro e geração da chave para encriptar o decriptar a comunicação entre a api e mobile.
 
 ## Autor
