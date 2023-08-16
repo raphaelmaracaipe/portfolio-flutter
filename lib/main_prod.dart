@@ -6,7 +6,7 @@ import 'package:portfolio_flutter/config/env.dart';
 void main() {
   BuildEnvironment.init(
     flavor: BuildFlavor.producation,
-    baseUrl: "http://10.0.2.2:3001",
+    baseUrl: "http://10.0.2.2:3001/api",
   );
 
   assert(env != null);
