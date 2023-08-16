@@ -11,7 +11,8 @@ Bem-vindo ao meu aplicativo de mensagens! Aqui você poderá enviar e receber me
   <img src="./docs/img/modules.png" width="600" alt="Portfolio - Flutter - Modules" />
 </p>
 
-## Links
+## Estrutura do projeto
+- [Inteceptor](./docs/inteceptor.md) - Comunicação entre app e a api.
 
 
 ## Autor
