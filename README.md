@@ -4,7 +4,7 @@
   <p align="center">Projeto de portfólio para o envio de mensagens</p>  
 
   <p align="center">
- ![Static Badge](https://img.shields.io/badge/Flutter-02569B.svg?style=for-the-badge&logo=Flutter&logoColor=white )
+ <img src="https://img.shields.io/badge/Flutter-02569B.svg?style=for-the-badge&logo=Flutter&logoColor=white" />
  </p>
 
 
@@ -27,7 +27,7 @@ Para realizar a comunicação com a api é necessario envio da chave e seed
 </p>  
 
 ### Inteceptor body
-Após realizar o registro da chave, todas as requisições devem encryptar o body antes do envio para a api e seed enviado no header.
+Após realizar o registro da chave, todas as requisições devem encryptar o body antes do envio para a api e seed enviado no header. O mesmo ocorre ao receber a resposta da api, vem encriptado pela api e o interceptor e resposável por decriptar a informação e passar para requisição.
 
 <p align="center">  
   <img src="./docs/img/inteceptor_body.png" width="600" alt="Inteceptor body" />  
