@@ -1,7 +1,7 @@
 <p align="center">  
   <img src="./docs/img/icon_app.png" width="200" alt="Portfolio - Logo" />  
 </p>  
-<p align="center">**Projeto de portfólio para o envio de mensagens**</p>  
+<p align="center">Projeto de portfólio para o envio de mensagens</p>  
 
   <p align="center">
  <img src="https://img.shields.io/badge/Flutter-02569B.svg?style=for-the-badge&logo=Flutter&logoColor=white" />
