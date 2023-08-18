@@ -1,7 +1,7 @@
 name: portfolio_flutter
 description: A new Flutter project.
 publish_to: 'none'
-version: 0.1.0
+version: 1.0.0
 
 environment:
   sdk: '>=3.0.5 <4.0.0'
@@ -21,6 +21,7 @@ dependencies:
   fluttertoast: ^8.2.2
   shared_preferences: ^2.2.0
   uuid: ^3.0.7
+  firebase_core: ^2.15.1
 
 dev_dependencies:
   integration_test:

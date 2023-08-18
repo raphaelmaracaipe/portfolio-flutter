@@ -8,6 +8,8 @@ import 'package:portfolio_flutter/modules/uicountry/uicountry_module.dart';
 import 'package:portfolio_flutter/modules/uiprofile/uiprofile_module.dart';
 import 'package:portfolio_flutter/modules/uisplash/uisplash_module.dart';
 import 'package:portfolio_flutter/modules/uivalidcode/uivalid_code_module.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 class AppModule extends Module {
   @override
@@ -43,6 +45,8 @@ class AppWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _initFirebase();
+
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -53,6 +57,12 @@ class AppWidget extends StatelessWidget {
       supportedLocales: const [Locale("pt", "BR")],
       routeInformationParser: Modular.routeInformationParser,
       routerDelegate: Modular.routerDelegate,
+    );
+  }
+
+  Future<void> _initFirebase() async {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
     );
   }
 }
