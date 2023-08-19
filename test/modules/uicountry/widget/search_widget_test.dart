@@ -90,7 +90,7 @@ void main() {
 
       Finder findSearch = find.byType(TextField);
       await widgetTester.enterText(findSearch, 'brasil');
-      await widgetTester.pump();
+      await widgetTester.pumpAndSettle();
 
       Finder finderGesture = find.byKey(const Key("searchUiCountryItem55"));
       expect(finderGesture, findsWidgets);

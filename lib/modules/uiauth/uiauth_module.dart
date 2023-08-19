@@ -24,7 +24,7 @@ class UiAuthModule extends Module {
   List<ModularRoute> get routes => [
         ChildRoute(
           '/',
-          child: (context, args) => UiAuthPage(),
+          child: (context, args) => const UiAuthPage(),
           transition: TransitionType.rightToLeft,
         ),
       ];
