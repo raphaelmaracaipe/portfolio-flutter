@@ -17,12 +17,7 @@ import 'package:portfolio_flutter/modules/uivalidcode/bloc/uivalid_code_bloc_sta
 import 'package:portfolio_flutter/modules/uivalidcode/bloc/uivalid_code_bloc_status.dart';
 
 class UiValidCodePages extends StatefulWidget {
-  final AppLocalization _appLocalization = Modular.get();
-  final Bottomsheet _bottomSheet = Modular.get();
-  final UiValidCodeBloc _uiValidCodeBloc = Modular.get();
-  final Loading _loading = Modular.get();
-
-  UiValidCodePages({super.key});
+  const UiValidCodePages({super.key});
 
   @override
   State<StatefulWidget> createState() => _UiValidCodePages();
@@ -31,6 +26,10 @@ class UiValidCodePages extends StatefulWidget {
 class _UiValidCodePages extends State<UiValidCodePages> {
   late Timer _timer;
 
+  final AppLocalization _appLocalizations = Modular.get();
+  final Bottomsheet _bottomsheet = Modular.get();
+  final UiValidCodeBloc _uiValidCodeBloc = Modular.get();
+  final Loading _loading = Modular.get();
   final TextEditingController _inputCodeController = TextEditingController();
 
   int _secondsRemaining = 60;
@@ -40,15 +39,15 @@ class _UiValidCodePages extends State<UiValidCodePages> {
 
   @override
   Widget build(BuildContext context) {
-    widget._appLocalization.context = context;
+    _appLocalizations.context = context;
 
     return WillPopScope(
       onWillPop: () async {
-        widget._bottomSheet.show(
+        _bottomsheet.show(
           context: context,
-          title: (widget._appLocalization.localization?.generalAttention ?? ""),
-          text: (widget._appLocalization.localization?.validCancel ?? ""),
-          btnText: (widget._appLocalization.localization?.generalYes ?? ""),
+          title: (_appLocalizations.localization?.generalAttention ?? ""),
+          text: (_appLocalizations.localization?.validCancel ?? ""),
+          btnText: (_appLocalizations.localization?.generalYes ?? ""),
           onBtnClick: _goToAuth,
         );
         return false;
@@ -57,7 +56,7 @@ class _UiValidCodePages extends State<UiValidCodePages> {
         key: const Key("uiValidCodePage"),
         appBar: AppBar(
           title: Text(
-            (widget._appLocalization.localization?.validCodeTitle ?? ""),
+            (_appLocalizations.localization?.validCodeTitle ?? ""),
             style: const TextStyle(
               fontFamily: AppFonts.openSans,
             ),
@@ -74,19 +73,19 @@ class _UiValidCodePages extends State<UiValidCodePages> {
   }
 
   void _goToAuth() {
-    widget._uiValidCodeBloc.add(CleanRouteSavedEvent());
+    _uiValidCodeBloc.add(CleanRouteSavedEvent());
   }
 
   Widget _blocBuild() {
     return BlocBuilder<UiValidCodeBloc, UiValidCodeBlocState>(
-      bloc: widget._uiValidCodeBloc,
+      bloc: _uiValidCodeBloc,
       builder: (context, state) {
         switch (state.status) {
           case UiValidCodeBlocStatus.cleanRoute:
             Modular.to.pop();
             break;
           case UiValidCodeBlocStatus.loading:
-            return widget._loading.showLoading(widget._appLocalization);
+            return _loading.showLoading(_appLocalizations);
           case UiValidCodeBlocStatus.loaded:
             _timer.cancel();
             Modular.to.pushNamed(AppRoute.uIProfile);
@@ -104,15 +103,15 @@ class _UiValidCodePages extends State<UiValidCodePages> {
 
   void _checkWhatsMessageError(HttpErrorEnum error) {
     if (error == HttpErrorEnum.USER_SEND_CODE_INVALID) {
-      _textMsgError =
-          widget._appLocalization.localization?.validErrorCode ?? "";
+      _textMsgError = _appLocalizations.localization?.validErrorCode ?? "";
     } else {
-      _textMsgError = widget._appLocalization.localization?.errorGeneral ?? "";
+      _textMsgError = _appLocalizations.localization?.errorGeneral ?? "";
     }
   }
 
   Widget _body() {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Expanded(
           child: Column(
@@ -147,7 +146,7 @@ class _UiValidCodePages extends State<UiValidCodePages> {
         key: const Key("uiValidCodeButton"),
         onPressed: _enabledButton ? sendCodeToServer : null,
         child: Text(
-          (widget._appLocalization.localization?.validCodeBtnSend ?? ""),
+          (_appLocalizations.localization?.validCodeBtnSend ?? ""),
         ),
       ),
     );
@@ -164,7 +163,7 @@ class _UiValidCodePages extends State<UiValidCodePages> {
           });
         },
         child: Text(
-          widget._appLocalization.localization?.validCodeSendAgain ?? "",
+          _appLocalizations.localization?.validCodeSendAgain ?? "",
           style: const TextStyle(
             fontFamily: AppFonts.openSans,
             color: AppColors.colorGray,
@@ -240,7 +239,7 @@ class _UiValidCodePages extends State<UiValidCodePages> {
     return Container(
       margin: const EdgeInsets.only(top: 30),
       child: Text(
-        (widget._appLocalization.localization?.validCodeText ?? ""),
+        (_appLocalizations.localization?.validCodeText ?? ""),
         style: const TextStyle(
           color: AppColors.colorGray,
           fontFamily: AppFonts.openSans,
@@ -253,7 +252,7 @@ class _UiValidCodePages extends State<UiValidCodePages> {
     final String text = _inputCodeController.text;
     if (text.isNotEmpty) {
       FocusManager.instance.primaryFocus?.unfocus();
-      widget._uiValidCodeBloc.add(SendCodeToValidationEvent(code: text));
+      _uiValidCodeBloc.add(SendCodeToValidationEvent(code: text));
     }
   }
 
@@ -267,7 +266,7 @@ class _UiValidCodePages extends State<UiValidCodePages> {
   @override
   void dispose() {
     super.dispose();
-    widget._uiValidCodeBloc.close();
+    _uiValidCodeBloc.close();
     _timer.cancel();
     _inputCodeController.removeListener(_listenerCodeController);
   }

@@ -54,7 +54,7 @@ void main() {
         Bind.instance<UserRepository>(userRepositoryMock),
       ]);
 
-      UiValidCodePages uiValidCodePages = UiValidCodePages();
+      UiValidCodePages uiValidCodePages = const UiValidCodePages();
       await widgetTester.pumpWidget(MaterialApp(
         home: uiValidCodePages,
       ));
@@ -95,7 +95,7 @@ void main() {
         Bind.instance<UserRepository>(userRepositoryMock),
       ]);
 
-      UiValidCodePages uiValidCodePages = UiValidCodePages();
+      UiValidCodePages uiValidCodePages = const UiValidCodePages();
       await widgetTester.pumpWidget(MaterialApp(
         home: uiValidCodePages,
       ));
@@ -132,7 +132,7 @@ void main() {
         Bind.instance<UserRepository>(userRepositoryMock),
       ]);
 
-      UiValidCodePages uiValidCodePages = UiValidCodePages();
+      UiValidCodePages uiValidCodePages = const UiValidCodePages();
       await widgetTester.pumpWidget(MaterialApp(
         home: uiValidCodePages,
       ));
@@ -158,7 +158,7 @@ void main() {
     (widgetTester) async {
       initModule(UiValidCodeModule());
 
-      UiValidCodePages uiValidCodePages = UiValidCodePages();
+      UiValidCodePages uiValidCodePages = const UiValidCodePages();
       await widgetTester.pumpWidget(
         MaterialApp(
           home: uiValidCodePages,
