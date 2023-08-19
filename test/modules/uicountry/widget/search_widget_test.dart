@@ -10,7 +10,7 @@ import 'package:portfolio_flutter/modules/core/localizations/app_localization.da
 import 'package:portfolio_flutter/modules/core/localizations/app_localization_impl.dart';
 import 'package:portfolio_flutter/modules/uicountry/widget/search_widget.dart';
 
-import './search_widget_test.mocks.dart';
+import 'search_widget_test.mocks.dart';
 
 class ModularNavigateMock extends Mock implements IModularNavigator {}
 
@@ -56,7 +56,7 @@ void main() {
       CountryModel country = CountryModel(
         codeCountry: "55",
         countryName: "brasil",
-        codeIson: "BR / BRAA",
+        codeIson: "BR / BRA",
         mask: "#####-####",
       );
 
@@ -90,7 +90,7 @@ void main() {
 
       Finder findSearch = find.byType(TextField);
       await widgetTester.enterText(findSearch, 'brasil');
-      await widgetTester.pump();
+      await widgetTester.pumpAndSettle();
 
       Finder finderGesture = find.byKey(const Key("searchUiCountryItem55"));
       expect(finderGesture, findsWidgets);

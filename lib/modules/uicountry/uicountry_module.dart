@@ -23,7 +23,7 @@ class UiCountryModule extends Module {
         ChildRoute(
           '/',
           child: (context, args) {
-            return const UiCountryPage();
+            return UiCountryPage();
           },
           transition: TransitionType.rightToLeft,
         )

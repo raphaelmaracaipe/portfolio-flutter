@@ -22,7 +22,7 @@ void main() {
     (widgetTester) async {
       initModule(UiCountryModule());
 
-      UiCountryPage uiCountryPage = const UiCountryPage();
+      UiCountryPage uiCountryPage = UiCountryPage();
       await widgetTester.pumpWidget(MaterialApp(
         home: uiCountryPage,
       ));
@@ -57,7 +57,7 @@ void main() {
         Bind.instance<CountriesRepository>(countriesRepository)
       ]);
 
-      UiCountryPage uiCountryPage = const UiCountryPage();
+      UiCountryPage uiCountryPage = UiCountryPage();
       await widgetTester.pumpWidget(MaterialApp(
         home: uiCountryPage,
       ));
@@ -81,7 +81,7 @@ void main() {
         Bind.instance<CountriesRepository>(countriesRepositoryMock)
       ]);
 
-      UiCountryPage uiCountryPage = const UiCountryPage();
+      UiCountryPage uiCountryPage = UiCountryPage();
       await widgetTester.pumpWidget(MaterialApp(
         home: uiCountryPage,
       ));
@@ -105,11 +105,10 @@ void main() {
         countriesRepo.readJSON(),
       ).thenThrow(Exception("error test"));
 
-      initModule(UiCountryModule(), replaceBinds: [
-        Bind.instance<CountriesRepository>(countriesRepo)
-      ]);
+      initModule(UiCountryModule(),
+          replaceBinds: [Bind.instance<CountriesRepository>(countriesRepo)]);
 
-      UiCountryPage uiCountryPage = const UiCountryPage();
+      UiCountryPage uiCountryPage = UiCountryPage();
       await widgetTester.pumpWidget(MaterialApp(
         home: uiCountryPage,
       ));

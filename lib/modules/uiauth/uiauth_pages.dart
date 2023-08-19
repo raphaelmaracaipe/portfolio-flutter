@@ -17,7 +17,11 @@ import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc_state.dart';
 import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc_status.dart';
 
 class UiAuthPage extends StatefulWidget {
-  const UiAuthPage({super.key});
+  final UiAuthBloc _uiAuthBloc = Modular.get();
+  final Strings _strings = Modular.get();
+  final AppLocalization _appLocalizations = Modular.get();
+
+  UiAuthPage({super.key});
 
   @override
   State<UiAuthPage> createState() => UiAuthPageState();
@@ -27,9 +31,6 @@ class UiAuthPageState extends State<UiAuthPage>
     with SingleTickerProviderStateMixin {
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _codeCountryController = TextEditingController();
-  final UiAuthBloc _uiAuthBloc = Modular.get();
-  final Strings _strings = Modular.get();
-  final AppLocalization _appLocalizations = Modular.get();
 
   late AnimationController _animationController;
   late Animation<double> _animation;
@@ -41,7 +42,7 @@ class UiAuthPageState extends State<UiAuthPage>
 
   @override
   Widget build(BuildContext context) {
-    _appLocalizations.context = context;
+    widget._appLocalizations.context = context;
 
     return Scaffold(
       key: const Key("uiPageContainer"),
@@ -54,22 +55,23 @@ class UiAuthPageState extends State<UiAuthPage>
   }
 
   Widget _buildBloc() {
-    _uiAuthBloc.add(GetListOfCountriesInAuth());
+    widget._uiAuthBloc.add(GetListOfCountriesInAuth());
     final Loading loading = Modular.get();
 
     return BlocBuilder<UiAuthBloc, UiAuthBlocState>(
-      bloc: _uiAuthBloc,
+      bloc: widget._uiAuthBloc,
       builder: (context, state) {
         switch (state.status) {
           case UiAuthBlocStatus.loading:
-            return loading.showLoading(_appLocalizations);
+            return loading.showLoading(widget._appLocalizations);
           case UiAuthBlocStatus.loaded:
             _countries = state.countries;
             break;
           case UiAuthBlocStatus.codeRequest:
             if (!state.isSuccess) {
               Fluttertoast.showToast(
-                msg: (_appLocalizations.localization?.errorGeneral ?? ""),
+                msg:
+                    (widget._appLocalizations.localization?.errorGeneral ?? ""),
                 toastLength: Toast.LENGTH_SHORT,
               );
             } else {
@@ -166,7 +168,7 @@ class UiAuthPageState extends State<UiAuthPage>
               ),
               key: const Key("uiAuthButtonSend"),
               child: Text(
-                (_appLocalizations.localization?.btnSignin ?? ""),
+                (widget._appLocalizations.localization?.btnSignin ?? ""),
                 style: const TextStyle(
                   color: Colors.white,
                 ),
@@ -202,7 +204,8 @@ class UiAuthPageState extends State<UiAuthPage>
                   labelStyle: const TextStyle(
                     color: AppColors.colorGray,
                   ),
-                  labelText: (_appLocalizations.localization?.codCountry ?? ""),
+                  labelText:
+                      (widget._appLocalizations.localization?.codCountry ?? ""),
                 ),
               ),
             ),
@@ -233,7 +236,8 @@ class UiAuthPageState extends State<UiAuthPage>
                   labelStyle: const TextStyle(
                     color: AppColors.colorGray,
                   ),
-                  labelText: _appLocalizations.localization?.fieldPhone ?? "",
+                  labelText:
+                      widget._appLocalizations.localization?.fieldPhone ?? "",
                 ),
               ),
             ),
@@ -304,11 +308,11 @@ class UiAuthPageState extends State<UiAuthPage>
     String codeCountry = _codeCountryController.text;
     String phoneNumber = _phoneNumberController.text;
 
-    String concatNumbers = "+$codeCountry${_strings.onlyNumber(
+    String concatNumbers = "+$codeCountry${widget._strings.onlyNumber(
       phoneNumber,
     )}";
 
-    _uiAuthBloc.add(SendToRequestCode(phoneNumber: concatNumbers));
+    widget._uiAuthBloc.add(SendToRequestCode(phoneNumber: concatNumbers));
   }
 
   @override
@@ -335,6 +339,8 @@ class UiAuthPageState extends State<UiAuthPage>
 
     _animationController.dispose();
     _codeCountryController.removeListener(_listenerCodeCountry);
+    widget._uiAuthBloc.close();
+
     Modular.to.removeListener(_listenerNavigation);
   }
 
@@ -383,7 +389,7 @@ class UiAuthPageState extends State<UiAuthPage>
 
   String _getCountrySelected() {
     if (_countrySelected == null) {
-      return _appLocalizations.localization?.country ?? "";
+      return widget._appLocalizations.localization?.country ?? "";
     }
     return _countrySelected?.countryName ?? "";
   }

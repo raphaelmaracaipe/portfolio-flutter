@@ -12,26 +12,27 @@ import 'package:portfolio_flutter/modules/uicountry/widget/listview_widget.dart'
 import 'package:portfolio_flutter/modules/uicountry/widget/search_widget.dart';
 
 class UiCountryPage extends StatefulWidget {
-  const UiCountryPage({super.key});
+  final UICountryBloc _uiCountryBloc = Modular.get();
+  final AppLocalization _appLocalizations = Modular.get();
+  
+  UiCountryPage({super.key});
 
   @override
   State<UiCountryPage> createState() => _UiCountryPageState();
 }
 
 class _UiCountryPageState extends State<UiCountryPage> {
-  final UICountryBloc _uiCountryBloc = Modular.get();
-  final AppLocalization _appLocalizations = Modular.get();
   List<CountryModel> allCountries = [];
 
   @override
   void dispose() {
     super.dispose();
-    _uiCountryBloc.close();
+    widget._uiCountryBloc.close();
   }
 
   @override
   Widget build(BuildContext context) {
-    _appLocalizations.context = context;
+    widget._appLocalizations.context = context;
 
     return WillPopScope(
       onWillPop: () async {
@@ -45,9 +46,9 @@ class _UiCountryPageState extends State<UiCountryPage> {
   }
 
   Widget _buildBloc() {
-    _uiCountryBloc.add(GetListOfCountriesInCountry());
+    widget._uiCountryBloc.add(GetListOfCountriesInCountry());
     return BlocBuilder<UICountryBloc, UiCountryBlocState>(
-      bloc: _uiCountryBloc,
+      bloc: widget._uiCountryBloc,
       builder: (context, state) {
         switch (state.status) {
           case UiCountryBlocStatus.loading:
@@ -55,7 +56,7 @@ class _UiCountryPageState extends State<UiCountryPage> {
             return Stack(
               children: [
                 _body(),
-                loading.showLoading(_appLocalizations),
+                loading.showLoading(widget._appLocalizations),
               ],
             );
           case UiCountryBlocStatus.loaded:
@@ -81,7 +82,7 @@ class _UiCountryPageState extends State<UiCountryPage> {
           children: [
             SearchWidget(
               countries: allCountries,
-              appLocalization: _appLocalizations,
+              appLocalization: widget._appLocalizations,
             ),
             Expanded(
               child: ListViewWidget(

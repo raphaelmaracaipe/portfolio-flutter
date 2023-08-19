@@ -23,7 +23,7 @@ class UiValidCodeModule extends Module {
   List<ModularRoute> get routes => [
         ChildRoute(
           '/',
-          child: (context, args) => const UiValidCodePages(),
+          child: (context, args) => UiValidCodePages(),
           transition: TransitionType.rightToLeft,
         )
       ];

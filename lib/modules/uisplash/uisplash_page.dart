@@ -15,27 +15,34 @@ import 'package:portfolio_flutter/modules/uisplash/bloc/uisplash_bloc_state.dart
 import 'package:portfolio_flutter/modules/uisplash/bloc/uisplash_bloc_status.dart';
 
 class UiSplashPage extends StatefulWidget {
-  const UiSplashPage({super.key});
+  final UiSplashBloc _uiSplashBloc = Modular.get();
+  final Bottomsheet _bottomsheet = Modular.get();
+  final AppLocalization _appLocalization = Modular.get();
+  
+  UiSplashPage({super.key});
 
   @override
   State<UiSplashPage> createState() => _UiSplashPageState();
 }
 
 class _UiSplashPageState extends State<UiSplashPage> {
-  final UiSplashBloc _uiSplashBloc = Modular.get();
-  final Bottomsheet _bottomsheet = Modular.get();
-  final AppLocalization _appLocalization = Modular.get();
   bool isShowFailRegister = false;
 
   @override
   void initState() {
     super.initState();
+    _callServerToRegisterKey();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    widget._uiSplashBloc.close();
   }
 
   @override
   Widget build(BuildContext context) {
-    _appLocalization.context = context;
-    _callServerToRegisterKey();
+    widget._appLocalization.context = context;
 
     return Scaffold(
       body: Stack(
@@ -76,12 +83,12 @@ class _UiSplashPageState extends State<UiSplashPage> {
   }
 
   void _callServerToRegisterKey() {
-    _uiSplashBloc.add(SendCodeToServer());
+    widget._uiSplashBloc.add(SendCodeToServer());
   }
 
   _buildBloc(BuildContext ctx) {
     return BlocBuilder<UiSplashBloc, UiSplashBlocState>(
-      bloc: _uiSplashBloc,
+      bloc: widget._uiSplashBloc,
       builder: (context, state) {
         switch (state.status) {
           case UiSplashBlocStatus.getRoute:
@@ -104,18 +111,18 @@ class _UiSplashPageState extends State<UiSplashPage> {
 
   void _redirect() {
     Future.delayed(const Duration(seconds: 2), () {
-      _uiSplashBloc.add(GetRouteSaved());
+      widget._uiSplashBloc.add(GetRouteSaved());
     });
   }
 
   void _showAlertError() {
     Future.delayed(Duration.zero, () {
-      _bottomsheet.show(
+      widget._bottomsheet.show(
         enableDrag: false,
         context: context,
-        title: _appLocalization.localization?.generalAttention ?? "",
-        text: _appLocalization.localization?.errorRegisterDeviceText ?? "",
-        btnText: _appLocalization.localization?.generalOk ?? "",
+        title: widget._appLocalization.localization?.generalAttention ?? "",
+        text: widget._appLocalization.localization?.errorRegisterDeviceText ?? "",
+        btnText: widget._appLocalization.localization?.generalOk ?? "",
         onBtnClick: () {
           exit(0);
         },
