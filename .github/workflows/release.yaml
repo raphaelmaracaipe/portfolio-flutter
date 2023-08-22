@@ -41,7 +41,10 @@ jobs:
           echo "STORE_PASSWORD=${{ secrets.STORE_PASSWORD }}" >> $GITHUB_ENV
 
       - name: Builda o apk
-        run: flutter build apk --release --target=lib/main_prod.dart --obfuscate --split-debug-info=.
+        run: flutter build apk --release --target=lib/main_prod.dart --obfuscate --split-debug-info=symbols
+      
+      - name: Enviar symbols para firebase
+        run: firebase crashlytics:symbols:upload --app=${{ secrets.FIREBASE_APP_ID_ANDROID }} .//symbols/
 
       - name: Obtem a versão do pubspec.yaml
         id: extract_version
