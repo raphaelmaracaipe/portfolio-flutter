@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:portfolio_flutter/app.dart';
+import 'package:portfolio_flutter/config/app_firebase.dart';
 import 'package:portfolio_flutter/config/env.dart';
 
-void main() {
+void main() async {
+  await AppFirebase.configFirebase();
+
   BuildEnvironment.init(
     flavor: BuildFlavor.development,
     baseUrl: "http://10.0.2.2:3000/api",
