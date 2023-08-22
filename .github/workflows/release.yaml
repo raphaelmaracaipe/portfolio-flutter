@@ -1,0 +1,58 @@
+name: Buildar e publicar no github
+
+on:
+  pull_request:
+    branches:
+      - master
+    types:
+      - closed
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Faz o checkout do repositório
+        uses: actions/checkout@v2
+
+      - name: Obtem arquivo em base64 para arquivo de certificado
+        run: |
+          cd android
+          mkdir key
+          cd key
+          echo "${{ secrets.KEY_BASE64 }}" | base64 -d > raphaeldesenvolvimento.jks
+
+      - name: Configura flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.13.0'
+
+      - name: Instala dependências
+        run: flutter pub get
+
+      - name: Roda teste de cobertura
+        run: flutter test --coverage
+        if: success()
+        
+      - name: Roda o build
+        run: |
+          echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> $GITHUB_ENV
+          echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> $GITHUB_ENV
+          echo "STORE_PASSWORD=${{ secrets.STORE_PASSWORD }}" >> $GITHUB_ENV
+
+      - name: Builda o apk
+        run: flutter build apk --release --target=lib/main_prod.dart --obfuscate --split-debug-info=.
+
+      - name: Obtem a versão do pubspec.yaml
+        id: extract_version
+        run: echo "::set-output name=version::$(grep 'version:' pubspec.yaml | awk '{print $2}')"
+
+      - name: Faz a criação da tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          TAG_VERSION=${{ steps.extract_version.outputs.version }}
+          git tag $TAG_VERSION
+          git push origin $TAG_VERSION
