@@ -33,7 +33,7 @@ void main() {
       RequestUserCode requestUserCode = RequestUserCode(phone: "1234567890");
       await userRepository.requestCode(requestUserCode);
       expect(true, true);
-    } catch (e) {
+    } on Exception {
       expect(false, true);
     }
   });
@@ -73,7 +73,7 @@ void main() {
       ResponseValidCode response = await userRepository.requestValidCode("1");
       expect("AAA", response.accessToken);
       expect("BBB", response.refreshToken);
-    } catch (_) {
+    } on Exception catch (_) {
       expect(false, true);
     }
   });

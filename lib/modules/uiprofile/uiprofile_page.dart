@@ -7,7 +7,7 @@ class UiProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const SafeArea(
       child: Text(
-        "profile",
+        "profile1",
         key: Key("uiProfileContainer"),
       ),
     );

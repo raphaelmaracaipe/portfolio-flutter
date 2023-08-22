@@ -111,7 +111,6 @@ class _UiValidCodePages extends State<UiValidCodePages> {
 
   Widget _body() {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Expanded(
           child: Column(

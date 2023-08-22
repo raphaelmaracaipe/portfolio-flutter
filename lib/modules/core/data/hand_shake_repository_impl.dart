@@ -22,7 +22,7 @@ class HandShakeRepositoryImpl extends HandShakeRepository {
   @override
   Future<void> send() async {
     try {
-      if(await keySP.isExistKeyAndIVSaved()) {
+      if (await keySP.isExistKeyAndIVSaved()) {
         return;
       }
 

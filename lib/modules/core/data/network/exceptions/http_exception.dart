@@ -8,7 +8,7 @@ class HttpException implements Exception {
     DioException? exception,
     HttpErrorEnum errorEnum = HttpErrorEnum.UNKNOWN,
   }) {
-    if(errorEnum != HttpErrorEnum.UNKNOWN){
+    if (errorEnum != HttpErrorEnum.UNKNOWN) {
       code = errorEnum.code;
     } else if (exception?.response == null) {
       code = 0;

@@ -23,7 +23,7 @@ void main() {
     try {
       await routeRepository.clean();
       expect(true, true);
-    } catch (e) {
+    } on Exception {
       expect(true, false);
     }
   });
@@ -40,7 +40,7 @@ void main() {
     try {
       await routeRepository.save('/test');
       expect(true, true);
-    } catch (e) {
+    } on Exception {
       expect(true, false);
     }
   });

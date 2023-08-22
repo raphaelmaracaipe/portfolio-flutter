@@ -48,7 +48,7 @@ void main() {
     try {
       await encryption.decryptData(encrypted: 'encrypted', key: key, iv: iv);
       expect(false, true);
-    } catch (e) {
+    } on Exception catch (e) {
       expect(e.toString().contains(textTest), true);
     }
   });
@@ -80,7 +80,7 @@ void main() {
     try {
       await encryption.encryptData(text: 'encrypted', key: key, iv: iv);
       expect(false, true);
-    } catch (e) {
+    } on Exception catch (e) {
       expect(e.toString().contains(textTest), true);
     }
   });

@@ -9,7 +9,7 @@ void main() {
   testWidgets(
     "when list of countries empty should not show items",
     (widgetTester) async {
-      ListViewWidget listViewWidget = ListViewWidget(countries: []);
+      ListViewWidget listViewWidget = ListViewWidget(countries: const []);
       await widgetTester.pumpWidget(MaterialApp(
         home: listViewWidget,
       ));

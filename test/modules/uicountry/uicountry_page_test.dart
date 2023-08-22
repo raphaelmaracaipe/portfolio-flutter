@@ -1,3 +1,5 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -14,6 +16,7 @@ import 'uicountry_page_test.mocks.dart';
 class CountriesRepositoryMock extends Mock implements CountriesRepository {}
 
 @GenerateMocks([CountriesRepositoryMock])
+// ignore: duplicate_ignore
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -98,16 +101,15 @@ void main() {
   );
 
   testWidgets(
-    "when receiver list of countries but happens error not should shou list of itens",
+    "when receiver list of countries but happens error not should should list of itens",
     (widgetTester) async {
       MockCountriesRepositoryMock countriesRepo = MockCountriesRepositoryMock();
       when(
         countriesRepo.readJSON(),
       ).thenThrow(Exception("error test"));
 
-      initModule(UiCountryModule(), replaceBinds: [
-        Bind.instance<CountriesRepository>(countriesRepo)
-      ]);
+      initModule(UiCountryModule(),
+          replaceBinds: [Bind.instance<CountriesRepository>(countriesRepo)]);
 
       UiCountryPage uiCountryPage = const UiCountryPage();
       await widgetTester.pumpWidget(MaterialApp(

@@ -37,7 +37,7 @@ void main() {
     try {
       await handShakeRepository.send();
       expect(true, true);
-    } catch (e) {
+    } on Exception {
       expect(false, true);
     }
   });

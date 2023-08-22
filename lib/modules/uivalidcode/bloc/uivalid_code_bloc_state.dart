@@ -41,6 +41,7 @@ class UiValidCodeBlocLoading extends UiValidCodeBlocState {
 }
 
 class UiValidCodeBlocError extends UiValidCodeBlocState {
+  @override
   final HttpErrorEnum codeError;
 
   const UiValidCodeBlocError({required this.codeError})

@@ -82,5 +82,4 @@ void main() {
       const UiSplashBlocHandShakeError(),
     ],
   );
-
 }

@@ -11,6 +11,6 @@ class KeysImpl extends Keys {
     const allChars = normal + special + number;
 
     return List.generate(
-      length, (index) => allChars[Random().nextInt(allChars.length)]).join();
+        length, (index) => allChars[Random().nextInt(allChars.length)]).join();
   }
 }

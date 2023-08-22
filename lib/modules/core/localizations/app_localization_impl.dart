@@ -3,7 +3,6 @@ import 'package:portfolio_flutter/modules/core/localizations/app_localization.da
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AppLocalizationImpl extends AppLocalization {
-
   late AppLocalizations? _appLocalizations;
 
   @override
@@ -13,5 +12,4 @@ class AppLocalizationImpl extends AppLocalization {
   set context(BuildContext context) {
     _appLocalizations = AppLocalizations.of(context);
   }
-
 }

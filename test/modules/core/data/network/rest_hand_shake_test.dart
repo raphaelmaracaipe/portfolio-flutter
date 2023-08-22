@@ -31,7 +31,7 @@ void main() {
       final requestHandShake = RequestHandShake(key: "1");
       await restHandShake?.requestHandShake(requestHandShake);
       expect(true, true);
-    } catch (e) {
+    } on Exception {
       expect(true, false);
     }
   });
@@ -58,5 +58,4 @@ void main() {
   tearDown(() {
     dio?.close();
   });
-
 }

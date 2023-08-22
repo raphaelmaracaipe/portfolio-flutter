@@ -32,7 +32,7 @@ class CountryModel {
     };
   }
 
-  factory CountryModel.fromJSON(Map<String, dynamic> json){
+  factory CountryModel.fromJSON(Map<String, dynamic> json) {
     return CountryModel(
       codeCountry: json['code_country'],
       countryName: json['country_name'],

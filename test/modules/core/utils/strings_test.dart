@@ -1,3 +1,5 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:portfolio_flutter/modules/core/utils/strings.dart';
 import 'package:portfolio_flutter/modules/core/utils/strings_impl.dart';

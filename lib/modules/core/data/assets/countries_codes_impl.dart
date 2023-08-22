@@ -16,5 +16,4 @@ class CountriesCodeImpl extends CountriesCode {
         .map((jsonItem) => CountryModel.fromJSON(jsonItem))
         .toList();
   }
-
 }

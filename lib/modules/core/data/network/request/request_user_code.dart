@@ -1,3 +1,4 @@
+// ignore: depend_on_referenced_packages
 import 'package:json_annotation/json_annotation.dart';
 
 part 'request_user_code.g.dart';
@@ -10,7 +11,8 @@ class RequestUserCode {
 
   factory RequestUserCode.fromJson(
     Map<String, dynamic> json,
-  ) => _$RequestUserCodeFromJson(json);
+  ) =>
+      _$RequestUserCodeFromJson(json);
 
   Map<String, dynamic> toJson() => _$RequestUserCodeToJson(this);
 }

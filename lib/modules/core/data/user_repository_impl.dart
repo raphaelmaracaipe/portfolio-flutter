@@ -8,9 +8,7 @@ import 'package:portfolio_flutter/modules/core/data/network/exceptions/http_exce
 
 class UserRepositoryImpl extends UserRepository {
   final RestUser restClient;
-  UserRepositoryImpl({
-    required this.restClient
-  });
+  UserRepositoryImpl({required this.restClient});
 
   @override
   Future<void> requestCode(

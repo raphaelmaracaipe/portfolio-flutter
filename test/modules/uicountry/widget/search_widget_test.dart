@@ -37,7 +37,7 @@ void main() {
       await widgetTester.pumpWidget(MaterialApp(
         home: Scaffold(
           body: SearchWidget(
-            countries: [],
+            countries: const [],
             appLocalization: appLocalization,
           ),
         ),

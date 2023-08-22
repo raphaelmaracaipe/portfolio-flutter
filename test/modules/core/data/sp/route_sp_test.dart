@@ -51,7 +51,7 @@ void main() {
     try {
       await routeSP.save('test');
       expect(true, true);
-    } catch (e) {
+    } on Exception {
       expect(true, false);
     }
   });
@@ -92,7 +92,7 @@ void main() {
     try {
       await routeSP.clean();
       expect(true, true);
-    } catch (e) {
+    } on Exception {
       expect(false, true);
     }
   });

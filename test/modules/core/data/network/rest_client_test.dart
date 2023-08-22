@@ -31,7 +31,7 @@ void main() {
       final requestUserCode = RequestUserCode(phone: '1234567890');
       await restClient?.requestCode(requestUserCode);
       expect(true, true);
-    } catch (e) {
+    } on Exception {
       expect(true, false);
     }
   });
@@ -45,7 +45,7 @@ void main() {
       final requestUserCode = RequestUserCode(phone: '1234567890');
       await restClient?.requestCode(requestUserCode);
       expect(true, false);
-    } catch (e) {
+    } on Exception {
       expect(true, true);
     }
   });
@@ -63,7 +63,7 @@ void main() {
     try {
       ResponseValidCode? response = await restClient?.requestValidCode("1");
       expect(responseValidCode.refreshToken, response?.refreshToken);
-    } catch (_) {
+    } on Exception {
       expect(false, true);
     }
   });

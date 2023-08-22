@@ -65,7 +65,7 @@ void main() {
       ],
     );
 
-    uiAuthPage = UiAuthPage();
+    uiAuthPage = const UiAuthPage();
   });
 
   testWidgets("when init page show container", (widgetTester) async {

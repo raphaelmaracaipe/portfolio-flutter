@@ -10,7 +10,7 @@ void main() {
   testWidgets('when init check if is show container', (widgetTester) async {
     initModule(UiSplashModule());
 
-    UiSplashPage page = UiSplashPage();
+    UiSplashPage page = const UiSplashPage();
     await widgetTester.pumpWidget(MaterialApp(
       home: page,
     ));

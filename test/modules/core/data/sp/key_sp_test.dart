@@ -48,7 +48,7 @@ void main() {
     try {
       await keySP.saveKey("test");
       expect(true, true);
-    } catch (e) {
+    } on Exception {
       expect(false, true);
     }
   });
@@ -62,7 +62,7 @@ void main() {
     try {
       final keySaved = await keySP.getKey();
       expect(keySaved, toText);
-    } catch (e) {
+    } on Exception {
       expect(true, false);
     }
   });
@@ -81,7 +81,7 @@ void main() {
     try {
       final keySaved = await keySP.getKey();
       expect(keySaved, toText);
-    } catch (e) {
+    } on Exception {
       expect(true, false);
     }
   });
@@ -101,7 +101,7 @@ void main() {
     try {
       await keySP.saveSeed("test");
       expect(true, true);
-    } catch (e) {
+    } on Exception {
       expect(false, true);
     }
   });
@@ -115,7 +115,7 @@ void main() {
     try {
       final seedSaved = await keySP.getSeed();
       expect(seedSaved, toText);
-    } catch (e) {
+    } on Exception {
       expect(true, false);
     }
   });
@@ -134,7 +134,7 @@ void main() {
     try {
       final seedSaved = await keySP.getSeed();
       expect(seedSaved, toText);
-    } catch (e) {
+    } on Exception {
       expect(true, false);
     }
   });
@@ -147,7 +147,7 @@ void main() {
     try {
       final isExist = await keySP.isExistKeyAndIVSaved();
       expect(isExist, true);
-    } catch (e) {
+    } on Exception {
       expect(true, false);
     }
   });
@@ -160,7 +160,7 @@ void main() {
     try {
       final isExist = await keySP.isExistKeyAndIVSaved();
       expect(isExist, false);
-    } catch (e) {
+    } on Exception {
       expect(true, false);
     }
   });
