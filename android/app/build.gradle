@@ -25,11 +25,17 @@ def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file('key.properties')
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+} else {
+    keystoreProperties['keyAlias'] = System.getenv('KEY_ALIAS') ?: ''
+    keystoreProperties['keyPassword'] = System.getenv('KEY_PASSWORD') ?: ''
+    keystoreProperties['storeFile'] = System.getenv('STORE_FILE') ?: '../key/raphaeldesenvolvimento.jks'
+    keystoreProperties['storePassword'] = System.getenv('STORE_PASSWORD') ?: ''
 }
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+
 
 android {
     namespace "br.com.raphaelmaracaipe.portfolio_flutter"
