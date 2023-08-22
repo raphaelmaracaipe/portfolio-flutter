@@ -42,6 +42,9 @@ jobs:
 
       - name: Builda o apk
         run: flutter build apk --release --target=lib/main_prod.dart --obfuscate --split-debug-info=.
+      
+      - name: Enviar symbols para firebase
+        run: firebase crashlytics:symbols:upload --app=${{ secrets.FIREBASE_APP_ID_ANDROID }} .//symbols/
 
       - name: Envia o apk para firebase
         uses: wzieba/Firebase-Distribution-Github-Action@v1
