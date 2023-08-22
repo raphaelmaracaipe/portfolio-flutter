@@ -1,0 +1,52 @@
+name: Buildar e publicar no firebase
+
+on:
+  pull_request:
+    branches:
+      - release/*
+    types:
+      - closed
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Faz o checkout do repositório
+        uses: actions/checkout@v2
+
+      - name: Obtem arquivo em base64 para arquivo de certificado
+        run: |
+          cd android
+          mkdir key
+          cd key
+          echo "${{ secrets.KEY_BASE64 }}" | base64 -d > raphaeldesenvolvimento.jks
+
+      - name: Configura flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.13.0'
+
+      - name: Instala dependências
+        run: flutter pub get
+
+      - name: Roda teste de cobertura
+        run: flutter test --coverage
+        if: success()
+        
+      - name: Roda o build
+        run: |
+          echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> $GITHUB_ENV
+          echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> $GITHUB_ENV
+          echo "STORE_PASSWORD=${{ secrets.STORE_PASSWORD }}" >> $GITHUB_ENV
+
+      - name: Builda o apk
+        run: flutter build apk --release --target=lib/main_prod.dart --obfuscate --split-debug-info=.
+
+      - name: Envia o apk para firebase
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID_ANDROID }}
+          token: ${{ secrets.FIREBASE_TOKEN }}
+          groups: 'testers'
+          file: build/app/outputs/flutter-apk/app-release.apk
