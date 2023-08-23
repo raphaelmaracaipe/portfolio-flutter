@@ -23,7 +23,7 @@ class UiSplashPage extends StatefulWidget {
 
 class _UiSplashPageState extends State<UiSplashPage> {
   final UiSplashBloc _uiSplashBloc = Modular.get();
-  final Bottomsheet _bottomsheet = Modular.get();
+  final Bottomsheet _bottomSheet = Modular.get();
   final AppLocalization _appLocalization = Modular.get();
   bool isShowFailRegister = false;
 
@@ -110,7 +110,7 @@ class _UiSplashPageState extends State<UiSplashPage> {
 
   void _showAlertError() {
     Future.delayed(Duration.zero, () {
-      _bottomsheet.show(
+      _bottomSheet.show(
         enableDrag: false,
         context: context,
         title: _appLocalization.localization?.generalAttention ?? "",
