@@ -33,6 +33,12 @@ class _UiSplashPageState extends State<UiSplashPage> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _uiSplashBloc.close();
+  }
+
+  @override
   Widget build(BuildContext context) {
     _appLocalization.context = context;
     _callServerToRegisterKey();
