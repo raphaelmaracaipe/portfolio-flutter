@@ -3,8 +3,10 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:portfolio_flutter/app.dart';
 import 'package:portfolio_flutter/config/app_firebase.dart';
 import 'package:portfolio_flutter/config/env.dart';
+import 'package:portfolio_flutter/di/getIt.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await AppFirebase.configFirebase();
 
   BuildEnvironment.init(
@@ -14,5 +16,6 @@ void main() async {
 
   assert(env != null);
 
-  return runApp(ModularApp(module: AppModule(), child: const AppWidget()));
+  configureDependencies();
+  return runApp(ModularApp(module: AppModule(), child: AppWidget()));
 }

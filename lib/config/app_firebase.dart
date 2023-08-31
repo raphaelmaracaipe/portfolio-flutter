@@ -6,7 +6,6 @@ import 'package:portfolio_flutter/firebase_options.dart';
 
 class AppFirebase {
   static Future<void> configFirebase() async {
-    WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp(options: DefaultFirebaseOptions.android);
 
     FlutterError.onError = (errorDetails) {
