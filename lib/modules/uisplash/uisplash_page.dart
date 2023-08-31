@@ -1,19 +1,21 @@
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get_it/get_it.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:portfolio_flutter/config/app_colors.dart';
-import 'package:portfolio_flutter/config/app_route.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
 import 'package:portfolio_flutter/modules/core/widgets/bottomsheet/bottom_sheet.dart';
 import 'package:portfolio_flutter/modules/uisplash/bloc/uisplash_bloc.dart';
 import 'package:portfolio_flutter/modules/uisplash/bloc/uisplash_bloc_event.dart';
 import 'package:portfolio_flutter/modules/uisplash/bloc/uisplash_bloc_state.dart';
 import 'package:portfolio_flutter/modules/uisplash/bloc/uisplash_bloc_status.dart';
+import 'package:portfolio_flutter/routers/app_router.gr.dart';
 
+@RoutePage()
 class UiSplashPage extends StatefulWidget {
   const UiSplashPage({super.key});
 
@@ -22,9 +24,9 @@ class UiSplashPage extends StatefulWidget {
 }
 
 class _UiSplashPageState extends State<UiSplashPage> {
-  final UiSplashBloc _uiSplashBloc = Modular.get();
-  final Bottomsheet _bottomSheet = Modular.get();
-  final AppLocalization _appLocalization = Modular.get();
+  final UiSplashBloc _uiSplashBloc = GetIt.instance();
+  final Bottomsheet _bottomSheet = GetIt.instance();
+  final AppLocalization _appLocalization = GetIt.instance();
   bool isShowFailRegister = false;
 
   @override
@@ -91,18 +93,22 @@ class _UiSplashPageState extends State<UiSplashPage> {
       builder: (context, state) {
         switch (state.status) {
           case UiSplashBlocStatus.getRoute:
-            Modular.to.pushReplacementNamed(
-              state.routeName.isNotEmpty ? state.routeName : AppRoute.uIAuth,
-            );
+            context.router.push(const UiAuthRoute());
             return Container();
           case UiSplashBlocStatus.finishHandShake:
             _redirect();
-            return Container();
+            return Container(
+              key: const Key('container_empty'),
+            );
           case UiSplashBlocStatus.errorHandShake:
             _showAlertError();
-            return Container();
+            return Container(
+              key: const Key('container_empty'),
+            );
           default:
-            return Container();
+            return Container(
+              key: const Key('container_empty'),
+            );
         }
       },
     );
