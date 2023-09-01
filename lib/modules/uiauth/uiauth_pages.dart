@@ -1,11 +1,12 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get_it/get_it.dart';
 import 'package:portfolio_flutter/config/app_colors.dart';
 import 'package:portfolio_flutter/config/app_fonts.dart';
-import 'package:portfolio_flutter/config/app_route.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
 import 'package:portfolio_flutter/modules/core/phone/phone_formatted.dart';
@@ -15,7 +16,9 @@ import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc.dart';
 import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc_event.dart';
 import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc_state.dart';
 import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc_status.dart';
+import 'package:portfolio_flutter/routers/app_router.gr.dart';
 
+@RoutePage()
 class UiAuthPage extends StatefulWidget {
   const UiAuthPage({super.key});
 
@@ -27,9 +30,10 @@ class UiAuthPageState extends State<UiAuthPage>
     with SingleTickerProviderStateMixin {
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _codeCountryController = TextEditingController();
-  final UiAuthBloc _uiAuthBloc = Modular.get();
-  final Strings _strings = Modular.get();
-  final AppLocalization _appLocalizations = Modular.get();
+  final UiAuthBloc _uiAuthBloc = GetIt.instance();
+  final Strings _strings = GetIt.instance();
+  final AppLocalization _appLocalizations = GetIt.instance();
+  final Loading loading = GetIt.instance();
 
   late AnimationController _animationController;
   late Animation<double> _animation;
@@ -55,8 +59,6 @@ class UiAuthPageState extends State<UiAuthPage>
 
   Widget _buildBloc() {
     _uiAuthBloc.add(GetListOfCountriesInAuth());
-    final Loading loading = Modular.get();
-
     return BlocBuilder<UiAuthBloc, UiAuthBlocState>(
       bloc: _uiAuthBloc,
       builder: (context, state) {
@@ -73,7 +75,7 @@ class UiAuthPageState extends State<UiAuthPage>
                 toastLength: Toast.LENGTH_SHORT,
               );
             } else {
-              Modular.to.pushNamed(AppRoute.uIValidCode);
+              context.router.push(const UiValidCodeRoutes());
             }
             break;
         }
@@ -259,7 +261,11 @@ class UiAuthPageState extends State<UiAuthPage>
             child: GestureDetector(
               key: const Key("uiAuthCountry"),
               onTap: () {
-                Modular.to.pushNamed(AppRoute.uICountry);
+                context.router.push(UiCountryRoute(onRateCountry: (country) {
+                  setState(() {
+                    _countrySelected = country;
+                  });
+                }));
               },
               child: Row(
                 children: [
@@ -316,7 +322,6 @@ class UiAuthPageState extends State<UiAuthPage>
     super.initState();
     _configAnimation();
 
-    Modular.to.addListener(_listenerNavigation);
     _codeCountryController.addListener(_listenerCodeCountry);
   }
 
@@ -335,24 +340,6 @@ class UiAuthPageState extends State<UiAuthPage>
 
     _animationController.dispose();
     _codeCountryController.removeListener(_listenerCodeCountry);
-    Modular.to.removeListener(_listenerNavigation);
-  }
-
-  void _listenerNavigation() {
-    _enableSearchInFieldCodCountry = false;
-    CountryModel? countrySelected = Modular.args.data;
-    if (countrySelected != null) {
-      setState(() {
-        String codeCountry = countrySelected.codeCountry;
-        _codeCountryController.text = codeCountry;
-        if ((_countrySelected?.codeCountry ?? "") != codeCountry) {
-          _phoneNumberController.text = '';
-        }
-
-        _countrySelected = countrySelected;
-        _enableFieldPhone = true;
-      });
-    }
   }
 
   void _listenerCodeCountry() {
