@@ -1,12 +1,14 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:get_it/get_it.dart';
 import 'package:portfolio_flutter/config/app_colors.dart';
 import 'package:portfolio_flutter/config/app_fonts.dart';
-import 'package:portfolio_flutter/config/app_route.dart';
+import 'package:portfolio_flutter/config/app_route1.dart';
 import 'package:portfolio_flutter/modules/core/data/network/enums/http_error_enum.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
 import 'package:portfolio_flutter/modules/core/widgets/bottomsheet/bottom_sheet.dart';
@@ -15,7 +17,9 @@ import 'package:portfolio_flutter/modules/uivalidcode/bloc/uivalid_code_bloc.dar
 import 'package:portfolio_flutter/modules/uivalidcode/bloc/uivalid_code_bloc_event.dart';
 import 'package:portfolio_flutter/modules/uivalidcode/bloc/uivalid_code_bloc_state.dart';
 import 'package:portfolio_flutter/modules/uivalidcode/bloc/uivalid_code_bloc_status.dart';
+import 'package:portfolio_flutter/routers/app_router.gr.dart';
 
+@RoutePage()
 class UiValidCodePages extends StatefulWidget {
   const UiValidCodePages({super.key});
 
@@ -26,10 +30,10 @@ class UiValidCodePages extends StatefulWidget {
 class _UiValidCodePages extends State<UiValidCodePages> {
   late Timer _timer;
 
-  final AppLocalization _appLocalizations = Modular.get();
-  final Bottomsheet _bottomsheet = Modular.get();
-  final UiValidCodeBloc _uiValidCodeBloc = Modular.get();
-  final Loading _loading = Modular.get();
+  final AppLocalization _appLocalizations = GetIt.instance();
+  final Bottomsheet _bottomsheet = GetIt.instance();
+  final UiValidCodeBloc _uiValidCodeBloc = GetIt.instance();
+  final Loading _loading = GetIt.instance();
   final TextEditingController _inputCodeController = TextEditingController();
 
   int _secondsRemaining = 60;
@@ -82,13 +86,13 @@ class _UiValidCodePages extends State<UiValidCodePages> {
       builder: (context, state) {
         switch (state.status) {
           case UiValidCodeBlocStatus.cleanRoute:
-            Modular.to.pop();
+            context.router.pop();
             break;
           case UiValidCodeBlocStatus.loading:
             return _loading.showLoading(_appLocalizations);
           case UiValidCodeBlocStatus.loaded:
             _timer.cancel();
-            Modular.to.pushNamed(AppRoute.uIProfile);
+            context.router.push(const UiProfileRoute());
             return Container();
           case UiValidCodeBlocStatus.error:
             _checkWhatsMessageError(state.codeError);

@@ -1,171 +1,168 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:modular_test/modular_test.dart';
-import 'package:portfolio_flutter/config/app_route.dart';
 import 'package:portfolio_flutter/modules/core/data/network/enums/http_error_enum.dart';
-import 'package:portfolio_flutter/modules/core/data/network/exceptions/http_exception.dart';
 import 'package:portfolio_flutter/modules/core/data/network/response/response_valid_code.dart';
-import 'package:portfolio_flutter/modules/core/data/user_repository.dart';
-import 'package:portfolio_flutter/modules/uivalidcode/uivalid_code_module.dart';
+import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
+import 'package:portfolio_flutter/modules/core/widgets/bottomsheet/bottom_sheet.dart';
+import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart';
+import 'package:portfolio_flutter/modules/uivalidcode/bloc/uivalid_code_bloc.dart';
+import 'package:portfolio_flutter/modules/uivalidcode/bloc/uivalid_code_bloc_state.dart';
 import 'package:portfolio_flutter/modules/uivalidcode/uivalid_code_pages.dart';
 
 import 'uivalid_code_pages_test.mocks.dart';
 
-class UserRepositoryMock extends Mock implements UserRepository {}
+class UiValidCodeBlocMock extends Mock implements UiValidCodeBloc {}
 
-class ModularNavigateMock extends Mock implements IModularNavigator {}
+class AppLocalizationMock extends Mock implements AppLocalization {}
+
+class BottomSheetMock extends Mock implements Bottomsheet {}
+
+class LoadingMock extends Mock implements Loading {}
+
+class StackRouterMock extends Mock implements StackRouter {}
 
 @GenerateMocks([
-  UserRepositoryMock,
-  ModularNavigateMock,
+  UiValidCodeBlocMock,
+  AppLocalizationMock,
+  BottomSheetMock,
+  LoadingMock,
+  StackRouterMock
 ])
 void main() {
-  TestWidgetsFlutterBinding.ensureInitialized();
-
-  late MockModularNavigateMock modularNavigateMock;
+  late MockUiValidCodeBlocMock uiValidCodeBlocMock;
+  late MockAppLocalizationMock appLocalizationMock;
+  late MockBottomSheetMock bottomSheetMock;
+  late MockLoadingMock loadingMock;
+  late MockStackRouterMock stackRouterMock;
 
   setUp(() {
-    modularNavigateMock = MockModularNavigateMock();
-    Modular.navigatorDelegate = modularNavigateMock;
+    uiValidCodeBlocMock = MockUiValidCodeBlocMock();
+    appLocalizationMock = MockAppLocalizationMock();
+    bottomSheetMock = MockBottomSheetMock();
+    loadingMock = MockLoadingMock();
+    stackRouterMock = MockStackRouterMock();
+
+    GetIt.instance.allowReassignment = true;
+    GetIt.instance.registerSingleton<UiValidCodeBloc>(uiValidCodeBlocMock);
+    GetIt.instance.registerSingleton<AppLocalization>(appLocalizationMock);
+    GetIt.instance.registerSingleton<Bottomsheet>(bottomSheetMock);
+    GetIt.instance.registerSingleton<Loading>(loadingMock);
+
+    when(appLocalizationMock.localization).thenReturn(null);
   });
 
   testWidgets(
-    "when tap code and click over button send",
+    'when init view should exit widget',
     (widgetTester) async {
-      MockUserRepositoryMock userRepositoryMock = MockUserRepositoryMock();
-
-      when(
-        modularNavigateMock.pushNamed(AppRoute.uIProfile),
-      ).thenAnswer((_) async => "");
-
-      when(
-        userRepositoryMock.requestValidCode(any),
-      ).thenAnswer(
-        (_) async => ResponseValidCode(
-          accessToken: "AAA",
-          refreshToken: "BBB",
-        ),
+      when(uiValidCodeBlocMock.stream).thenAnswer(
+        (_) => const Stream<UiValidCodeBlocUnknown>.empty(),
+      );
+      when(uiValidCodeBlocMock.state).thenReturn(
+        const UiValidCodeBlocUnknown(),
       );
 
-      initModule(UiValidCodeModule(), replaceBinds: [
-        Bind.instance<UserRepository>(userRepositoryMock),
-      ]);
+      await widgetTester.runAsync(() async {
+        await widgetTester.pumpWidget(const MaterialApp(
+          home: UiValidCodePages(),
+        ));
+        await widgetTester.pumpAndSettle();
 
-      UiValidCodePages uiValidCodePages = const UiValidCodePages();
-      await widgetTester.pumpWidget(MaterialApp(
-        home: uiValidCodePages,
-      ));
-      await widgetTester.pump();
-      expect(find.byKey(const Key("uiValidCodePage")), findsOneWidget);
-
-      await widgetTester.enterText(
-        find.byKey(
-          const Key("uiValidCodeTextCode"),
-        ),
-        "123456",
-      );
-      await widgetTester.pump();
-
-      expect(find.byKey(const Key("uiValidCodeButton")), findsOneWidget);
-      await widgetTester.tap(find.byKey(const Key("uiValidCodeButton")));
-      await widgetTester.pump();
-
-      verifyNever(
-        Modular.navigatorDelegate?.pushNamed(AppRoute.uIProfile),
-      ).called(0);
+        expect(find.byKey(const Key('uiValidCodePage')), findsOneWidget);
+      });
     },
   );
 
   testWidgets(
-    "when send code but api return error of code invalid",
+    'when send code correct and api return success should redirect to profile',
     (widgetTester) async {
-      MockUserRepositoryMock userRepositoryMock = MockUserRepositoryMock();
-      when(
-        userRepositoryMock.requestValidCode(any),
-      ).thenThrow(HttpException.putEnum(HttpErrorEnum.USER_SEND_CODE_INVALID));
-
-      when(
-        modularNavigateMock.pushNamed(AppRoute.uIProfile),
-      ).thenAnswer((_) async => "");
-
-      initModule(UiValidCodeModule(), replaceBinds: [
-        Bind.instance<UserRepository>(userRepositoryMock),
-      ]);
-
-      UiValidCodePages uiValidCodePages = const UiValidCodePages();
-      await widgetTester.pumpWidget(MaterialApp(
-        home: uiValidCodePages,
-      ));
-      await widgetTester.pump();
-      expect(find.byKey(const Key("uiValidCodePage")), findsOneWidget);
-
-      await widgetTester.enterText(
-        find.byKey(
-          const Key("uiValidCodeTextCode"),
+      when(stackRouterMock.push(any)).thenAnswer((_) async => {});
+      when(uiValidCodeBlocMock.stream).thenAnswer(
+        (_) => Stream<UiValidCodeBlocState>.value(
+          UiValidCodeBlocLoaded(response: ResponseValidCode()),
         ),
-        "123456",
       );
-      await widgetTester.pump();
+      when(uiValidCodeBlocMock.state).thenReturn(
+        UiValidCodeBlocLoaded(response: ResponseValidCode()),
+      );
 
-      expect(find.byKey(const Key("uiValidCodeButton")), findsOneWidget);
-      await widgetTester.tap(find.byKey(const Key("uiValidCodeButton")));
-      await widgetTester.pump();
+      await widgetTester.runAsync(() async {
+        await widgetTester.pumpWidget(MaterialApp(
+          home: StackRouterScope(
+            controller: stackRouterMock,
+            stateHash: 0,
+            child: const UiValidCodePages(),
+          ),
+        ));
+        await widgetTester.pumpAndSettle();
+
+        final Finder uiValidCodeTextCode = find.byKey(
+          const Key('uiValidCodeTextCode'),
+        );
+        expect(uiValidCodeTextCode, findsOneWidget);
+        await widgetTester.enterText(uiValidCodeTextCode, '123456');
+        await widgetTester.pumpAndSettle();
+
+        final Finder uiValidCodeButton = find.byKey(
+          const Key('uiValidCodeButton'),
+        );
+        expect(uiValidCodeButton, findsOneWidget);
+        await widgetTester.tap(uiValidCodeButton);
+        await widgetTester.pumpAndSettle();
+
+        verify(stackRouterMock.push(any)).called(3);
+      });
     },
   );
 
   testWidgets(
-    "when send code but api return error of general",
+    'when send code invalid should return message error invalid',
     (widgetTester) async {
-      MockUserRepositoryMock userRepositoryMock = MockUserRepositoryMock();
-      when(
-        userRepositoryMock.requestValidCode(any),
-      ).thenThrow(HttpException.putEnum(HttpErrorEnum.ERROR_GENERAL));
-
-      when(
-        modularNavigateMock.pushNamed(AppRoute.uIProfile),
-      ).thenAnswer((_) async => "");
-
-      initModule(UiValidCodeModule(), replaceBinds: [
-        Bind.instance<UserRepository>(userRepositoryMock),
-      ]);
-
-      UiValidCodePages uiValidCodePages = const UiValidCodePages();
-      await widgetTester.pumpWidget(MaterialApp(
-        home: uiValidCodePages,
-      ));
-      await widgetTester.pump();
-      expect(find.byKey(const Key("uiValidCodePage")), findsOneWidget);
-
-      await widgetTester.enterText(
-        find.byKey(
-          const Key("uiValidCodeTextCode"),
+      when(stackRouterMock.push(any)).thenAnswer((_) async => {});
+      when(uiValidCodeBlocMock.stream).thenAnswer(
+        (_) => Stream<UiValidCodeBlocState>.value(
+          const UiValidCodeBlocError(
+            codeError: HttpErrorEnum.USER_SEND_CODE_INVALID,
+          ),
         ),
-        "123456",
       );
-      await widgetTester.pump();
+      when(uiValidCodeBlocMock.state).thenReturn(
+        const UiValidCodeBlocError(
+          codeError: HttpErrorEnum.USER_SEND_CODE_INVALID,
+        ),
+      );
 
-      expect(find.byKey(const Key("uiValidCodeButton")), findsOneWidget);
-      await widgetTester.tap(find.byKey(const Key("uiValidCodeButton")));
-      await widgetTester.pump();
+      await widgetTester.runAsync(() async {
+        await widgetTester.pumpWidget(MaterialApp(
+          home: StackRouterScope(
+            controller: stackRouterMock,
+            stateHash: 0,
+            child: const UiValidCodePages(),
+          ),
+        ));
+        await widgetTester.pumpAndSettle();
+
+        final Finder uiValidCodeTextCode = find.byKey(
+          const Key('uiValidCodeTextCode'),
+        );
+        expect(uiValidCodeTextCode, findsOneWidget);
+        await widgetTester.enterText(uiValidCodeTextCode, '123456');
+        await widgetTester.pumpAndSettle();
+
+        final Finder uiValidCodeButton = find.byKey(
+          const Key('uiValidCodeButton'),
+        );
+        expect(uiValidCodeButton, findsOneWidget);
+        await widgetTester.tap(uiValidCodeButton);
+        await widgetTester.pumpAndSettle();
+      });
     },
   );
 
-  testWidgets(
-    'when initializer check if is show',
-    (widgetTester) async {
-      initModule(UiValidCodeModule());
-
-      UiValidCodePages uiValidCodePages = const UiValidCodePages();
-      await widgetTester.pumpWidget(
-        MaterialApp(
-          home: uiValidCodePages,
-        ),
-      );
-      await widgetTester.pumpAndSettle();
-      expect(find.byKey(const Key("uiValidCodePage")), findsOneWidget);
-    },
-  );
+  tearDown(() {
+    GetIt.instance.reset();
+  });
 }
