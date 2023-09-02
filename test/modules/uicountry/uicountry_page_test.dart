@@ -92,7 +92,7 @@ void main() {
   );
 
   testWidgets(
-    'a',
+    'when entry in page country and select country should redirect before page',
     (widgetTester) async {
       final List<CountryModel> countries = [
         CountryModel(
