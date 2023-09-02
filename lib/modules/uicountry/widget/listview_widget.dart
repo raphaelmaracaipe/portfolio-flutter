@@ -1,16 +1,19 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:portfolio_flutter/config/app_fonts.dart';
-import 'package:portfolio_flutter/config/app_route.dart';
+import 'package:portfolio_flutter/config/app_route1.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
 
 // ignore: must_be_immutable
 class ListViewWidget extends StatelessWidget {
+  void Function(CountryModel)? onRateCountry;
   late List<CountryModel> _countries = [];
 
   ListViewWidget({
     required List<CountryModel> countries,
     super.key,
+    this.onRateCountry,
   }) {
     _countries = countries;
   }
@@ -26,10 +29,8 @@ class ListViewWidget extends StatelessWidget {
           return GestureDetector(
             key: Key("listViewUiCountryItem${_countries[index].codeCountry}"),
             onTap: () {
-              Modular.to.pushReplacementNamed(
-                AppRoute.uIAuth,
-                arguments: _countries[index],
-              );
+              onRateCountry!(_countries[index]);
+              context.router.popForced();
             },
             child: Row(
               key: const Key("listViewUiCountryItemRow"),

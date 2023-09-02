@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:portfolio_flutter/config/app_colors.dart';
-import 'package:portfolio_flutter/config/app_route.dart';
+import 'package:portfolio_flutter/config/app_route1.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization_impl.dart';
@@ -61,7 +61,7 @@ void main() {
       );
 
       when(modularNavigateMock.pushReplacementNamed(
-        AppRoute.uIAuth,
+        AppRoute1.uIAuth,
         arguments: country,
       )).thenAnswer(
         (_) async => "",
@@ -98,7 +98,7 @@ void main() {
       await widgetTester.pumpAndSettle();
 
       verify(Modular.navigatorDelegate?.pushReplacementNamed(
-        AppRoute.uIAuth,
+        AppRoute1.uIAuth,
         arguments: country,
       )).called(1);
     },

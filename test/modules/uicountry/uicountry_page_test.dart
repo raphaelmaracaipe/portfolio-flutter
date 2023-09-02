@@ -1,129 +1,143 @@
-// ignore_for_file: lines_longer_than_80_chars
-
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:modular_test/modular_test.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
-import 'package:portfolio_flutter/modules/core/data/countries_repository.dart';
-import 'package:portfolio_flutter/modules/uicountry/uicountry_module.dart';
+import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
+import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart';
+import 'package:portfolio_flutter/modules/uicountry/bloc/uicountry_bloc.dart';
+import 'package:portfolio_flutter/modules/uicountry/bloc/uicountry_bloc_state.dart';
 import 'package:portfolio_flutter/modules/uicountry/uicountry_page.dart';
 
 import 'uicountry_page_test.mocks.dart';
 
-class CountriesRepositoryMock extends Mock implements CountriesRepository {}
+class UICountryBlocMock extends Mock implements UICountryBloc {}
 
-@GenerateMocks([CountriesRepositoryMock])
-// ignore: duplicate_ignore
+class AppLocalizationMock extends Mock implements AppLocalization {}
+
+class LoadingMock extends Mock implements Loading {}
+
+class StackRouterMock extends Mock implements StackRouter {}
+
+@GenerateMocks([
+  UICountryBlocMock,
+  AppLocalizationMock,
+  LoadingMock,
+  StackRouterMock,
+])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
+  late MockUICountryBlocMock uiCountryBlocMock;
+  late MockAppLocalizationMock appLocalizationMock;
+  late MockLoadingMock loadingMock;
+  late MockStackRouterMock stackRouterMock;
+
+  setUp(() {
+    uiCountryBlocMock = MockUICountryBlocMock();
+    appLocalizationMock = MockAppLocalizationMock();
+    loadingMock = MockLoadingMock();
+    stackRouterMock = MockStackRouterMock();
+
+    GetIt.instance.allowReassignment = true;
+    GetIt.instance.registerSingleton<UICountryBloc>(uiCountryBlocMock);
+    GetIt.instance.registerSingleton<AppLocalization>(appLocalizationMock);
+    GetIt.instance.registerSingleton<Loading>(loadingMock);
+
+    when(appLocalizationMock.localization).thenReturn(null);
+  });
+
   testWidgets(
-    "when initializer check if show",
+    'when init view should exit widget',
     (widgetTester) async {
-      initModule(UiCountryModule());
-
-      UiCountryPage uiCountryPage = const UiCountryPage();
-      await widgetTester.pumpWidget(MaterialApp(
-        home: uiCountryPage,
-      ));
-      await widgetTester.pump();
-
-      expect(
-        find.byKey(const Key("uiCountryContainer")),
-        findsOneWidget,
+      when(uiCountryBlocMock.stream).thenAnswer(
+        (_) => const Stream<UiCountryBlocUnknown>.empty(),
       );
+      when(uiCountryBlocMock.state).thenReturn(UiCountryBlocUnknown());
+
+      await widgetTester.runAsync(() async {
+        await widgetTester.pumpWidget(MaterialApp(
+          home: UiCountryPage(),
+        ));
+        await widgetTester.pumpAndSettle();
+
+        expect(find.byKey(const Key('uiCountryContainer')), findsOneWidget);
+      });
     },
   );
 
   testWidgets(
-    "when list countries should show items",
+    'when send event loading should show view',
     (widgetTester) async {
-      List<CountryModel> countries = [
+      when(uiCountryBlocMock.stream).thenAnswer(
+        (_) => const Stream<UiCountryBlocLoading>.empty(),
+      );
+      when(uiCountryBlocMock.state).thenReturn(UiCountryBlocLoading());
+      when(loadingMock.showLoading(any)).thenReturn(const Text(
+        'test',
+        key: Key('testview'),
+      ));
+
+      await widgetTester.runAsync(() async {
+        await widgetTester.pumpWidget(MaterialApp(
+          home: UiCountryPage(),
+        ));
+        await widgetTester.pumpAndSettle();
+
+        expect(find.byKey(const Key('testview')), findsOneWidget);
+      });
+    },
+  );
+
+  testWidgets(
+    'a',
+    (widgetTester) async {
+      final List<CountryModel> countries = [
         CountryModel(
-          codeCountry: "AAA",
-          countryName: "BBB",
-          codeIson: "CCC",
-          mask: "DDD",
+          codeCountry: '99',
+          countryName: 'Brasil',
+          codeIson: 'BR / BRA',
+          mask: '##-#####-####',
         )
       ];
 
-      MockCountriesRepositoryMock countriesRepository =
-          MockCountriesRepositoryMock();
-      when(countriesRepository.readJSON()).thenAnswer(
-        (_) async => countries,
+      when(uiCountryBlocMock.stream).thenAnswer(
+        (_) => Stream<UiCountryBlocLoaded>.value(
+          UiCountryBlocLoaded(countries),
+        ),
       );
-
-      initModule(UiCountryModule(), replaceBinds: [
-        Bind.instance<CountriesRepository>(countriesRepository)
-      ]);
-
-      UiCountryPage uiCountryPage = const UiCountryPage();
-      await widgetTester.pumpWidget(MaterialApp(
-        home: uiCountryPage,
+      when(uiCountryBlocMock.state).thenReturn(UiCountryBlocLoaded(countries));
+      when(loadingMock.showLoading(any)).thenReturn(const Text(
+        'test',
+        key: Key('testview'),
       ));
-      await widgetTester.pump();
 
-      expect(
-        find.byKey(const Key("listViewUiCountryContainer")),
-        findsWidgets,
-      );
+      await widgetTester.runAsync(() async {
+        await widgetTester.pumpWidget(MaterialApp(
+          home: StackRouterScope(
+            controller: stackRouterMock,
+            stateHash: 0,
+            child: UiCountryPage(),
+          ),
+        ));
+        await widgetTester.pumpAndSettle();
+
+        final Finder listViewUiCountryItem99 = find.byKey(
+          const Key('listViewUiCountryItem99'),
+        );
+        expect(
+          listViewUiCountryItem99,
+          findsWidgets,
+        );
+        await widgetTester.tap(listViewUiCountryItem99);
+        await widgetTester.pumpAndSettle();
+      });
     },
   );
 
-  testWidgets(
-    "when receiver list of countries but list is empty do not should shou list of itens",
-    (widgetTester) async {
-      MockCountriesRepositoryMock countriesRepositoryMock =
-          MockCountriesRepositoryMock();
-      when(countriesRepositoryMock.readJSON()).thenAnswer((_) async => []);
-
-      initModule(UiCountryModule(), replaceBinds: [
-        Bind.instance<CountriesRepository>(countriesRepositoryMock)
-      ]);
-
-      UiCountryPage uiCountryPage = const UiCountryPage();
-      await widgetTester.pumpWidget(MaterialApp(
-        home: uiCountryPage,
-      ));
-
-      expect(
-        find.byKey(const Key("listViewUiCountryContainer")),
-        findsOneWidget,
-      );
-      expect(
-        find.byKey(const Key("listViewUiCountryItemRow")),
-        findsNothing,
-      );
-    },
-  );
-
-  testWidgets(
-    "when receiver list of countries but happens error not should should list of itens",
-    (widgetTester) async {
-      MockCountriesRepositoryMock countriesRepo = MockCountriesRepositoryMock();
-      when(
-        countriesRepo.readJSON(),
-      ).thenThrow(Exception("error test"));
-
-      initModule(UiCountryModule(),
-          replaceBinds: [Bind.instance<CountriesRepository>(countriesRepo)]);
-
-      UiCountryPage uiCountryPage = const UiCountryPage();
-      await widgetTester.pumpWidget(MaterialApp(
-        home: uiCountryPage,
-      ));
-
-      expect(
-        find.byKey(const Key("listViewUiCountryContainer")),
-        findsOneWidget,
-      );
-      expect(
-        find.byKey(const Key("listViewUiCountryItemRow")),
-        findsNothing,
-      );
-    },
-  );
+  tearDown(() {
+    GetIt.instance.reset();
+  });
 }

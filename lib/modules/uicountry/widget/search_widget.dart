@@ -1,19 +1,21 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:portfolio_flutter/config/app_colors.dart';
 import 'package:portfolio_flutter/config/app_fonts.dart';
-import 'package:portfolio_flutter/config/app_route.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
 
+@immutable
 class SearchWidget extends StatefulWidget {
+  void Function(CountryModel)? onRateCountry;
   final List<CountryModel> countries;
   final AppLocalization appLocalization;
 
-  const SearchWidget({
+  SearchWidget({
     required this.appLocalization,
     required this.countries,
     super.key,
+    this.onRateCountry,
   });
 
   @override
@@ -99,7 +101,8 @@ class _SearchWidgetState extends State<SearchWidget> {
     CountryModel country = _selectedCountry[index];
     return GestureDetector(
       onTap: () {
-        Modular.to.pushReplacementNamed(AppRoute.uIAuth, arguments: country);
+        widget.onRateCountry!(country);
+        context.router.popUntilRoot();
       },
       child: Row(
         children: [

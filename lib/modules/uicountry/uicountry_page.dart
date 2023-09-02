@@ -1,6 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_modular/flutter_modular.dart';
+import 'package:get_it/get_it.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
 import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart';
@@ -11,16 +12,20 @@ import 'package:portfolio_flutter/modules/uicountry/bloc/uicountry_bloc_status.d
 import 'package:portfolio_flutter/modules/uicountry/widget/listview_widget.dart';
 import 'package:portfolio_flutter/modules/uicountry/widget/search_widget.dart';
 
+@immutable
+@RoutePage()
 class UiCountryPage extends StatefulWidget {
-  const UiCountryPage({super.key});
+  void Function(CountryModel)? onRateCountry;
+  UiCountryPage({super.key, this.onRateCountry});
 
   @override
   State<UiCountryPage> createState() => _UiCountryPageState();
 }
 
 class _UiCountryPageState extends State<UiCountryPage> {
-  final UICountryBloc _uiCountryBloc = Modular.get();
-  final AppLocalization _appLocalizations = Modular.get();
+  final UICountryBloc _uiCountryBloc = GetIt.instance();
+  final AppLocalization _appLocalizations = GetIt.instance();
+  final Loading loading = GetIt.instance();
   List<CountryModel> allCountries = [];
 
   @override
@@ -33,14 +38,8 @@ class _UiCountryPageState extends State<UiCountryPage> {
   Widget build(BuildContext context) {
     _appLocalizations.context = context;
 
-    return WillPopScope(
-      onWillPop: () async {
-        Modular.to.pop();
-        return false;
-      },
-      child: Scaffold(
-        body: _buildBloc(),
-      ),
+    return Scaffold(
+      body: _buildBloc(),
     );
   }
 
@@ -51,7 +50,6 @@ class _UiCountryPageState extends State<UiCountryPage> {
       builder: (context, state) {
         switch (state.status) {
           case UiCountryBlocStatus.loading:
-            Loading loading = Modular.get();
             return Stack(
               children: [
                 _body(),
@@ -82,10 +80,12 @@ class _UiCountryPageState extends State<UiCountryPage> {
             SearchWidget(
               countries: allCountries,
               appLocalization: _appLocalizations,
+              onRateCountry: widget.onRateCountry,
             ),
             Expanded(
               child: ListViewWidget(
                 countries: allCountries,
+                onRateCountry: widget.onRateCountry,
               ),
             ),
           ],
