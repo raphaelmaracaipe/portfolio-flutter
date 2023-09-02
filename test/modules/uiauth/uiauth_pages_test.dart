@@ -32,6 +32,8 @@ class StackRouterMock extends Mock implements StackRouter {}
   StackRouterMock,
 ])
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   late MockUiAuthBlocMock uiAuthBlocMock;
   late MockStringsMock stringsMock;
   late MockAppLocalizationMock appLocalizationMock;
