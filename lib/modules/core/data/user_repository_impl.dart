@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:injectable/injectable.dart';
 import 'package:portfolio_flutter/modules/core/data/network/enums/http_error_enum.dart';
 import 'package:portfolio_flutter/modules/core/data/network/request/request_user_code.dart';
 import 'package:portfolio_flutter/modules/core/data/network/response/response_valid_code.dart';
