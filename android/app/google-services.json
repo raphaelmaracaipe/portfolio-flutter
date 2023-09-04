@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "674853948609",
+    "project_id": "portfolio-flutter-d2a0e",
+    "storage_bucket": "portfolio-flutter-d2a0e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:674853948609:android:a44501101e0155d5ec9840",
+        "android_client_info": {
+          "package_name": "br.com.raphaelmaracaipe.portfolio_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "674853948609-j85e3u247gc94tuga88cavahfreeu07a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7IQpLXRS9LiS1fuSceqYiGlIfxA8eNz0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "674853948609-j85e3u247gc94tuga88cavahfreeu07a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
