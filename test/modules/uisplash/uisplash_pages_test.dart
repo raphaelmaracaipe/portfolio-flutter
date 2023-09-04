@@ -66,7 +66,7 @@ void main() {
   testWidgets(
     'when init view and return router saved',
     (widgetTester) async {
-      const String routeName = 'test of route';
+      const String routeName = 'testroute';
       when(uiSplashBlocMock.stream).thenAnswer(
         (_) => Stream<UiSplashBlocState>.value(
           const UiSplashBlocRoute(routeName: routeName),
@@ -75,7 +75,7 @@ void main() {
       when(uiSplashBlocMock.state).thenReturn(
         const UiSplashBlocRoute(routeName: routeName),
       );
-      when(stackRouterMock.push(any)).thenAnswer((_) async => {});
+      when(stackRouterMock.pushNamed(any)).thenAnswer((_) async => {});
 
       await widgetTester.pumpWidget(MaterialApp(
         home: StackRouterScope(
@@ -87,7 +87,7 @@ void main() {
       await widgetTester.pump();
 
       expect(find.byKey(const Key('uisplash_container')), findsWidgets);
-      verify(stackRouterMock.push(any)).called(2);
+      verify(stackRouterMock.pushNamed(any)).called(2);
     },
   );
 
