@@ -1,3 +1,4 @@
+import 'package:injectable/injectable.dart';
 import 'package:portfolio_flutter/modules/core/data/sp/route_sp.dart';
 
 import 'route_repository.dart';

@@ -1,11 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/services.dart';
-import 'package:flutter_modular/flutter_modular.dart';
-import 'package:logger/logger.dart';
+import 'package:injectable/injectable.dart';
 import 'package:portfolio_flutter/config/env.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/countries_codes.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/countries_codes_impl.dart';
-import 'package:portfolio_flutter/modules/core/data/countries_repository.dart';
-import 'package:portfolio_flutter/modules/core/data/countries_repository_impl.dart';
 import 'package:portfolio_flutter/modules/core/data/hand_shake_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/hand_shake_repository_impl.dart';
 import 'package:portfolio_flutter/modules/core/data/network/config/network_config.dart';
@@ -37,159 +36,96 @@ import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart';
 import 'package:portfolio_flutter/modules/core/widgets/loading/loading_impl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class CoreModule extends Module {
-  @override
-  List<Bind<Object>> get binds => [
-        ..._sharedPreferences,
-        ..._securities,
-        ..._utils,
-        ..._widgets,
-        ..._assets,
-        ..._repositories,
-        ..._rests,
-        ..._localizations,
-        Bind<Logger>((i) => Logger(), export: true),
-      ];
+@module
+abstract class CoreModule {
+  @lazySingleton
+  AssetBundle get assetBundle => rootBundle;
 
-  List<Bind<Object>> get _sharedPreferences => [
-        Bind<Future<SharedPreferences>>(
-          (i) => SharedPreferences.getInstance(),
-          export: true,
-        ),
-        Bind<RouteSP>(
-          (i) => RouteSPImpl(
-            bytes: i(),
-            encryptionDecryptAES: i(),
-            sharedPreferences: i(),
-          ),
-          export: true,
-        ),
-        Bind<DeviceSP>(
-          (i) => DeviceSPImpl(
-            sharedPreference: i(),
-            encryptionDecryptAES: i(),
-            bytes: i(),
-          ),
-          export: true,
-        ),
-        Bind<KeySP>(
-          (i) => KeySPImpl(
-            sharedPreference: i(),
-            encryptionDecryptAES: i(),
-            bytes: i(),
-          ),
-          export: true,
-        ),
-      ];
+  @lazySingleton
+  CountriesCode get countriesCode => CountriesCodeImpl(
+        assetBundle: assetBundle,
+      );
 
-  List<Bind<Object>> get _securities => [
-        Bind<Keys>(
-          (i) => KeysImpl(),
-          export: true,
-        ),
-        Bind<EncryptionDecryptAES>(
-          (i) => EncryptionDecryptAESImpl(
-            encryptionChannel: const MethodChannel(
-              'br.com.raphaelmaracaipe.portfolio_flutter/encdesc',
-            ),
-          ),
-          export: true,
-        ),
-      ];
+  @lazySingleton
+  Future<SharedPreferences> get sharedPreferences async =>
+      await SharedPreferences.getInstance();
 
-  List<Bind<Object>> get _utils => [
-        Bind<Bytes>(
-          (i) => BytesImpl(),
-          export: true,
-        ),
-        Bind<Strings>(
-          (i) => StringsImpl(),
-          export: true,
-        ),
-      ];
+  @lazySingleton
+  Bytes get bytes => BytesImpl();
 
-  List<Bind<Object>> get _widgets => [
-        Bind<Bottomsheet>(
-          (i) => BottomsheetImpl(),
-          export: true,
-        ),
-        Bind<Loading>(
-          (i) => LoadingImpl(),
-          export: true,
-        ),
-      ];
+  @lazySingleton
+  Keys get keys => KeysImpl();
 
-  List<Bind<Object>> get _assets => [
-        Bind<CountriesCode>(
-          (i) => CountriesCodeImpl(
-            assetBundle: rootBundle,
-          ),
-          export: true,
-        ),
-      ];
+  @lazySingleton
+  EncryptionDecryptAES get encryptionDecryptAES => EncryptionDecryptAESImpl(
+          encryptionChannel: const MethodChannel(
+        'br.com.raphaelmaracaipe.portfolio_flutter/encdesc',
+      ));
 
-  List<Bind<Object>> get _repositories => [
-        Bind<CountriesRepository>(
-          (i) => CountriesRepositoryImpl(
-            countriesCode: i(),
-          ),
-          export: true,
-        ),
-        Bind<HandShakeRepository>(
-          (i) => HandShakeRepositoryImpl(
-            key: i(),
-            keySP: i(),
-            restHandShake: i(),
-          ),
-          export: true,
-        ),
-        Bind<UserRepository>(
-          (i) => UserRepositoryImpl(
-            restClient: i(),
-          ),
-          export: true,
-        ),
-        Bind<RouteRepository>(
-          (i) => RouteRepositoryImpl(
-            routeSP: i(),
-          ),
-          export: true,
-        ),
-      ];
+  @lazySingleton
+  KeySP get keySP => KeySPImpl(
+      sharedPreference: sharedPreferences,
+      encryptionDecryptAES: encryptionDecryptAES,
+      bytes: bytes);
 
-  List<Bind<Object>> get _rests => [
-        Bind<RestUser>(
-          (i) => RestUser(
-            NetworkConfig.config(
-              keys: i(),
-              bytes: i(),
-              keySP: i(),
-              deviceSP: i(),
-              encryptionDecryptAES: i(),
-            ),
-            baseUrl: (env?.baseUrl ?? ""),
-          ),
-          export: true,
-        ),
-        Bind<RestHandShake>(
-          (i) => RestHandShake(
-            NetworkConfig.config(
-              keys: i(),
-              bytes: i(),
-              keySP: i(),
-              deviceSP: i(),
-              encryptionDecryptAES: i(),
-            ),
-            baseUrl: (env?.baseUrl ?? ""),
-          ),
-          export: true,
-        ),
-      ];
+  @lazySingleton
+  DeviceSP get deviceSP => DeviceSPImpl(
+      sharedPreference: sharedPreferences,
+      encryptionDecryptAES: encryptionDecryptAES,
+      bytes: bytes);
 
-  List<Bind<Object>> get _localizations => [
-        Bind<AppLocalization>(
-          (i) => AppLocalizationImpl(),
-          export: true,
+  @lazySingleton
+  RouteSP get routeSP => RouteSPImpl(
+      bytes: bytes,
+      sharedPreferences: sharedPreferences,
+      encryptionDecryptAES: encryptionDecryptAES);
+
+  @lazySingleton
+  RestUser get restUser => RestUser(
+        NetworkConfig.config(
+          keys: keys,
+          bytes: bytes,
+          keySP: keySP,
+          deviceSP: deviceSP,
+          encryptionDecryptAES: encryptionDecryptAES,
         ),
-      ];
+        baseUrl: (env?.baseUrl ?? ""),
+      );
+
+  @lazySingleton
+  RestHandShake get restHandShake => RestHandShake(
+        NetworkConfig.config(
+          keys: keys,
+          bytes: bytes,
+          keySP: keySP,
+          deviceSP: deviceSP,
+          encryptionDecryptAES: encryptionDecryptAES,
+        ),
+        baseUrl: (env?.baseUrl ?? ""),
+      );
+
+  @lazySingleton
+  HandShakeRepository get handShakeRepository => HandShakeRepositoryImpl(
+        keySP: keySP,
+        restHandShake: restHandShake,
+        key: keys,
+      );
+
+  @lazySingleton
+  RouteRepository get routeRepository => RouteRepositoryImpl(routeSP: routeSP);
+
+  @lazySingleton
+  UserRepository get userRepository => UserRepositoryImpl(restClient: restUser);
+
+  @lazySingleton
+  Bottomsheet get bottomSheet => BottomsheetImpl();
+
+  @lazySingleton
+  AppLocalization get appLocalization => AppLocalizationImpl();
+
+  @lazySingleton
+  Strings get strings => StringsImpl();
+
+  @lazySingleton
+  Loading get loading => LoadingImpl();
 }

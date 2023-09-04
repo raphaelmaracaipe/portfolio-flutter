@@ -12,6 +12,7 @@ class LoadingWidget extends StatefulWidget {
     required this.appLocalization,
   });
 
+
   @override
   State<LoadingWidget> createState() => _LoadingWidgetState();
 }

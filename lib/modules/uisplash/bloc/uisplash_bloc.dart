@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:portfolio_flutter/modules/core/data/hand_shake_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/route_repository.dart';
 import 'package:portfolio_flutter/modules/core/security/keys.dart';
 import 'package:portfolio_flutter/modules/uisplash/bloc/uisplash_bloc_event.dart';
 import 'package:portfolio_flutter/modules/uisplash/bloc/uisplash_bloc_state.dart';
 
+@Injectable()
 class UiSplashBloc extends Bloc<UiSplashBlocEvent, UiSplashBlocState> {
   final RouteRepository routeRepository;
   final HandShakeRepository handShakeRepository;

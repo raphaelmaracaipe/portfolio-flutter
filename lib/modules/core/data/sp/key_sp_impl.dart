@@ -1,3 +1,4 @@
+import 'package:injectable/injectable.dart';
 import 'package:portfolio_flutter/config/app_key.dart';
 import 'package:portfolio_flutter/modules/core/security/encryption_decrypt_aes.dart';
 import 'package:portfolio_flutter/modules/core/utils/bytes.dart';

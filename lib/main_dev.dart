@@ -16,5 +16,5 @@ void main() async {
   assert(env != null);
 
   configureDependencies();
-  return runApp(ModularApp(module: AppModule(), child: AppWidget()));
+  return runApp(const AppWidget());
 }

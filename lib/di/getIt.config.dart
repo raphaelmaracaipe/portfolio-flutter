@@ -12,7 +12,7 @@
 import 'package:flutter/services.dart' as _i5;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
-import 'package:portfolio_flutter/modules/core/core_module.dart' as _i27;
+import 'package:portfolio_flutter/modules/core/core_module.dart' as _i28;
 import 'package:portfolio_flutter/modules/core/data/assets/countries_codes.dart'
     as _i8;
 import 'package:portfolio_flutter/modules/core/data/countries_repository.dart'
@@ -31,7 +31,7 @@ import 'package:portfolio_flutter/modules/core/data/sp/device_sp.dart' as _i11;
 import 'package:portfolio_flutter/modules/core/data/sp/key_sp.dart' as _i14;
 import 'package:portfolio_flutter/modules/core/data/sp/route_sp.dart' as _i20;
 import 'package:portfolio_flutter/modules/core/data/user_repository.dart'
-    as _i24;
+    as _i25;
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart'
     as _i3;
 import 'package:portfolio_flutter/modules/core/security/encryption_decrypt_aes.dart'
@@ -43,11 +43,13 @@ import 'package:portfolio_flutter/modules/core/widgets/bottomsheet/bottom_sheet.
     as _i6;
 import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart'
     as _i16;
-import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc.dart' as _i25;
+import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc.dart' as _i26;
 import 'package:portfolio_flutter/modules/uicountry/bloc/uicountry_bloc.dart'
     as _i23;
+import 'package:portfolio_flutter/modules/uisplash/bloc/uisplash_bloc.dart'
+    as _i24;
 import 'package:portfolio_flutter/modules/uivalidcode/bloc/uivalid_code_bloc.dart'
-    as _i26;
+    as _i27;
 import 'package:portfolio_flutter/routers/app_router.dart' as _i4;
 import 'package:shared_preferences/shared_preferences.dart' as _i21;
 
@@ -88,18 +90,23 @@ extension GetItInjectableX on _i1.GetIt {
     gh.lazySingleton<_i22.Strings>(() => coreModule.strings);
     gh.factory<_i23.UICountryBloc>(() =>
         _i23.UICountryBloc(countriesRepository: gh<_i9.CountriesRepository>()));
-    gh.lazySingleton<_i24.UserRepository>(() => coreModule.userRepository);
-    gh.factory<_i25.UiAuthBloc>(() => _i25.UiAuthBloc(
+    gh.factory<_i24.UiSplashBloc>(() => _i24.UiSplashBloc(
+          key: gh<_i15.Keys>(),
+          routeRepository: gh<_i19.RouteRepository>(),
+          handShakeRepository: gh<_i13.HandShakeRepository>(),
+        ));
+    gh.lazySingleton<_i25.UserRepository>(() => coreModule.userRepository);
+    gh.factory<_i26.UiAuthBloc>(() => _i26.UiAuthBloc(
           countriesRepository: gh<_i9.CountriesRepository>(),
-          userRepository: gh<_i24.UserRepository>(),
+          userRepository: gh<_i25.UserRepository>(),
           routeRepository: gh<_i19.RouteRepository>(),
         ));
-    gh.factory<_i26.UiValidCodeBloc>(() => _i26.UiValidCodeBloc(
-          userRepository: gh<_i24.UserRepository>(),
+    gh.factory<_i27.UiValidCodeBloc>(() => _i27.UiValidCodeBloc(
+          userRepository: gh<_i25.UserRepository>(),
           routeRepository: gh<_i19.RouteRepository>(),
         ));
     return this;
   }
 }
 
-class _$CoreModule extends _i27.CoreModule {}
+class _$CoreModule extends _i28.CoreModule {}

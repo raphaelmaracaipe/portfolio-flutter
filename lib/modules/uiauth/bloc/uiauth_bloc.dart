@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:portfolio_flutter/config/app_route1.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
 import 'package:portfolio_flutter/modules/core/data/countries_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/network/request/request_user_code.dart';
@@ -52,8 +51,6 @@ class UiAuthBloc extends Bloc<UiAuthBlocEvent, UiAuthBlocState> {
       );
 
       await _userRepository.requestCode(requestUserCode);
-      await _routeRepository.save(AppRoute1.uIValidCode);
-
       emitter(UiAuthBlocResponseSendCode(isSuccess: true));
     } on Exception catch (_) {
       emitter(UiAuthBlocResponseSendCode(isSuccess: false));
