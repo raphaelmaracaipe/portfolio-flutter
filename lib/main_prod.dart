@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:portfolio_flutter/app.dart';
 import 'package:portfolio_flutter/config/app_firebase.dart';
 import 'package:portfolio_flutter/config/env.dart';
