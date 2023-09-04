@@ -42,7 +42,8 @@ O app foi desenvolvido usando as seguintes tecnologias:
 - SharedPreference
 - Equatable
 - Bloc
-- Modular
+- GetIt
+- AutoRouter
 - Flutter_test
 - Mockito
 - Bloc_test
