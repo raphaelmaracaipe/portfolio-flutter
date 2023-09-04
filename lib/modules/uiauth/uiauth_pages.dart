@@ -262,6 +262,9 @@ class UiAuthPageState extends State<UiAuthPage>
               onTap: () {
                 context.router.push(UiCountryRoute(onRateCountry: (country) {
                   setState(() {
+                    _phoneNumberController.text = "";
+                    _codeCountryController.text = "";
+
                     _countrySelected = country;
                   });
                 }));
