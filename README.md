@@ -10,6 +10,7 @@
 
 ## Descrição
 Bem-vindo ao meu aplicativo de mensagens! Aqui você poderá enviar e receber mensagens de forma rápida e fácil. Desfrute de uma experiência de comunicação simples e eficiente em um único aplicativo. Fique conectado(a) e compartilhe suas mensagens de maneira conveniente com este app intuitivo e amigável.
+[![Watch the video](./docs/img/Screenshot_20230904_112510.png)](./docs/video/Screen_recording_20230904_112102.webm)
 
 ## Dependência entre módulos
 <p align="center">  
