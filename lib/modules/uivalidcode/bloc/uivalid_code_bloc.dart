@@ -1,11 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:portfolio_flutter/modules/core/data/network/exceptions/http_exception.dart';
 import 'package:portfolio_flutter/modules/core/data/network/response/response_valid_code.dart';
 import 'package:portfolio_flutter/modules/core/data/route_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/user_repository.dart';
-import 'package:portfolio_flutter/modules/core/data/network/exceptions/http_exception.dart';
 import 'package:portfolio_flutter/modules/uivalidcode/bloc/uivalid_code_bloc_event.dart';
 import 'package:portfolio_flutter/modules/uivalidcode/bloc/uivalid_code_bloc_state.dart';
+import 'package:portfolio_flutter/routers/app_router.gr.dart';
 
 @Injectable()
 class UiValidCodeBloc extends Bloc<UiValidCodeBlocEvent, UiValidCodeBlocState> {
@@ -32,6 +33,7 @@ class UiValidCodeBloc extends Bloc<UiValidCodeBlocEvent, UiValidCodeBlocState> {
       final ResponseValidCode response = await _userRepository.requestValidCode(
         event.code,
       );
+      await _routeRepository.save(UiProfileRoute.name);
 
       emitter(UiValidCodeBlocLoaded(response: response));
     } on HttpException catch (e) {

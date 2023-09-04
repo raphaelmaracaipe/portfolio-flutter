@@ -15,15 +15,19 @@ class AppRouter extends $AppRouter {
         ),
         AutoRoute(
           page: UiAuthRoute.page,
+          path: "/${UiAuthRoute.name}",
         ),
         AutoRoute(
           page: UiValidCodeRoutes.page,
+          path: "/${UiValidCodeRoutes.name}",
         ),
         AutoRoute(
           page: UiCountryRoute.page,
+          path: "/${UiCountryRoute.name}",
         ),
         AutoRoute(
           page: UiProfileRoute.page,
+          path: "/${UiProfileRoute.name}",
         )
       ];
 }

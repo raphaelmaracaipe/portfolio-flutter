@@ -93,10 +93,10 @@ class _UiSplashPageState extends State<UiSplashPage> {
       builder: (context, state) {
         switch (state.status) {
           case UiSplashBlocStatus.getRoute:
-            context.router.push(const UiAuthRoute());
+            _checkWhichISendYou(state, context);
             return Container();
           case UiSplashBlocStatus.finishHandShake:
-            _redirect();
+            _getRouteSaved();
             return Container(
               key: const Key('container_empty'),
             );
@@ -114,7 +114,15 @@ class _UiSplashPageState extends State<UiSplashPage> {
     );
   }
 
-  void _redirect() {
+  void _checkWhichISendYou(UiSplashBlocState state, BuildContext context) {
+    if(state.routeName.isNotEmpty) {
+      context.router.pushNamed("/${state.routeName}");
+    } else {
+      context.router.push(const UiAuthRoute());
+    }
+  }
+
+  void _getRouteSaved() {
     Future.delayed(const Duration(seconds: 2), () {
       _uiSplashBloc.add(GetRouteSaved());
     });
