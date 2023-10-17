@@ -12,7 +12,7 @@
 import 'package:flutter/services.dart' as _i5;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
-import 'package:portfolio_flutter/modules/core/core_module.dart' as _i28;
+import 'package:portfolio_flutter/modules/core/core_module.dart' as _i30;
 import 'package:portfolio_flutter/modules/core/data/assets/countries_codes.dart'
     as _i8;
 import 'package:portfolio_flutter/modules/core/data/countries_repository.dart'
@@ -21,6 +21,10 @@ import 'package:portfolio_flutter/modules/core/data/countries_repository_impl.da
     as _i10;
 import 'package:portfolio_flutter/modules/core/data/hand_shake_repository.dart'
     as _i13;
+import 'package:portfolio_flutter/modules/core/data/key_repository.dart'
+    as _i26;
+import 'package:portfolio_flutter/modules/core/data/key_repository_impl.dart'
+    as _i27;
 import 'package:portfolio_flutter/modules/core/data/network/rest_hand_shake.dart'
     as _i17;
 import 'package:portfolio_flutter/modules/core/data/network/rest_user.dart'
@@ -43,13 +47,13 @@ import 'package:portfolio_flutter/modules/core/widgets/bottomsheet/bottom_sheet.
     as _i6;
 import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart'
     as _i16;
-import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc.dart' as _i26;
+import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc.dart' as _i28;
 import 'package:portfolio_flutter/modules/uicountry/bloc/uicountry_bloc.dart'
     as _i23;
 import 'package:portfolio_flutter/modules/uisplash/bloc/uisplash_bloc.dart'
     as _i24;
 import 'package:portfolio_flutter/modules/uivalidcode/bloc/uivalid_code_bloc.dart'
-    as _i27;
+    as _i29;
 import 'package:portfolio_flutter/routers/app_router.dart' as _i4;
 import 'package:shared_preferences/shared_preferences.dart' as _i21;
 
@@ -96,12 +100,14 @@ extension GetItInjectableX on _i1.GetIt {
           handShakeRepository: gh<_i13.HandShakeRepository>(),
         ));
     gh.lazySingleton<_i25.UserRepository>(() => coreModule.userRepository);
-    gh.factory<_i26.UiAuthBloc>(() => _i26.UiAuthBloc(
+    gh.factory<_i26.KeyRepository>(
+        () => _i27.KeyRepositoryImpl(sp: gh<_i14.KeySP>()));
+    gh.factory<_i28.UiAuthBloc>(() => _i28.UiAuthBloc(
           countriesRepository: gh<_i9.CountriesRepository>(),
           userRepository: gh<_i25.UserRepository>(),
           routeRepository: gh<_i19.RouteRepository>(),
         ));
-    gh.factory<_i27.UiValidCodeBloc>(() => _i27.UiValidCodeBloc(
+    gh.factory<_i29.UiValidCodeBloc>(() => _i29.UiValidCodeBloc(
           userRepository: gh<_i25.UserRepository>(),
           routeRepository: gh<_i19.RouteRepository>(),
         ));
@@ -109,4 +115,4 @@ extension GetItInjectableX on _i1.GetIt {
   }
 }
 
-class _$CoreModule extends _i28.CoreModule {}
+class _$CoreModule extends _i30.CoreModule {}

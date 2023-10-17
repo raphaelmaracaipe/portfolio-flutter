@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:portfolio_flutter/config/app_colors.dart';
+import 'package:portfolio_flutter/modules/core/data/key_repository.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
 import 'package:portfolio_flutter/modules/core/widgets/bottomsheet/bottom_sheet.dart';
 import 'package:portfolio_flutter/modules/uisplash/bloc/uisplash_bloc.dart';
@@ -24,6 +25,7 @@ class UiSplashPage extends StatefulWidget {
 }
 
 class _UiSplashPageState extends State<UiSplashPage> {
+  final KeyRepository _keyRepository = GetIt.instance();
   final UiSplashBloc _uiSplashBloc = GetIt.instance();
   final Bottomsheet _bottomSheet = GetIt.instance();
   final AppLocalization _appLocalization = GetIt.instance();
@@ -42,6 +44,7 @@ class _UiSplashPageState extends State<UiSplashPage> {
 
   @override
   Widget build(BuildContext context) {
+    _keyRepository.cleanSeedSaved();
     _appLocalization.context = context;
     _callServerToRegisterKey();
 

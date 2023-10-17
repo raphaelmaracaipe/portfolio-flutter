@@ -7,6 +7,8 @@ import 'package:portfolio_flutter/modules/core/data/assets/countries_codes.dart'
 import 'package:portfolio_flutter/modules/core/data/assets/countries_codes_impl.dart';
 import 'package:portfolio_flutter/modules/core/data/hand_shake_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/hand_shake_repository_impl.dart';
+import 'package:portfolio_flutter/modules/core/data/key_repository.dart';
+import 'package:portfolio_flutter/modules/core/data/key_repository_impl.dart';
 import 'package:portfolio_flutter/modules/core/data/network/config/network_config.dart';
 import 'package:portfolio_flutter/modules/core/data/network/rest_hand_shake.dart';
 import 'package:portfolio_flutter/modules/core/data/network/rest_user.dart';

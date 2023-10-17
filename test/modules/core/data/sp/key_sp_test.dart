@@ -164,4 +164,17 @@ void main() {
       expect(true, false);
     }
   });
+
+  test('when clean data of seed should call method', () async {
+    when(
+      sharedPreferencesMock.setString(any, any)
+    ).thenAnswer((_) async => true);
+
+    try {
+      await keySP.cleanSeed();
+      expect(true, true);
+    } on Exception {
+      expect(false, true);
+    }
+  });
 }
