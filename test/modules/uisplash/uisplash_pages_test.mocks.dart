@@ -1228,4 +1228,20 @@ class MockKeyRepositoryMock extends _i1.Mock implements _i11.KeyRepositoryMock {
         returnValue: _i12.Future<void>.value(),
         returnValueForMissingStub: _i12.Future<void>.value(),
       ) as _i12.Future<void>);
+  @override
+  _i12.Future<String> getKey() => (super.noSuchMethod(
+        Invocation.method(
+          #getKey,
+          [],
+        ),
+        returnValue: _i12.Future<String>.value(''),
+      ) as _i12.Future<String>);
+  @override
+  _i12.Future<String> getSeed() => (super.noSuchMethod(
+        Invocation.method(
+          #getSeed,
+          [],
+        ),
+        returnValue: _i12.Future<String>.value(''),
+      ) as _i12.Future<String>);
 }

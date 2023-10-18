@@ -79,6 +79,6 @@ class KeySPImpl extends KeySP {
   
   @override
   Future<void> cleanSeed() async {
-    await (await sharedPreference).setString(_keyShared, '');
+    await (await sharedPreference).setString(_ivShared, '');
   }
 }

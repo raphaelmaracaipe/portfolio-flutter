@@ -34,6 +34,7 @@ class _UiSplashPageState extends State<UiSplashPage> {
   @override
   void initState() {
     super.initState();
+    _keyRepository.cleanSeedSaved();
   }
 
   @override
@@ -44,7 +45,6 @@ class _UiSplashPageState extends State<UiSplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    _keyRepository.cleanSeedSaved();
     _appLocalization.context = context;
     _callServerToRegisterKey();
 

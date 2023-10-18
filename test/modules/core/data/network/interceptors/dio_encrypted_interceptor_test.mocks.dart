@@ -217,36 +217,19 @@ class MockKeysMock extends _i1.Mock implements _i3.KeysMock {
       ) as String);
 }
 
-/// A class which mocks [KeySPMock].
+/// A class which mocks [KeyRepositoryMock].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockKeySPMock extends _i1.Mock implements _i3.KeySPMock {
-  MockKeySPMock() {
+class MockKeyRepositoryMock extends _i1.Mock implements _i3.KeyRepositoryMock {
+  MockKeyRepositoryMock() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<bool> isExistKeyAndIVSaved() => (super.noSuchMethod(
+  _i4.Future<void> cleanSeedSaved() => (super.noSuchMethod(
         Invocation.method(
-          #isExistKeyAndIVSaved,
+          #cleanSeedSaved,
           [],
-        ),
-        returnValue: _i4.Future<bool>.value(false),
-      ) as _i4.Future<bool>);
-  @override
-  _i4.Future<void> saveKey(String? key) => (super.noSuchMethod(
-        Invocation.method(
-          #saveKey,
-          [key],
-        ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
-  @override
-  _i4.Future<void> saveSeed(String? seed) => (super.noSuchMethod(
-        Invocation.method(
-          #saveSeed,
-          [seed],
         ),
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
@@ -269,18 +252,19 @@ class MockKeySPMock extends _i1.Mock implements _i3.KeySPMock {
       ) as _i4.Future<String>);
 }
 
-/// A class which mocks [DeviceSPMock].
+/// A class which mocks [DeviceRepositoryMock].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockDeviceSPMock extends _i1.Mock implements _i3.DeviceSPMock {
-  MockDeviceSPMock() {
+class MockDeviceRepositoryMock extends _i1.Mock
+    implements _i3.DeviceRepositoryMock {
+  MockDeviceRepositoryMock() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<String> getDeviceID() => (super.noSuchMethod(
+  _i4.Future<String> getID() => (super.noSuchMethod(
         Invocation.method(
-          #getDeviceID,
+          #getID,
           [],
         ),
         returnValue: _i4.Future<String>.value(''),

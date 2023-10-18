@@ -1,10 +1,13 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:portfolio_flutter/config/env.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/countries_codes.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/countries_codes_impl.dart';
+import 'package:portfolio_flutter/modules/core/data/device_repository.dart';
+import 'package:portfolio_flutter/modules/core/data/device_repository_impl.dart';
 import 'package:portfolio_flutter/modules/core/data/hand_shake_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/hand_shake_repository_impl.dart';
 import 'package:portfolio_flutter/modules/core/data/key_repository.dart';
@@ -24,6 +27,8 @@ import 'package:portfolio_flutter/modules/core/data/user_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/user_repository_impl.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization_impl.dart';
+import 'package:portfolio_flutter/modules/core/regex/regex.dart';
+import 'package:portfolio_flutter/modules/core/regex/regex_impl.dart';
 import 'package:portfolio_flutter/modules/core/security/encryption_decrypt_aes.dart';
 import 'package:portfolio_flutter/modules/core/security/encryption_decrypt_aes_impl.dart';
 import 'package:portfolio_flutter/modules/core/security/keys.dart';
@@ -60,8 +65,15 @@ abstract class CoreModule {
 
   @lazySingleton
   EncryptionDecryptAES get encryptionDecryptAES => EncryptionDecryptAESImpl(
-          encryptionChannel: const MethodChannel(
-        'br.com.raphaelmaracaipe.portfolio_flutter/encdesc',
+        encryptionChannel: const MethodChannel(
+          'br.com.raphaelmaracaipe.portfolio_flutter/encdesc',
+        ),
+      );
+
+  @lazySingleton
+  Regex get regex => RegexImpl(
+          regexChannel: const MethodChannel(
+        'br.com.raphaelmaracaipe.portfolio_flutter/regex',
       ));
 
   @lazySingleton
@@ -83,26 +95,23 @@ abstract class CoreModule {
       encryptionDecryptAES: encryptionDecryptAES);
 
   @lazySingleton
+  Dio get dio => NetworkConfig.config(
+        keys: keys,
+        bytes: bytes,
+        keyRepository: keyRepository,
+        deviceRepository: deviceRepository,
+        encryptionDecryptAES: encryptionDecryptAES,
+      );
+
+  @lazySingleton
   RestUser get restUser => RestUser(
-        NetworkConfig.config(
-          keys: keys,
-          bytes: bytes,
-          keySP: keySP,
-          deviceSP: deviceSP,
-          encryptionDecryptAES: encryptionDecryptAES,
-        ),
+        dio,
         baseUrl: (env?.baseUrl ?? ""),
       );
 
   @lazySingleton
   RestHandShake get restHandShake => RestHandShake(
-        NetworkConfig.config(
-          keys: keys,
-          bytes: bytes,
-          keySP: keySP,
-          deviceSP: deviceSP,
-          encryptionDecryptAES: encryptionDecryptAES,
-        ),
+        dio,
         baseUrl: (env?.baseUrl ?? ""),
       );
 
@@ -110,7 +119,7 @@ abstract class CoreModule {
   HandShakeRepository get handShakeRepository => HandShakeRepositoryImpl(
         keySP: keySP,
         restHandShake: restHandShake,
-        key: keys,
+        regex: regex,
       );
 
   @lazySingleton
@@ -118,6 +127,15 @@ abstract class CoreModule {
 
   @lazySingleton
   UserRepository get userRepository => UserRepositoryImpl(restClient: restUser);
+
+  @lazySingleton
+  KeyRepository get keyRepository => KeyRepositoryImpl(sp: keySP, regex: regex);
+
+  @lazySingleton
+  DeviceRepository get deviceRepository => DeviceRepositoryImpl(
+        deviceSP: deviceSP,
+        regex: regex,
+      );
 
   @lazySingleton
   Bottomsheet get bottomSheet => BottomsheetImpl();
