@@ -48,7 +48,7 @@ class DioEncryptedInterceptor extends Interceptor {
 
     options.headers = {
       "x-api-key": _randomApiKey(),
-      "device_id": await deviceRepository.getID(),
+      "device_id": Uri.encodeComponent(await deviceRepository.getID()),
       "seed": await _encryptIV(iv),
     };
 
@@ -83,7 +83,9 @@ class DioEncryptedInterceptor extends Interceptor {
       iv: iv,
     );
 
-    options.data = RequestEncrypted(data: bodyEncrypted).toJson();
+    options.data = RequestEncrypted(
+      data: bodyEncrypted,
+    ).toJson();
   }
 
   Future<String> _getKey() async {
@@ -117,7 +119,10 @@ class DioEncryptedInterceptor extends Interceptor {
         key: bytes.convertBytesToString(AppKey.keyDefault),
         iv: bytes.convertBytesToString(AppKey.seedDefault),
       );
-      return ivEncrypted.replaceAll("\n", "");
+
+      final a = Uri.encodeComponent(ivEncrypted);
+      print(a);
+      return a;
     } on Exception catch (_) {
       return iv;
     }

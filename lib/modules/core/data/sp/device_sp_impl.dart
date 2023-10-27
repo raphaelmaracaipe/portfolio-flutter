@@ -18,8 +18,16 @@ class DeviceSPImpl extends DeviceSP {
 
   @override
   Future<String> getDeviceID() async {
-    final SharedPreferences sp = await sharedPreference;
-    return sp.getString(_keyOfShared) ?? "";
+    final deviceIdEncrypted = (await sharedPreference).getString(
+          _keyOfShared,
+        ) ??
+        "";
+
+    return await encryptionDecryptAES.decryptData(
+      encrypted: deviceIdEncrypted,
+      key: bytes.convertBytesToString(AppKey.keyDefault),
+      iv: bytes.convertBytesToString(AppKey.seedDefault),
+    );
   }
 
   @override

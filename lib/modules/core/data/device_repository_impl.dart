@@ -13,8 +13,9 @@ class DeviceRepositoryImpl extends DeviceRepository {
   Future<String> getID() async {
     final deviceIdSaved = await deviceSP.getDeviceID();
     if (deviceIdSaved.isEmpty) {
-      final deviceIdGenerated =
-          await regex.generateString(regexPattern: regexDeviceId);
+      final deviceIdGenerated = await regex.generateString(
+        regexPattern: regexDeviceId,
+      );
 
       deviceSP.save(deviceIdGenerated);
       return deviceIdGenerated;
