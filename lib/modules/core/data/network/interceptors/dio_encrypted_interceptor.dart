@@ -84,7 +84,7 @@ class DioEncryptedInterceptor extends Interceptor {
     );
 
     options.data = RequestEncrypted(
-      data: bodyEncrypted,
+      data: Uri.encodeComponent(bodyEncrypted),
     ).toJson();
   }
 
