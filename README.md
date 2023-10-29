@@ -32,8 +32,14 @@ Para realizar a comunicação com a api é necessario envio da chave e seed
 ### Inteceptor body
 Após realizar o registro da chave, todas as requisições devem encryptar o body antes do envio para a api e seed enviado no header. O mesmo ocorre ao receber a resposta da api, vem encriptado pela api e o interceptor e resposável por decriptar a informação e passar para requisição.
 
+#### Interceptor request
 <p align="center">  
-  <img src="./docs/img/inteceptor_body.png" width="600" alt="Inteceptor body" />  
+  <img src="./docs/img/inteceptor_body_request.png" width="600" alt="Inteceptor body (request)" />  
+</p>  
+
+#### Interceptor response
+<p align="center">  
+  <img src="./docs/img/inteceptor_body_response.png" width="600" alt="Inteceptor body (response)" />  
 </p>  
 
 ## Tecnologias utilizadas
