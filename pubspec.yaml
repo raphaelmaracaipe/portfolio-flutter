@@ -1,7 +1,7 @@
 name: portfolio_flutter
 description: A project about send message between your friends (portfolio).
 publish_to: 'none'
-version: 1.1.0
+version: 1.1.1
 
 environment:
   sdk: '>=3.0.5 <4.0.0'
