@@ -3,7 +3,7 @@ name: Buildar e publicar no firebase
 on:
   pull_request:
     branches:
-      - release/*
+      - develop
     types:
       - closed
 
