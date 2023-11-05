@@ -15,6 +15,10 @@ class EncryptionDecryptAESImpl extends EncryptionDecryptAES {
     required String iv,
   }) async {
     try {
+      if(encrypted.isEmpty) {
+        return "";
+      }
+
       return await encryptionChannel.invokeMethod('decrypt', {
         'data': encrypted,
         'key': key,

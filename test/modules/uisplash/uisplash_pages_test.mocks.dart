@@ -1210,3 +1210,38 @@ class MockStackRouterMock extends _i1.Mock implements _i11.StackRouterMock {
         returnValueForMissingStub: null,
       );
 }
+
+/// A class which mocks [KeyRepositoryMock].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockKeyRepositoryMock extends _i1.Mock implements _i11.KeyRepositoryMock {
+  MockKeyRepositoryMock() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i12.Future<void> cleanSeedSaved() => (super.noSuchMethod(
+        Invocation.method(
+          #cleanSeedSaved,
+          [],
+        ),
+        returnValue: _i12.Future<void>.value(),
+        returnValueForMissingStub: _i12.Future<void>.value(),
+      ) as _i12.Future<void>);
+  @override
+  _i12.Future<String> getKey() => (super.noSuchMethod(
+        Invocation.method(
+          #getKey,
+          [],
+        ),
+        returnValue: _i12.Future<String>.value(''),
+      ) as _i12.Future<String>);
+  @override
+  _i12.Future<String> getSeed() => (super.noSuchMethod(
+        Invocation.method(
+          #getSeed,
+          [],
+        ),
+        returnValue: _i12.Future<String>.value(''),
+      ) as _i12.Future<String>);
+}

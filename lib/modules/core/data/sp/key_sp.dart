@@ -8,4 +8,6 @@ abstract class KeySP {
   Future<String> getKey();
 
   Future<String> getSeed();
+
+  Future<void> cleanSeed();
 }

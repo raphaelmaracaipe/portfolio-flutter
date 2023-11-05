@@ -8,7 +8,7 @@ import 'package:portfolio_flutter/modules/core/data/network/enums/http_error_enu
 import 'package:portfolio_flutter/modules/core/data/network/exceptions/http_exception.dart';
 import 'package:portfolio_flutter/modules/core/data/network/rest_hand_shake.dart';
 import 'package:portfolio_flutter/modules/core/data/sp/key_sp.dart';
-import 'package:portfolio_flutter/modules/core/security/keys_impl.dart';
+import 'package:portfolio_flutter/modules/core/regex/regex.dart';
 
 import 'hand_shake_repository_test.mocks.dart';
 
@@ -16,14 +16,26 @@ class RestHandShakeMock extends Mock implements RestHandShake {}
 
 class KeySpMock extends Mock implements KeySP {}
 
-@GenerateMocks([RestHandShakeMock, KeySpMock])
+class RegexMock extends Mock implements Regex {}
+
+@GenerateMocks([
+  RestHandShakeMock,
+  KeySpMock,
+  RegexMock,
+])
 void main() {
   late MockRestHandShakeMock restHandShakeMock;
   late MockKeySpMock keySpMock;
+  late MockRegexMock regexMock;
 
   setUp(() {
     restHandShakeMock = MockRestHandShakeMock();
     keySpMock = MockKeySpMock();
+    regexMock = MockRegexMock();
+
+    when(regexMock.generateString(
+      regexPattern: anyNamed('regexPattern'),
+    )).thenAnswer((_) async => "AAA");
   });
 
   test('when exist key saved in sp', () async {
@@ -31,7 +43,7 @@ void main() {
     HandShakeRepository handShakeRepository = HandShakeRepositoryImpl(
       keySP: keySpMock,
       restHandShake: restHandShakeMock,
-      key: KeysImpl(),
+      regex: regexMock,
     );
 
     try {
@@ -51,7 +63,7 @@ void main() {
     HandShakeRepository handShakeRepository = HandShakeRepositoryImpl(
       keySP: keySpMock,
       restHandShake: restHandShakeMock,
-      key: KeysImpl(),
+      regex: regexMock,
     );
 
     try {
@@ -71,7 +83,7 @@ void main() {
     HandShakeRepository handShakeRepository = HandShakeRepositoryImpl(
       keySP: keySpMock,
       restHandShake: restHandShakeMock,
-      key: KeysImpl(),
+      regex: regexMock,
     );
 
     try {
@@ -93,7 +105,7 @@ void main() {
     HandShakeRepository handShakeRepository = HandShakeRepositoryImpl(
       keySP: keySpMock,
       restHandShake: restHandShakeMock,
-      key: KeysImpl(),
+      regex: regexMock,
     );
 
     try {

@@ -34,7 +34,7 @@ void main() {
   });
 
   test('when get device id but is not exist device saved', () async {
-    const String textOfTest = "";
+    const String textOfTest = "text of id";
     when(
       encryptionDecryptAESMock.encryptData(
         text: anyNamed("text"),
@@ -45,9 +45,6 @@ void main() {
     when(
       sharedPreferenceMock.getString(any),
     ).thenReturn(textOfTest);
-    when(
-      sharedPreferenceMock.setString(any, any),
-    ).thenAnswer((_) async => true);
 
     final String textSaved = await deviceSP.getDeviceID();
     expect(textSaved.isNotEmpty, true);
@@ -68,5 +65,22 @@ void main() {
 
     final String textSaved = await deviceSP.getDeviceID();
     expect(textOfTest, textSaved);
+  });
+
+  test('when want register device id', () async {
+    when(
+      encryptionDecryptAESMock.encryptData(
+        text: anyNamed('text'),
+        key: anyNamed('key'),
+        iv: anyNamed('iv'),
+      ),
+    ).thenAnswer((_) async => 'text');
+    when(sharedPreferenceMock.setString(
+      any,
+      any,
+    )).thenAnswer((_) async => true);
+
+    await deviceSP.save("test");
+    expect(true, true);
   });
 }

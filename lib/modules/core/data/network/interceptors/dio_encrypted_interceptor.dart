@@ -5,9 +5,9 @@ import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'package:portfolio_flutter/config/app_key.dart';
+import 'package:portfolio_flutter/modules/core/data/device_repository.dart';
+import 'package:portfolio_flutter/modules/core/data/key_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/network/request/request_encrypted.dart';
-import 'package:portfolio_flutter/modules/core/data/sp/device_sp.dart';
-import 'package:portfolio_flutter/modules/core/data/sp/key_sp.dart';
 import 'package:portfolio_flutter/modules/core/security/encryption_decrypt_aes.dart';
 import 'package:portfolio_flutter/modules/core/security/keys.dart';
 import 'package:portfolio_flutter/modules/core/utils/bytes.dart';
@@ -15,15 +15,15 @@ import 'package:portfolio_flutter/modules/core/utils/bytes.dart';
 class DioEncryptedInterceptor extends Interceptor {
   final EncryptionDecryptAES encryptionDecryptAES;
   final Keys keys;
-  final KeySP keySP;
-  final DeviceSP deviceSP;
+  final KeyRepository keyRepository;
+  final DeviceRepository deviceRepository;
   final Bytes bytes;
 
   DioEncryptedInterceptor({
     required this.encryptionDecryptAES,
     required this.keys,
-    required this.keySP,
-    required this.deviceSP,
+    required this.keyRepository,
+    required this.deviceRepository,
     required this.bytes,
   });
 
@@ -48,7 +48,7 @@ class DioEncryptedInterceptor extends Interceptor {
 
     options.headers = {
       "x-api-key": _randomApiKey(),
-      "device_id": await deviceSP.getDeviceID(),
+      "device_id": Uri.encodeComponent(await deviceRepository.getID()),
       "seed": await _encryptIV(iv),
     };
 
@@ -83,11 +83,13 @@ class DioEncryptedInterceptor extends Interceptor {
       iv: iv,
     );
 
-    options.data = RequestEncrypted(data: bodyEncrypted).toJson();
+    options.data = RequestEncrypted(
+      data: Uri.encodeComponent(bodyEncrypted),
+    ).toJson();
   }
 
   Future<String> _getKey() async {
-    final String keySaved = await keySP.getKey();
+    final String keySaved = await keyRepository.getKey();
     return keySaved.isNotEmpty
         ? keySaved
         : bytes.convertBytesToString(AppKey.keyDefault);
@@ -104,7 +106,7 @@ class DioEncryptedInterceptor extends Interceptor {
   }
 
   Future<String> _getSeed() async {
-    final String seedSaved = await keySP.getSeed();
+    final String seedSaved = await keyRepository.getSeed();
     return seedSaved.isNotEmpty
         ? seedSaved
         : bytes.convertBytesToString(AppKey.seedDefault);
@@ -117,7 +119,10 @@ class DioEncryptedInterceptor extends Interceptor {
         key: bytes.convertBytesToString(AppKey.keyDefault),
         iv: bytes.convertBytesToString(AppKey.seedDefault),
       );
-      return ivEncrypted.replaceAll("\n", "");
+
+      final a = Uri.encodeComponent(ivEncrypted);
+      print(a);
+      return a;
     } on Exception catch (_) {
       return iv;
     }
