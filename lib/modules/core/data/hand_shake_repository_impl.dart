@@ -1,22 +1,23 @@
 import 'package:dio/dio.dart';
+import 'package:portfolio_flutter/modules/core/const/regex_const.dart';
 import 'package:portfolio_flutter/modules/core/data/network/enums/http_error_enum.dart';
 import 'package:portfolio_flutter/modules/core/data/network/exceptions/http_exception.dart';
 import 'package:portfolio_flutter/modules/core/data/network/request/request_hand_shake.dart';
 import 'package:portfolio_flutter/modules/core/data/network/rest_hand_shake.dart';
 import 'package:portfolio_flutter/modules/core/data/sp/key_sp.dart';
-import 'package:portfolio_flutter/modules/core/security/keys.dart';
+import 'package:portfolio_flutter/modules/core/regex/regex.dart';
 
 import 'hand_shake_repository.dart';
 
 class HandShakeRepositoryImpl extends HandShakeRepository {
   final RestHandShake restHandShake;
   final KeySP keySP;
-  final Keys key;
+  final Regex regex;
 
   HandShakeRepositoryImpl({
     required this.keySP,
     required this.restHandShake,
-    required this.key,
+    required this.regex,
   });
 
   @override
@@ -26,15 +27,13 @@ class HandShakeRepositoryImpl extends HandShakeRepository {
         return;
       }
 
-      final keyGenerated = key.generateKey(16);
+      final keyGenerated = await regex.generateString(regexPattern: regexKey);
       await restHandShake.requestHandShake(
         RequestHandShake(
           key: keyGenerated,
         ),
       );
 
-      final seedGenerated = key.generateKey(16);
-      await keySP.saveSeed(seedGenerated);
       await keySP.saveKey(keyGenerated);
     } on DioException catch (e) {
       throw HttpException(exception: e);

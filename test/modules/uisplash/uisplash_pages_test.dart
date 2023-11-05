@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:portfolio_flutter/modules/core/data/key_repository.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
 import 'package:portfolio_flutter/modules/core/widgets/bottomsheet/bottom_sheet.dart';
 import 'package:portfolio_flutter/modules/uisplash/bloc/uisplash_bloc.dart';
@@ -20,11 +21,14 @@ class AppLocalizationMock extends Mock implements AppLocalization {}
 
 class StackRouterMock extends Mock implements StackRouter {}
 
+class KeyRepositoryMock extends Mock implements KeyRepository {}
+
 @GenerateMocks([
   UiSplashBlocMock,
   UiBottomSheetMock,
   AppLocalizationMock,
   StackRouterMock,
+  KeyRepositoryMock
 ])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -33,8 +37,10 @@ void main() {
   late MockUiBottomSheetMock uiBottomSheetMock;
   late MockAppLocalizationMock appLocalizationMock;
   late MockStackRouterMock stackRouterMock;
+  late MockKeyRepositoryMock keyRepositoryMock;
 
   setUp(() {
+    keyRepositoryMock = MockKeyRepositoryMock();
     uiSplashBlocMock = MockUiSplashBlocMock();
     uiBottomSheetMock = MockUiBottomSheetMock();
     appLocalizationMock = MockAppLocalizationMock();
@@ -44,6 +50,7 @@ void main() {
     GetIt.instance.registerSingleton<UiSplashBloc>(uiSplashBlocMock);
     GetIt.instance.registerSingleton<Bottomsheet>(uiBottomSheetMock);
     GetIt.instance.registerSingleton<AppLocalization>(appLocalizationMock);
+    GetIt.instance.registerSingleton<KeyRepository>(keyRepositoryMock);
   });
 
   testWidgets(
