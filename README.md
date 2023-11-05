@@ -22,7 +22,7 @@ Bem-vindo ao meu aplicativo de mensagens! Aqui você poderá enviar e receber me
 ## Esquema das branchs
 Aqui é a estrutura das branchs para o repositório.
 <p align="center">
-  <img src="./docs/imgs/gitflow_completo.png" width="600" />
+  <img src="./docs/img/gitflow_completo.png" width="600" />
 </p>
 
 ## Estrutura do projeto
