@@ -36,8 +36,8 @@ void main() {
   test('when get device id but is not exist device saved', () async {
     const String textOfTest = "text of id";
     when(
-      encryptionDecryptAESMock.encryptData(
-        text: anyNamed("text"),
+      encryptionDecryptAESMock.decryptData(
+        encrypted: anyNamed("encrypted"),
         key: anyNamed("key"),
         iv: anyNamed("iv"),
       ),
