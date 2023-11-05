@@ -80,3 +80,23 @@ class MockKeySPMock extends _i1.Mock implements _i2.KeySPMock {
         returnValueForMissingStub: _i3.Future<void>.value(),
       ) as _i3.Future<void>);
 }
+
+/// A class which mocks [RegexMock].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockRegexMock extends _i1.Mock implements _i2.RegexMock {
+  MockRegexMock() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i3.Future<String> generateString({required String? regexPattern}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #generateString,
+          [],
+          {#regexPattern: regexPattern},
+        ),
+        returnValue: _i3.Future<String>.value(''),
+      ) as _i3.Future<String>);
+}
