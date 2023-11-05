@@ -1,4 +1,4 @@
-name: Buildar e publicar no firebase
+name: Verificando teste unitário.
 
 on:
   pull_request:
