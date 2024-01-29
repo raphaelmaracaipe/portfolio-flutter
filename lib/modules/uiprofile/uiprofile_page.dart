@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:portfolio_flutter/config/app_colors.dart';
 import 'package:portfolio_flutter/config/app_fonts.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
@@ -15,7 +18,9 @@ class UiProfilePage extends StatefulWidget {
 }
 
 class _UiProfilePageState extends State<UiProfilePage> {
+  XFile? _image;
   final AppLocalization _appLocalizations = GetIt.instance();
+  final ImagePicker picker = ImagePicker();
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +69,11 @@ class _UiProfilePageState extends State<UiProfilePage> {
 
   Widget _widgetOfInputName() => Expanded(
         child: Container(
-          margin: const EdgeInsets.only(top: 30, left: 40, right: 40),
+          margin: const EdgeInsets.only(
+            top: 30,
+            left: 40,
+            right: 40,
+          ),
           alignment: Alignment.center,
           child: TextField(
             decoration: InputDecoration(
@@ -101,11 +110,7 @@ class _UiProfilePageState extends State<UiProfilePage> {
                 ),
                 borderRadius: BorderRadius.circular(120),
               ),
-              child: SvgPicture.asset(
-                "assets/images/icon_profile.svg",
-                color: AppColors.colorGray,
-                width: 150,
-              ),
+              child: _changeProfile(),
             ),
             Positioned(
               right: 0,
@@ -118,19 +123,60 @@ class _UiProfilePageState extends State<UiProfilePage> {
                   borderRadius: BorderRadius.circular(120),
                 ),
                 padding: const EdgeInsets.all(10),
-                child: SvgPicture.asset(
-                  "assets/images/icon_camera.svg",
-                  color: AppColors.colorWhite,
-                  width: 50,
-                ),
+                child: _changeIconToAction(),
               ),
             )
           ],
         ),
       );
 
-  void _onPressedProfile() {
-    print("a");
+  Widget _changeIconToAction() {
+    if (_image == null) {
+      return SvgPicture.asset(
+        "assets/images/icon_camera.svg",
+        color: AppColors.colorWhite,
+        width: 50,
+      );
+    }
+
+    return SvgPicture.asset(
+      "assets/images/icon_cancel.svg",
+      color: AppColors.colorWhite,
+      width: 50,
+    );
+  }
+
+  Widget _changeProfile() {
+    if (_image == null) {
+      return SvgPicture.asset(
+        "assets/images/icon_profile.svg",
+        color: AppColors.colorGray,
+        width: 150,
+      );
+    }
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(100),
+      child: Image.file(
+        File(_image?.path ?? ""),
+        fit: BoxFit.cover,
+      ),
+    );
+  }
+
+  void _onPressedProfile() async {
+    XFile? imagePicked;
+    if (_image == null) {
+      imagePicked = await picker.pickImage(source: ImageSource.gallery);
+    }
+
+    setState(() {
+      if (_image == null) {
+        _image = imagePicked;
+      } else {
+        _image = null;
+      }
+    });
   }
 
   void _onPressedButtonContinue() {
