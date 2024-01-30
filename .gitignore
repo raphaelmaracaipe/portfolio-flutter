@@ -11,12 +11,14 @@
 migrate_working_dir/
 
 # IntelliJ related
-*.g.*
-*.mocks.*
 *.iml
 *.ipr
 *.iws
 .idea/
+
+# Flutter
+*.g.*
+*.mocks.*
 
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
