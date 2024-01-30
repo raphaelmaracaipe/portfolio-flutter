@@ -11,6 +11,8 @@
 migrate_working_dir/
 
 # IntelliJ related
+*.g.*
+*.mocks.*
 *.iml
 *.ipr
 *.iws
