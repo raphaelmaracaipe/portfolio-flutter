@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:portfolio_flutter/config/app_fonts.dart';
 import 'package:portfolio_flutter/modules/core/widgets/bottomsheet/bottom_sheet.dart';
@@ -7,12 +9,13 @@ class BottomsheetImpl extends Bottomsheet {
   Future<void> show({
     required BuildContext context,
     required String title,
-    required String text,
+    String? text,
     required String btnText,
     required Function onBtnClick,
     enableDrag = true,
+    Widget? view,
   }) async {
-    await showModalBottomSheet<void>(
+    await showModalBottomSheet<Bool>(
       enableDrag: enableDrag,
       context: context,
       builder: (BuildContext buildContext) {
@@ -45,19 +48,7 @@ class BottomsheetImpl extends Bottomsheet {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(
-                      top: 15,
-                      left: 20,
-                      right: 20,
-                    ),
-                    child: Text(
-                      text,
-                      style: const TextStyle(
-                        fontFamily: AppFonts.openSans,
-                      ),
-                    ),
-                  ),
+                  _buildView(text, view),
                 ],
               ),
               Container(
@@ -65,6 +56,7 @@ class BottomsheetImpl extends Bottomsheet {
                 child: TextButton(
                   key: const Key('bottomSheetClickButton'),
                   onPressed: () {
+                    Navigator.pop(context);
                     onBtnClick();
                   },
                   child: Text(
@@ -81,5 +73,30 @@ class BottomsheetImpl extends Bottomsheet {
         );
       },
     );
+  }
+
+  @override
+  void dimiss({required BuildContext context}) {
+    Navigator.pop(context);
+  }
+
+  Widget _buildView(String? text, Widget? view) {
+    if (view == null) {
+      return Container(
+        margin: const EdgeInsets.only(
+          top: 15,
+          left: 20,
+          right: 20,
+        ),
+        child: Text(
+          (text ?? ""),
+          style: const TextStyle(
+            fontFamily: AppFonts.openSans,
+          ),
+        ),
+      );
+    }
+
+    return view;
   }
 }

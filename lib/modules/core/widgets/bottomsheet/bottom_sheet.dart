@@ -4,9 +4,12 @@ abstract class Bottomsheet {
   void show({
     required BuildContext context,
     required String title,
-    required String text,
+    String? text,
     required String btnText,
     required Function onBtnClick,
     enableDrag = true,
+    Widget? view,
   });
+
+  void dimiss({required BuildContext context});
 }

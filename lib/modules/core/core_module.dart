@@ -35,6 +35,8 @@ import 'package:portfolio_flutter/modules/core/security/keys.dart';
 import 'package:portfolio_flutter/modules/core/security/keys_impl.dart';
 import 'package:portfolio_flutter/modules/core/utils/bytes.dart';
 import 'package:portfolio_flutter/modules/core/utils/bytes_impl.dart';
+import 'package:portfolio_flutter/modules/core/utils/files.dart';
+import 'package:portfolio_flutter/modules/core/utils/files_impl.dart';
 import 'package:portfolio_flutter/modules/core/utils/strings.dart';
 import 'package:portfolio_flutter/modules/core/utils/strings_impl.dart';
 import 'package:portfolio_flutter/modules/core/widgets/bottomsheet/bottom_sheet.dart';
@@ -148,4 +150,7 @@ abstract class CoreModule {
 
   @lazySingleton
   Loading get loading => LoadingImpl();
+
+  @lazySingleton
+  Files get file => FilesImpl();
 }
