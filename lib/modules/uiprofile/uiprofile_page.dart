@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,6 +13,10 @@ import 'package:portfolio_flutter/modules/core/data/network/request/request_prof
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
 import 'package:portfolio_flutter/modules/core/utils/files.dart';
 import 'package:portfolio_flutter/modules/core/widgets/bottomsheet/bottom_sheet.dart';
+import 'package:portfolio_flutter/modules/uiprofile/bloc/uiprofile_bloc.dart';
+import 'package:portfolio_flutter/modules/uiprofile/bloc/uiprofile_bloc_event.dart';
+import 'package:portfolio_flutter/modules/uiprofile/bloc/uiprofile_bloc_state.dart';
+import 'package:portfolio_flutter/modules/uiprofile/bloc/uiprofile_bloc_status.dart';
 
 @RoutePage()
 class UiProfilePage extends StatefulWidget {
@@ -26,6 +31,7 @@ class _UiProfilePageState extends State<UiProfilePage> {
   RequestProfile _requestProfile = RequestProfile(name: "", photo: "");
   List<Map<String, String>> items = [];
   final TextEditingController _nameController = TextEditingController();
+  final UiProfileBloc _uiProfileBloc = GetIt.instance();
   final AppLocalization _appLocalizations = GetIt.instance();
   final Bottomsheet _bottomSheetToChooseTypeCapture = GetIt.instance();
   final Bottomsheet _bottomSheetAlertWhenDataOfProfile = GetIt.instance();
@@ -35,6 +41,34 @@ class _UiProfilePageState extends State<UiProfilePage> {
   @override
   Widget build(BuildContext context) {
     _loadingItemsToChooseTheCapture();
+    return Stack(
+      children: [_buildBloc(), _scaffod()],
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _uiProfileBloc.close();
+  }
+
+  _buildBloc() {
+    return BlocBuilder<UiProfileBloc, UiProfileBlocState>(
+      bloc: _uiProfileBloc,
+      builder: (context, state) {
+        switch (state.status) {
+          case UiProfileBlocStatus.updateWithSuccess:
+            return Container();
+          case UiProfileBlocStatus.loading:
+            return Container();
+          default:
+            return Container();
+        }
+      },
+    );
+  }
+
+  Scaffold _scaffod() {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -244,7 +278,9 @@ class _UiProfilePageState extends State<UiProfilePage> {
     }
   }
 
-  void _sendToServer() {}
+  void _sendToServer() {
+    _uiProfileBloc.add(SendProfile(profile: _requestProfile));
+  }
 
   Widget _getRow(Map<String, String> mapData) {
     return GestureDetector(

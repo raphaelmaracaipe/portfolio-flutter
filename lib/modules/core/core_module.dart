@@ -14,7 +14,10 @@ import 'package:portfolio_flutter/modules/core/data/key_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/key_repository_impl.dart';
 import 'package:portfolio_flutter/modules/core/data/network/config/network_config.dart';
 import 'package:portfolio_flutter/modules/core/data/network/rest_hand_shake.dart';
+import 'package:portfolio_flutter/modules/core/data/network/rest_profile.dart';
 import 'package:portfolio_flutter/modules/core/data/network/rest_user.dart';
+import 'package:portfolio_flutter/modules/core/data/profile_repository.dart';
+import 'package:portfolio_flutter/modules/core/data/profile_repository_impl.dart';
 import 'package:portfolio_flutter/modules/core/data/route_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/route_repository_impl.dart';
 import 'package:portfolio_flutter/modules/core/data/sp/device_sp.dart';
@@ -23,6 +26,8 @@ import 'package:portfolio_flutter/modules/core/data/sp/key_sp.dart';
 import 'package:portfolio_flutter/modules/core/data/sp/key_sp_impl.dart';
 import 'package:portfolio_flutter/modules/core/data/sp/route_sp.dart';
 import 'package:portfolio_flutter/modules/core/data/sp/route_sp_impl.dart';
+import 'package:portfolio_flutter/modules/core/data/sp/token_sp.dart';
+import 'package:portfolio_flutter/modules/core/data/sp/token_sp_impl.dart';
 import 'package:portfolio_flutter/modules/core/data/user_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/user_repository_impl.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
@@ -80,21 +85,31 @@ abstract class CoreModule {
 
   @lazySingleton
   KeySP get keySP => KeySPImpl(
-      sharedPreference: sharedPreferences,
-      encryptionDecryptAES: encryptionDecryptAES,
-      bytes: bytes);
+        sharedPreference: sharedPreferences,
+        encryptionDecryptAES: encryptionDecryptAES,
+        bytes: bytes,
+      );
 
   @lazySingleton
   DeviceSP get deviceSP => DeviceSPImpl(
-      sharedPreference: sharedPreferences,
-      encryptionDecryptAES: encryptionDecryptAES,
-      bytes: bytes);
+        sharedPreference: sharedPreferences,
+        encryptionDecryptAES: encryptionDecryptAES,
+        bytes: bytes,
+      );
 
   @lazySingleton
   RouteSP get routeSP => RouteSPImpl(
-      bytes: bytes,
-      sharedPreferences: sharedPreferences,
-      encryptionDecryptAES: encryptionDecryptAES);
+        bytes: bytes,
+        sharedPreferences: sharedPreferences,
+        encryptionDecryptAES: encryptionDecryptAES,
+      );
+
+  @lazySingleton
+  TokenSP get tokenSP => TokenSPImpl(
+        bytes: bytes,
+        sharedPreferences: sharedPreferences,
+        encryptionDecryptAES: encryptionDecryptAES,
+      );
 
   @lazySingleton
   Dio get dio => NetworkConfig.config(
@@ -103,6 +118,7 @@ abstract class CoreModule {
         keyRepository: keyRepository,
         deviceRepository: deviceRepository,
         encryptionDecryptAES: encryptionDecryptAES,
+        tokenSP: tokenSP,
       );
 
   @lazySingleton
@@ -118,6 +134,12 @@ abstract class CoreModule {
       );
 
   @lazySingleton
+  RestProfile get restProfile => RestProfile(
+        dio,
+        baseUrl: (env?.baseUrl ?? ""),
+      );
+
+  @lazySingleton
   HandShakeRepository get handShakeRepository => HandShakeRepositoryImpl(
         keySP: keySP,
         restHandShake: restHandShake,
@@ -125,18 +147,29 @@ abstract class CoreModule {
       );
 
   @lazySingleton
-  RouteRepository get routeRepository => RouteRepositoryImpl(routeSP: routeSP);
+  RouteRepository get routeRepository => RouteRepositoryImpl(
+        routeSP: routeSP,
+      );
 
   @lazySingleton
-  UserRepository get userRepository => UserRepositoryImpl(restClient: restUser);
+  UserRepository get userRepository =>
+      UserRepositoryImpl(restClient: restUser, tokenSP: tokenSP);
 
   @lazySingleton
-  KeyRepository get keyRepository => KeyRepositoryImpl(sp: keySP, regex: regex);
+  KeyRepository get keyRepository => KeyRepositoryImpl(
+        sp: keySP,
+        regex: regex,
+      );
 
   @lazySingleton
   DeviceRepository get deviceRepository => DeviceRepositoryImpl(
         deviceSP: deviceSP,
         regex: regex,
+      );
+
+  @lazySingleton
+  ProfileRepository get profileRepository => ProfileRepositoryImpl(
+        restProfile: restProfile,
       );
 
   @lazySingleton

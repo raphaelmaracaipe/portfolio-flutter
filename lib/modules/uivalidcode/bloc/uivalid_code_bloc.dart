@@ -30,12 +30,10 @@ class UiValidCodeBloc extends Bloc<UiValidCodeBlocEvent, UiValidCodeBlocState> {
   ) async {
     emitter(const UiValidCodeBlocLoading());
     try {
-      final ResponseValidCode response = await _userRepository.requestValidCode(
-        event.code,
-      );
+      await _userRepository.requestValidCode(event.code);
       await _routeRepository.save(UiProfileRoute.name);
 
-      emitter(UiValidCodeBlocLoaded(response: response));
+      emitter(const UiValidCodeBlocLoaded());
     } on HttpException catch (e) {
       emitter(UiValidCodeBlocError(codeError: e.enumError));
     }

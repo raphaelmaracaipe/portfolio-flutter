@@ -7,7 +7,9 @@ import 'package:logger/logger.dart';
 import 'package:portfolio_flutter/config/app_key.dart';
 import 'package:portfolio_flutter/modules/core/data/device_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/key_repository.dart';
+import 'package:portfolio_flutter/modules/core/data/network/enums/http_error_enum.dart';
 import 'package:portfolio_flutter/modules/core/data/network/request/request_encrypted.dart';
+import 'package:portfolio_flutter/modules/core/data/sp/token_sp.dart';
 import 'package:portfolio_flutter/modules/core/security/encryption_decrypt_aes.dart';
 import 'package:portfolio_flutter/modules/core/security/keys.dart';
 import 'package:portfolio_flutter/modules/core/utils/bytes.dart';
@@ -18,6 +20,7 @@ class DioEncryptedInterceptor extends Interceptor {
   final KeyRepository keyRepository;
   final DeviceRepository deviceRepository;
   final Bytes bytes;
+  final TokenSP tokenSP;
 
   DioEncryptedInterceptor({
     required this.encryptionDecryptAES,
@@ -25,6 +28,7 @@ class DioEncryptedInterceptor extends Interceptor {
     required this.keyRepository,
     required this.deviceRepository,
     required this.bytes,
+    required this.tokenSP,
   });
 
   Logger logger = Logger();
@@ -52,7 +56,30 @@ class DioEncryptedInterceptor extends Interceptor {
       "seed": await _encryptIV(iv),
     };
 
+    await _checkAndAddAuthorization(options);
     return handler.next(options);
+  }
+
+  @override
+  void onError(DioException err, ErrorInterceptorHandler handler) {
+    final Map<String, dynamic> responseData = err.response?.data ?? Map.of({});
+    if (responseData["statusCode"] == 401 &&
+        responseData["message"] == HttpErrorEnum.TOKEN_INVALID.code) {
+      print("a");
+    }
+    super.onError(err, handler);
+  }
+
+  Future<void> _checkAndAddAuthorization(RequestOptions options) async {
+    try {
+      final tokenResponse = await tokenSP.get();
+      if (tokenResponse.accessToken?.isNotEmpty ?? false) {
+        options.headers = {
+          ...options.headers,
+          "authorization": "Bearer ${tokenResponse.accessToken}",
+        };
+      }
+    } on Exception catch (_) {}
   }
 
   Future<void> _executePartOfStringToMap(Response<dynamic> response) async {
@@ -120,9 +147,7 @@ class DioEncryptedInterceptor extends Interceptor {
         iv: bytes.convertBytesToString(AppKey.seedDefault),
       );
 
-      final a = Uri.encodeComponent(ivEncrypted);
-      print(a);
-      return a;
+      return Uri.encodeComponent(ivEncrypted);
     } on Exception catch (_) {
       return iv;
     }
