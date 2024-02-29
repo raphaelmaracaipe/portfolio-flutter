@@ -15,6 +15,7 @@ import 'package:portfolio_flutter/modules/core/data/key_repository_impl.dart';
 import 'package:portfolio_flutter/modules/core/data/network/config/network_config.dart';
 import 'package:portfolio_flutter/modules/core/data/network/rest_hand_shake.dart';
 import 'package:portfolio_flutter/modules/core/data/network/rest_profile.dart';
+import 'package:portfolio_flutter/modules/core/data/network/rest_token.dart';
 import 'package:portfolio_flutter/modules/core/data/network/rest_user.dart';
 import 'package:portfolio_flutter/modules/core/data/profile_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/profile_repository_impl.dart';
@@ -28,6 +29,8 @@ import 'package:portfolio_flutter/modules/core/data/sp/route_sp.dart';
 import 'package:portfolio_flutter/modules/core/data/sp/route_sp_impl.dart';
 import 'package:portfolio_flutter/modules/core/data/sp/token_sp.dart';
 import 'package:portfolio_flutter/modules/core/data/sp/token_sp_impl.dart';
+import 'package:portfolio_flutter/modules/core/data/token_interceptor_repository.dart';
+import 'package:portfolio_flutter/modules/core/data/token_interceptor_repository_impl.dart';
 import 'package:portfolio_flutter/modules/core/data/user_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/user_repository_impl.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
@@ -117,6 +120,7 @@ abstract class CoreModule {
         bytes: bytes,
         keyRepository: keyRepository,
         deviceRepository: deviceRepository,
+        tokenInterceptorRepository: tokenInterceptorRepository,
         encryptionDecryptAES: encryptionDecryptAES,
         tokenSP: tokenSP,
       );
@@ -136,6 +140,19 @@ abstract class CoreModule {
   @lazySingleton
   RestProfile get restProfile => RestProfile(
         dio,
+        baseUrl: (env?.baseUrl ?? ""),
+      );
+
+  @lazySingleton
+  RestToken get restTokenInterceptor => RestToken(
+        NetworkConfig.config(
+          keys: keys,
+          bytes: bytes,
+          keyRepository: keyRepository,
+          deviceRepository: deviceRepository,
+          encryptionDecryptAES: encryptionDecryptAES,
+          tokenSP: tokenSP,
+        ),
         baseUrl: (env?.baseUrl ?? ""),
       );
 
@@ -170,6 +187,13 @@ abstract class CoreModule {
   @lazySingleton
   ProfileRepository get profileRepository => ProfileRepositoryImpl(
         restProfile: restProfile,
+      );
+
+  @lazySingleton
+  TokenInterceptorRepository get tokenInterceptorRepository =>
+      TokenInterceptorRepositoryImpl(
+        restToken: restTokenInterceptor,
+        tokenSP: tokenSP,
       );
 
   @lazySingleton

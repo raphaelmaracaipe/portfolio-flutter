@@ -4,12 +4,12 @@ import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:portfolio_flutter/modules/core/data/network/enums/http_error_enum.dart';
 import 'package:portfolio_flutter/modules/core/data/network/exceptions/http_exception.dart';
 import 'package:portfolio_flutter/modules/core/data/network/request/request_user_code.dart';
-import 'package:portfolio_flutter/modules/core/data/network/response/response_valid_code.dart';
+import 'package:portfolio_flutter/modules/core/data/network/response/response_token.dart';
 import 'package:portfolio_flutter/modules/core/data/network/rest_user.dart';
 
 void main() {
   Dio? dio;
-  RestUser? restClient;
+  RestUser? restUser;
   late DioAdapter mockAdapter;
 
   setUp(() {
@@ -19,7 +19,7 @@ void main() {
     mockAdapter = DioAdapter(dio: dio!);
     dio?.httpClientAdapter = mockAdapter;
 
-    restClient = RestUser(dio!, baseUrl: '');
+    restUser = RestUser(dio!, baseUrl: '');
   });
 
   test('when request code but api return success', () async {
@@ -29,7 +29,7 @@ void main() {
 
     try {
       final requestUserCode = RequestUserCode(phone: '1234567890');
-      await restClient?.requestCode(requestUserCode);
+      await restUser?.requestCode(requestUserCode);
       expect(true, true);
     } on Exception {
       expect(true, false);
@@ -37,21 +37,26 @@ void main() {
   });
 
   test('when request code but api return error', () async {
+    Map<String, dynamic> messageError = {
+      "message": HttpErrorEnum.USER_SEND_CODE_INVALID.code,
+    };
+
     mockAdapter.onPost('/v1/users/code', (server) {
-      server.reply(403, "");
+      server.reply(403, messageError);
     }, data: Matchers.any);
 
     try {
       final requestUserCode = RequestUserCode(phone: '1234567890');
-      await restClient?.requestCode(requestUserCode);
+      await restUser?.requestCode(requestUserCode);
       expect(true, false);
-    } on Exception {
-      expect(true, true);
+    } on DioException catch (exception) {
+      HttpException httpException = HttpException(exception: exception);
+      expect(HttpErrorEnum.USER_SEND_CODE_INVALID, httpException.enumError);
     }
   });
 
   test('when send code to validation and api return success', () async {
-    ResponseValidCode responseValidCode = ResponseValidCode(
+    ResponseToken responseValidCode = ResponseToken(
       refreshToken: "AAA",
       accessToken: "BBB",
     );
@@ -61,7 +66,7 @@ void main() {
     });
 
     try {
-      ResponseValidCode? response = await restClient?.requestValidCode("1");
+      ResponseToken? response = await restUser?.requestValidCode("1");
       expect(responseValidCode.refreshToken, response?.refreshToken);
     } on Exception {
       expect(false, true);
@@ -78,7 +83,7 @@ void main() {
     });
 
     try {
-      await restClient?.requestValidCode("1");
+      await restUser?.requestValidCode("1");
       expect(false, true);
     } on DioException catch (exception) {
       final HttpException httpException = HttpException(exception: exception);

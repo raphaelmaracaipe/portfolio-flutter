@@ -36,24 +36,27 @@ void main() {
     }
   });
 
-  test('when request of handshake and api return fail', () async {
-    Map<String, dynamic> messageError = {
-      "message": HttpErrorEnum.USER_SEND_CODE_INVALID.code,
-    };
+  test(
+    'when request of handshake and api return fail',
+    () async {
+      Map<String, dynamic> messageError = {
+        "message": HttpErrorEnum.USER_SEND_CODE_INVALID.code,
+      };
 
-    mockAdapter.onPost('/v1/handshake/', (server) {
-      server.reply(403, messageError);
-    }, data: Matchers.any);
+      mockAdapter.onPost('/v1/handshake/', (server) {
+        server.reply(403, messageError);
+      }, data: Matchers.any);
 
-    try {
-      final requestHandShake = RequestHandShake(key: "1");
-      await restHandShake?.requestHandShake(requestHandShake);
-      expect(true, false);
-    } on DioException catch (exception) {
-      final HttpException httpException = HttpException(exception: exception);
-      expect(httpException.enumError, HttpErrorEnum.USER_SEND_CODE_INVALID);
-    }
-  });
+      try {
+        final requestHandShake = RequestHandShake(key: "1");
+        await restHandShake?.requestHandShake(requestHandShake);
+        expect(true, false);
+      } on DioException catch (exception) {
+        final HttpException httpException = HttpException(exception: exception);
+        expect(httpException.enumError, HttpErrorEnum.USER_SEND_CODE_INVALID);
+      }
+    },
+  );
 
   tearDown(() {
     dio?.close();

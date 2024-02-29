@@ -11,7 +11,7 @@ class BottomsheetImpl extends Bottomsheet {
     required String title,
     String? text,
     required String btnText,
-    required Function onBtnClick,
+    Function? onBtnClick,
     enableDrag = true,
     Widget? view,
   }) async {
@@ -57,7 +57,7 @@ class BottomsheetImpl extends Bottomsheet {
                   key: const Key('bottomSheetClickButton'),
                   onPressed: () {
                     Navigator.pop(context);
-                    onBtnClick();
+                    // onBtnClick ?? ();
                   },
                   child: Text(
                     btnText,

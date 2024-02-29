@@ -7,4 +7,12 @@ void main() {
     final json = request.toJson();
     expect(json['code'], 'test');
   });
+
+  test('when received json and convert to model', () {
+    const code = "12345";
+    final json = {'code': code};
+
+    final requestValidCode = RequestValidCode.fromJson(json);
+    expect(code, requestValidCode.code);
+  });
 }

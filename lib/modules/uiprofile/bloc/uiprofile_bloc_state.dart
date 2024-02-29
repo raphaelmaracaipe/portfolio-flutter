@@ -24,9 +24,16 @@ class UiProfileBlocStateLoading extends UiProfileBlocState {
         );
 }
 
-class UiProfileBlocUpdateSucces extends UiProfileBlocState {
-  const UiProfileBlocUpdateSucces()
+class UiProfileBlocStateUpdateSuccess extends UiProfileBlocState {
+  const UiProfileBlocStateUpdateSuccess()
       : super(
           status: UiProfileBlocStatus.updateWithSuccess,
+        );
+}
+
+class UiProfileBlocStateError extends UiProfileBlocState {
+  const UiProfileBlocStateError()
+      : super(
+          status: UiProfileBlocStatus.error,
         );
 }

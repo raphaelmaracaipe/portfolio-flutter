@@ -27,5 +27,6 @@
     "profileCamera": "Camera",
     "profileChooseTitle": "Por favor, escolha uma das opções",
     "profileBottomClose": "Fechar",
-    "profileAlertProfileEmpty": "O campo nome está vazio, deseja continuar?"
+    "profileAlertProfileEmpty": "O campo nome está vazio, deseja continuar?",
+    "errorGeneric": "Ocorreu um erro. Por favor, tente novamente mais tarde."
 }

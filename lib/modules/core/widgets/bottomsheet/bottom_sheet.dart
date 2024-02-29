@@ -6,7 +6,7 @@ abstract class Bottomsheet {
     required String title,
     String? text,
     required String btnText,
-    required Function onBtnClick,
+    Function? onBtnClick,
     enableDrag = true,
     Widget? view,
   });

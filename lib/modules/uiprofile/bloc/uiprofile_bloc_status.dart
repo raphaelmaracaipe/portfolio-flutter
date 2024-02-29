@@ -1,1 +1,6 @@
-enum UiProfileBlocStatus { unknown, loading, updateWithSuccess }
+enum UiProfileBlocStatus {
+  unknown,
+  loading,
+  updateWithSuccess,
+  error,
+}

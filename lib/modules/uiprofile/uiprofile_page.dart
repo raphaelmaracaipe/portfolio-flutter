@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';
@@ -13,10 +14,12 @@ import 'package:portfolio_flutter/modules/core/data/network/request/request_prof
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
 import 'package:portfolio_flutter/modules/core/utils/files.dart';
 import 'package:portfolio_flutter/modules/core/widgets/bottomsheet/bottom_sheet.dart';
+import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart';
 import 'package:portfolio_flutter/modules/uiprofile/bloc/uiprofile_bloc.dart';
 import 'package:portfolio_flutter/modules/uiprofile/bloc/uiprofile_bloc_event.dart';
 import 'package:portfolio_flutter/modules/uiprofile/bloc/uiprofile_bloc_state.dart';
 import 'package:portfolio_flutter/modules/uiprofile/bloc/uiprofile_bloc_status.dart';
+import 'package:portfolio_flutter/routers/app_router.gr.dart';
 
 @RoutePage()
 class UiProfilePage extends StatefulWidget {
@@ -31,18 +34,24 @@ class _UiProfilePageState extends State<UiProfilePage> {
   RequestProfile _requestProfile = RequestProfile(name: "", photo: "");
   List<Map<String, String>> items = [];
   final TextEditingController _nameController = TextEditingController();
+  final ImagePicker _picker = ImagePicker();
+  final Loading _loading = GetIt.instance();
   final UiProfileBloc _uiProfileBloc = GetIt.instance();
   final AppLocalization _appLocalizations = GetIt.instance();
+  final Files _files = GetIt.instance();
   final Bottomsheet _bottomSheetToChooseTypeCapture = GetIt.instance();
   final Bottomsheet _bottomSheetAlertWhenDataOfProfile = GetIt.instance();
-  final Files _files = GetIt.instance();
-  final ImagePicker _picker = ImagePicker();
+  final Bottomsheet _bottomSheetError = GetIt.instance();
 
   @override
   Widget build(BuildContext context) {
     _loadingItemsToChooseTheCapture();
     return Stack(
-      children: [_buildBloc(), _scaffod()],
+      key: const Key("uiProfileContainer"),
+      children: [
+        _scaffod(),
+        _buildBloc(),
+      ],
     );
   }
 
@@ -57,15 +66,31 @@ class _UiProfilePageState extends State<UiProfilePage> {
       bloc: _uiProfileBloc,
       builder: (context, state) {
         switch (state.status) {
+          case UiProfileBlocStatus.error:
+            _showMessageErrorOfRequest();
+            return Container(key: const Key('UiProfilePageMessageError'));
           case UiProfileBlocStatus.updateWithSuccess:
+            context.router.popAndPush(const UiContactRoutes());
             return Container();
           case UiProfileBlocStatus.loading:
-            return Container();
+            return _loading.showLoading(_appLocalizations);
           default:
             return Container();
         }
       },
     );
+  }
+
+  FutureOr<void> _showMessageErrorOfRequest() {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      _bottomSheetError.show(
+        context: context,
+        title: _appLocalizations.localization?.generalAttention ?? "",
+        text: _appLocalizations.localization?.errorGeneric ?? "",
+        btnText: _appLocalizations.localization?.generalOk ?? "",
+        onBtnClick: () {},
+      );
+    });
   }
 
   Scaffold _scaffod() {
@@ -123,6 +148,7 @@ class _UiProfilePageState extends State<UiProfilePage> {
 
   Widget _widgetOfButton() {
     return TextButton(
+      key: const Key('UiProfilePageButtonContinue'),
       onPressed: _onPressedButtonContinue,
       child: Text(_appLocalizations.localization?.generalContinue ?? ""),
     );
@@ -159,6 +185,7 @@ class _UiProfilePageState extends State<UiProfilePage> {
 
   Widget _widgetOfImage() {
     return GestureDetector(
+      key: const Key("UiProfilePageChooseImage"),
       onTap: _onPressedProfile,
       child: Stack(
         children: [

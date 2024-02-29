@@ -12,7 +12,6 @@ class LoadingWidget extends StatefulWidget {
     required this.appLocalization,
   });
 
-
   @override
   State<LoadingWidget> createState() => _LoadingWidgetState();
 }
@@ -42,6 +41,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
                   fontSize: 12,
                   fontFamily: AppFonts.openSans,
                   fontStyle: FontStyle.normal,
+                  color: AppColors.colorGray,
                 ),
               ),
             )

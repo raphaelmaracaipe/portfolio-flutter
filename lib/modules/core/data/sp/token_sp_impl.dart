@@ -1,8 +1,7 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
 import 'package:portfolio_flutter/config/app_key.dart';
-import 'package:portfolio_flutter/modules/core/data/network/response/response_valid_code.dart';
+import 'package:portfolio_flutter/modules/core/data/network/response/response_token.dart';
 import 'package:portfolio_flutter/modules/core/data/sp/token_sp.dart';
 import 'package:portfolio_flutter/modules/core/security/encryption_decrypt_aes.dart';
 import 'package:portfolio_flutter/modules/core/utils/bytes.dart';
@@ -21,7 +20,7 @@ class TokenSPImpl extends TokenSP {
   });
 
   @override
-  Future<void> save(ResponseValidCode responseValidCode) async {
+  Future<void> save(ResponseToken responseValidCode) async {
     final responValidCodeJsonToString = jsonEncode(responseValidCode.toJson());
     dynamic responseValidCodeEncrypted = await encryptionDecryptAES.encryptData(
       text: responValidCodeJsonToString,
@@ -36,14 +35,14 @@ class TokenSPImpl extends TokenSP {
   }
 
   @override
-  Future<ResponseValidCode> get() async {
+  Future<ResponseToken> get() async {
     final dataSaved = (await sharedPreferences).getString(
           _keyShared,
         ) ??
         "";
 
     if (dataSaved.isEmpty) {
-      return ResponseValidCode();
+      return ResponseToken();
     }
 
     final dataDecrypted = await encryptionDecryptAES.decryptData(
@@ -53,6 +52,6 @@ class TokenSPImpl extends TokenSP {
     );
 
     final dataJsonDecoded = jsonDecode(dataDecrypted);
-    return ResponseValidCode.fromJson(dataJsonDecoded);
+    return ResponseToken.fromJson(dataJsonDecoded);
   }
 }

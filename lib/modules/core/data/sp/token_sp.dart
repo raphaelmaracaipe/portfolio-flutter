@@ -1,7 +1,7 @@
-import 'package:portfolio_flutter/modules/core/data/network/response/response_valid_code.dart';
+import 'package:portfolio_flutter/modules/core/data/network/response/response_token.dart';
 
 abstract class TokenSP {
-  Future<void> save(ResponseValidCode responseValidCode);
+  Future<void> save(ResponseToken responseValidCode);
 
-  Future<ResponseValidCode> get();
+  Future<ResponseToken> get();
 }

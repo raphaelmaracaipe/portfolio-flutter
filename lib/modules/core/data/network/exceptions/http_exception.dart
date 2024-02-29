@@ -25,11 +25,12 @@ class HttpException implements Exception {
     return HttpErrorEnum.ERROR_GENERAL.code;
   }
 
-  bool _isNumber(String text) {
-    if (text == null) {
+  bool _isNumber(dynamic text) {
+    try {
+      return double.tryParse(text.toString()) != null;
+    } on Exception catch (_) {
       return false;
     }
-    return double.tryParse(text) != null;
   }
 
   HttpException.putEnum(HttpErrorEnum httpErrorEnum) {
