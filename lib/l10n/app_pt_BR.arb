@@ -1,5 +1,7 @@
 {
     "@@locale": "pt_BR",
+    "title": "Portfólio",
+    "subtitle": "Seja bem-vindo",
     "countryTitleSearch": "Buscar país",
     "loading": "Carregando...",
     "country": "País",
@@ -17,5 +19,14 @@
     "generalYes": "Sim",
     "generalOk": "Ok! Entendi.",
     "generalAttention": "Atenção",
-    "errorRegisterDeviceText": "Um erro ao realizar o registro do device. Por favor, tente novamente mais tarde."
+    "generalContinue": "Continuar",
+    "errorRegisterDeviceText": "Um erro ao realizar o registro do device. Por favor, tente novamente mais tarde.",
+    "profileTitle": "Perfíl",
+    "profileNameInput": "Informe o nome do seu perfil.",
+    "profileGallery": "Galeria",
+    "profileCamera": "Camera",
+    "profileChooseTitle": "Por favor, escolha uma das opções",
+    "profileBottomClose": "Fechar",
+    "profileAlertProfileEmpty": "O campo nome está vazio, deseja continuar?",
+    "errorGeneric": "Ocorreu um erro. Por favor, tente novamente mais tarde."
 }

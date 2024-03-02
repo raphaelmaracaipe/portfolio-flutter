@@ -90,7 +90,7 @@ class _UiValidCodePages extends State<UiValidCodePages> {
             return _loading.showLoading(_appLocalizations);
           case UiValidCodeBlocStatus.loaded:
             _timer.cancel();
-            context.router.push(const UiProfileRoute());
+            context.router.popAndPush(const UiProfileRoute());
             return Container();
           case UiValidCodeBlocStatus.error:
             _checkWhatsMessageError(state.codeError);

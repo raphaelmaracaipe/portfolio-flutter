@@ -15,7 +15,7 @@ class EncryptionDecryptAESImpl extends EncryptionDecryptAES {
     required String iv,
   }) async {
     try {
-      if(encrypted.isEmpty) {
+      if (encrypted.isEmpty) {
         return "";
       }
 
@@ -26,6 +26,8 @@ class EncryptionDecryptAESImpl extends EncryptionDecryptAES {
       });
     } on PlatformException catch (e) {
       throw Exception(e.message);
+    } on Exception catch (e) {
+      throw Exception(e);
     }
   }
 

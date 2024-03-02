@@ -14,7 +14,22 @@ class HttpException implements Exception {
       code = 0;
     } else {
       final Map<String, dynamic> dataError = exception?.response?.data;
-      code = dataError["message"];
+      code = _checkIfDataErrorIsNumber(dataError["message"]);
+    }
+  }
+
+  dynamic _checkIfDataErrorIsNumber(dynamic dataError) {
+    if (_isNumber(dataError)) {
+      return dataError;
+    }
+    return HttpErrorEnum.ERROR_GENERAL.code;
+  }
+
+  bool _isNumber(dynamic text) {
+    try {
+      return double.tryParse(text.toString()) != null;
+    } on Exception catch (_) {
+      return false;
     }
   }
 
