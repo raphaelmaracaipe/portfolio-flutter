@@ -5,13 +5,11 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:portfolio_flutter/modules/uicontacts/uicontact_pages.dart';
 
-import '../uicountry/uicountry_page_test.mocks.dart';
+import 'uicontact_pages_test.mocks.dart';
 
 class StackRouterMock extends Mock implements StackRouter {}
 
-@GenerateMocks([
-  StackRouterMock,
-])
+@GenerateMocks([StackRouterMock])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 

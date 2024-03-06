@@ -6,5 +6,5 @@ class AppColors {
   static const Color colorSearch = Color(0xFFE9E8EF);
   static const Color colorError = Color(0xFF8B0000);
   static const Color colorWhite = Color(0xFFFFFFFF);
-  static const Color colorBlack = Color(0x00000000);
+  static const Color colorBlack = Color(0xFF000000);
 }

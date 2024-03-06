@@ -3,13 +3,16 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:portfolio_flutter/config/app_colors.dart';
 import 'package:portfolio_flutter/config/app_fonts.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
+import 'package:portfolio_flutter/modules/core/utils/colors_u.dart';
 
 class LoadingWidget extends StatefulWidget {
   final AppLocalization appLocalization;
+  final ColorsU colorsU;
 
   const LoadingWidget({
     super.key,
     required this.appLocalization,
+    required this.colorsU,
   });
 
   @override
@@ -28,8 +31,16 @@ class _LoadingWidgetState extends State<LoadingWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             LoadingAnimationWidget.discreteCircle(
-              color: AppColors.colorPrimary,
-              secondRingColor: AppColors.colorPrimary,
+              color: widget.colorsU.checkColorsWhichIsDarkMode(
+                context: context,
+                light: AppColors.colorPrimary,
+                dark: AppColors.colorWhite,
+              ),
+              secondRingColor: widget.colorsU.checkColorsWhichIsDarkMode(
+                context: context,
+                light: AppColors.colorPrimary,
+                dark: AppColors.colorWhite,
+              ),
               thirdRingColor: AppColors.colorGray,
               size: 50,
             ),
@@ -37,11 +48,15 @@ class _LoadingWidgetState extends State<LoadingWidget> {
               margin: const EdgeInsets.only(top: 20),
               child: Text(
                 (widget.appLocalization.localization?.loading ?? ""),
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 12,
                   fontFamily: AppFonts.openSans,
                   fontStyle: FontStyle.normal,
-                  color: AppColors.colorGray,
+                  color: widget.colorsU.checkColorsWhichIsDarkMode(
+                    context: context,
+                    light: AppColors.colorGray,
+                    dark: AppColors.colorBlack,
+                  ),
                 ),
               ),
             )

@@ -6,6 +6,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
+import 'package:portfolio_flutter/modules/core/utils/colors_u.dart';
 import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart';
 import 'package:portfolio_flutter/modules/uicountry/bloc/uicountry_bloc.dart';
 import 'package:portfolio_flutter/modules/uicountry/bloc/uicountry_bloc_state.dart';
@@ -21,11 +22,14 @@ class LoadingMock extends Mock implements Loading {}
 
 class StackRouterMock extends Mock implements StackRouter {}
 
+class ColorUMock extends Mock implements ColorsU {}
+
 @GenerateMocks([
   UICountryBlocMock,
   AppLocalizationMock,
   LoadingMock,
   StackRouterMock,
+  ColorUMock
 ])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -34,19 +38,29 @@ void main() {
   late MockAppLocalizationMock appLocalizationMock;
   late MockLoadingMock loadingMock;
   late MockStackRouterMock stackRouterMock;
+  late MockColorUMock colorUMock;
 
   setUp(() {
     uiCountryBlocMock = MockUICountryBlocMock();
     appLocalizationMock = MockAppLocalizationMock();
     loadingMock = MockLoadingMock();
     stackRouterMock = MockStackRouterMock();
+    colorUMock = MockColorUMock();
 
     GetIt.instance.allowReassignment = true;
     GetIt.instance.registerSingleton<UICountryBloc>(uiCountryBlocMock);
     GetIt.instance.registerSingleton<AppLocalization>(appLocalizationMock);
     GetIt.instance.registerSingleton<Loading>(loadingMock);
+    GetIt.instance.registerSingleton<ColorsU>(colorUMock);
 
     when(appLocalizationMock.localization).thenReturn(null);
+    when(
+      colorUMock.checkColorsWhichIsDarkMode(
+        context: anyNamed('context'),
+        light: anyNamed('light'),
+        dark: anyNamed('dark'),
+      ),
+    ).thenReturn(Colors.black);
   });
 
   testWidgets(
@@ -75,7 +89,7 @@ void main() {
         (_) => const Stream<UiCountryBlocLoading>.empty(),
       );
       when(uiCountryBlocMock.state).thenReturn(UiCountryBlocLoading());
-      when(loadingMock.showLoading(any)).thenReturn(const Text(
+      when(loadingMock.showLoading(any, colorUMock)).thenReturn(const Text(
         'test',
         key: Key('testview'),
       ));
@@ -109,7 +123,7 @@ void main() {
         ),
       );
       when(uiCountryBlocMock.state).thenReturn(UiCountryBlocLoaded(countries));
-      when(loadingMock.showLoading(any)).thenReturn(const Text(
+      when(loadingMock.showLoading(any, colorUMock)).thenReturn(const Text(
         'test',
         key: Key('testview'),
       ));

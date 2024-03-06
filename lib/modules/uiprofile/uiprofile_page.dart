@@ -12,6 +12,7 @@ import 'package:portfolio_flutter/config/app_colors.dart';
 import 'package:portfolio_flutter/config/app_fonts.dart';
 import 'package:portfolio_flutter/modules/core/data/network/request/request_profile.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
+import 'package:portfolio_flutter/modules/core/utils/colors_u.dart';
 import 'package:portfolio_flutter/modules/core/utils/files.dart';
 import 'package:portfolio_flutter/modules/core/widgets/bottomsheet/bottom_sheet.dart';
 import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart';
@@ -33,8 +34,10 @@ class _UiProfilePageState extends State<UiProfilePage> {
   XFile? _image;
   RequestProfile _requestProfile = RequestProfile(name: "", photo: "");
   List<Map<String, String>> items = [];
+
   final TextEditingController _nameController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
+  final ColorsU _colorsU = GetIt.instance();
   final Loading _loading = GetIt.instance();
   final UiProfileBloc _uiProfileBloc = GetIt.instance();
   final AppLocalization _appLocalizations = GetIt.instance();
@@ -73,7 +76,7 @@ class _UiProfilePageState extends State<UiProfilePage> {
             context.router.popAndPush(const UiContactRoutes());
             return Container();
           case UiProfileBlocStatus.loading:
-            return _loading.showLoading(_appLocalizations);
+            return _loading.showLoading(_appLocalizations, _colorsU);
           default:
             return Container();
         }
@@ -95,9 +98,18 @@ class _UiProfilePageState extends State<UiProfilePage> {
 
   Scaffold _scaffod() {
     return Scaffold(
+      backgroundColor: _colorsU.checkColorsWhichIsDarkMode(
+        context: context,
+        light: AppColors.colorWhite,
+        dark: AppColors.colorBlack,
+      ),
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: AppColors.colorPrimary,
+        backgroundColor: _colorsU.checkColorsWhichIsDarkMode(
+          context: context,
+          light: AppColors.colorPrimary,
+          dark: AppColors.colorBlack,
+        ),
         title: Text(
           _appLocalizations.localization?.profileTitle ?? "",
           style: const TextStyle(
@@ -165,6 +177,13 @@ class _UiProfilePageState extends State<UiProfilePage> {
         alignment: Alignment.topCenter,
         child: TextField(
           controller: _nameController,
+          style: TextStyle(
+            color: _colorsU.checkColorsWhichIsDarkMode(
+              context: context,
+              light: AppColors.colorGray,
+              dark: AppColors.colorWhite,
+            ),
+          ),
           decoration: InputDecoration(
             focusedBorder: const OutlineInputBorder(
               borderSide: BorderSide(
@@ -173,8 +192,12 @@ class _UiProfilePageState extends State<UiProfilePage> {
             ),
             border: const OutlineInputBorder(),
             focusColor: AppColors.colorGray,
-            labelStyle: const TextStyle(
-              color: AppColors.colorGray,
+            labelStyle: TextStyle(
+              color: _colorsU.checkColorsWhichIsDarkMode(
+                context: context,
+                light: AppColors.colorGray,
+                dark: AppColors.colorWhite,
+              ),
             ),
             labelText: (_appLocalizations.localization?.profileNameInput ?? ""),
           ),

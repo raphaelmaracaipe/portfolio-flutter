@@ -7,6 +7,7 @@ import 'package:get_it/get_it.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
+import 'package:portfolio_flutter/modules/core/utils/colors_u.dart';
 import 'package:portfolio_flutter/modules/core/utils/files.dart';
 import 'package:portfolio_flutter/modules/core/widgets/bottomsheet/bottom_sheet.dart';
 import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart';
@@ -28,13 +29,16 @@ class FileMock extends Mock implements Files {}
 
 class BottomsheetMock extends Mock implements Bottomsheet {}
 
+class ColorUMock extends Mock implements ColorsU {}
+
 @GenerateMocks([
   UiProfileBlocMock,
   AppLocalizationMock,
   LoadingMock,
   StackRouterMock,
   FileMock,
-  BottomsheetMock
+  BottomsheetMock,
+  ColorUMock
 ])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -45,6 +49,7 @@ void main() {
   late MockStackRouterMock stackRouterMock;
   late MockFileMock fileMock;
   late MockBottomsheetMock bottomsheetMock;
+  late MockColorUMock colorUMock;
 
   setUp(() {
     uiProfileBlocMock = MockUiProfileBlocMock();
@@ -53,6 +58,7 @@ void main() {
     stackRouterMock = MockStackRouterMock();
     fileMock = MockFileMock();
     bottomsheetMock = MockBottomsheetMock();
+    colorUMock = MockColorUMock();
 
     GetIt.instance.allowReassignment = true;
     GetIt.instance.registerSingleton<UiProfileBloc>(uiProfileBlocMock);
@@ -61,8 +67,16 @@ void main() {
     GetIt.instance.registerSingleton<StackRouter>(stackRouterMock);
     GetIt.instance.registerSingleton<Files>(fileMock);
     GetIt.instance.registerSingleton<Bottomsheet>(bottomsheetMock);
+    GetIt.instance.registerSingleton<ColorsU>(colorUMock);
 
     when(appLocalizationMock.localization).thenReturn(null);
+    when(
+      colorUMock.checkColorsWhichIsDarkMode(
+        context: anyNamed('context'),
+        light: anyNamed('light'),
+        dark: anyNamed('dark'),
+      ),
+    ).thenReturn(Colors.black);
   });
 
   testWidgets('when init view', (widgetTester) async {
@@ -121,7 +135,7 @@ void main() {
       when(uiProfileBlocMock.state).thenReturn(
         const UiProfileBlocStateLoading(),
       );
-      when(loadingMock.showLoading(any)).thenAnswer((_) => Container());
+      when(loadingMock.showLoading(any, any)).thenAnswer((_) => Container());
 
       await widgetTester.runAsync(() async {
         await widgetTester.pumpWidget(MaterialApp(
@@ -133,7 +147,7 @@ void main() {
         ));
         await widgetTester.pumpAndSettle();
 
-        verify(loadingMock.showLoading(any)).called(1);
+        verify(loadingMock.showLoading(any, any)).called(1);
       });
     },
   );
