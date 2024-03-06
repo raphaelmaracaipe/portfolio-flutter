@@ -6,6 +6,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:portfolio_flutter/modules/core/data/network/enums/http_error_enum.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
+import 'package:portfolio_flutter/modules/core/utils/colors_u.dart';
 import 'package:portfolio_flutter/modules/core/widgets/bottomsheet/bottom_sheet.dart';
 import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart';
 import 'package:portfolio_flutter/modules/uivalidcode/bloc/uivalid_code_bloc.dart';
@@ -24,12 +25,15 @@ class LoadingMock extends Mock implements Loading {}
 
 class StackRouterMock extends Mock implements StackRouter {}
 
+class ColorUMock extends Mock implements ColorsU {}
+
 @GenerateMocks([
   UiValidCodeBlocMock,
   AppLocalizationMock,
   BottomSheetMock,
   LoadingMock,
-  StackRouterMock
+  StackRouterMock,
+  ColorUMock
 ])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -39,6 +43,7 @@ void main() {
   late MockBottomSheetMock bottomSheetMock;
   late MockLoadingMock loadingMock;
   late MockStackRouterMock stackRouterMock;
+  late MockColorUMock colorUMock;
 
   setUp(() {
     uiValidCodeBlocMock = MockUiValidCodeBlocMock();
@@ -46,14 +51,23 @@ void main() {
     bottomSheetMock = MockBottomSheetMock();
     loadingMock = MockLoadingMock();
     stackRouterMock = MockStackRouterMock();
+    colorUMock = MockColorUMock();
 
     GetIt.instance.allowReassignment = true;
     GetIt.instance.registerSingleton<UiValidCodeBloc>(uiValidCodeBlocMock);
     GetIt.instance.registerSingleton<AppLocalization>(appLocalizationMock);
     GetIt.instance.registerSingleton<Bottomsheet>(bottomSheetMock);
     GetIt.instance.registerSingleton<Loading>(loadingMock);
+    GetIt.instance.registerSingleton<ColorsU>(colorUMock);
 
     when(appLocalizationMock.localization).thenReturn(null);
+    when(
+      colorUMock.checkColorsWhichIsDarkMode(
+        context: anyNamed('context'),
+        light: anyNamed('light'),
+        dark: anyNamed('dark'),
+      ),
+    ).thenReturn(Colors.black);
   });
 
   testWidgets(

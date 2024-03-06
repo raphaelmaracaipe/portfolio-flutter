@@ -9,6 +9,7 @@ import 'package:portfolio_flutter/config/app_colors.dart';
 import 'package:portfolio_flutter/config/app_fonts.dart';
 import 'package:portfolio_flutter/modules/core/data/network/enums/http_error_enum.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
+import 'package:portfolio_flutter/modules/core/utils/colors_u.dart';
 import 'package:portfolio_flutter/modules/core/widgets/bottomsheet/bottom_sheet.dart';
 import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart';
 import 'package:portfolio_flutter/modules/uivalidcode/bloc/uivalid_code_bloc.dart';
@@ -28,6 +29,7 @@ class UiValidCodePages extends StatefulWidget {
 class _UiValidCodePages extends State<UiValidCodePages> {
   late Timer _timer;
 
+  final ColorsU _colorsU = GetIt.instance();
   final AppLocalization _appLocalizations = GetIt.instance();
   final Bottomsheet _bottomsheet = GetIt.instance();
   final UiValidCodeBloc _uiValidCodeBloc = GetIt.instance();
@@ -54,23 +56,36 @@ class _UiValidCodePages extends State<UiValidCodePages> {
         );
         return false;
       },
-      child: Scaffold(
-        key: const Key("uiValidCodePage"),
-        appBar: AppBar(
-          title: Text(
-            (_appLocalizations.localization?.validCodeTitle ?? ""),
-            style: const TextStyle(
-              fontFamily: AppFonts.openSans,
+      child: Stack(children: [
+        Scaffold(
+          backgroundColor: _colorsU.checkColorsWhichIsDarkMode(
+            context: context,
+            light: AppColors.colorWhite,
+            dark: AppColors.colorBlack,
+          ),
+          key: const Key("uiValidCodePage"),
+          appBar: AppBar(
+            backgroundColor: _colorsU.checkColorsWhichIsDarkMode(
+              context: context,
+              light: AppColors.colorWhite,
+              dark: AppColors.colorBlack,
+            ),
+            title: Text(
+              (_appLocalizations.localization?.validCodeTitle ?? ""),
+              style: TextStyle(
+                fontFamily: AppFonts.openSans,
+                color: _colorsU.checkColorsWhichIsDarkMode(
+                  context: context,
+                  light: AppColors.colorGray,
+                  dark: AppColors.colorWhite,
+                ),
+              ),
             ),
           ),
+          body: _body(),
         ),
-        body: Stack(
-          children: [
-            _body(),
-            _blocBuild(),
-          ],
-        ),
-      ),
+        _blocBuild(),
+      ]),
     );
   }
 
@@ -87,9 +102,10 @@ class _UiValidCodePages extends State<UiValidCodePages> {
             context.router.pop();
             break;
           case UiValidCodeBlocStatus.loading:
-            return _loading.showLoading(_appLocalizations);
+            return _loading.showLoading(_appLocalizations, _colorsU);
           case UiValidCodeBlocStatus.loaded:
             _timer.cancel();
+            context.router.removeLast();
             context.router.popAndPush(const UiProfileRoute());
             return Container();
           case UiValidCodeBlocStatus.error:
@@ -148,6 +164,13 @@ class _UiValidCodePages extends State<UiValidCodePages> {
         onPressed: _enabledButton ? sendCodeToServer : null,
         child: Text(
           (_appLocalizations.localization?.validCodeBtnSend ?? ""),
+          style: TextStyle(
+            color: _colorsU.checkColorsWhichIsDarkMode(
+              context: context,
+              light: AppColors.colorPrimary,
+              dark: AppColors.colorBlack,
+            ),
+          ),
         ),
       ),
     );
@@ -205,13 +228,25 @@ class _UiValidCodePages extends State<UiValidCodePages> {
           FilteringTextInputFormatter.digitsOnly,
         ],
         textAlign: TextAlign.center,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 60,
           fontFamily: AppFonts.openSans,
+          color: _colorsU.checkColorsWhichIsDarkMode(
+            context: context,
+            light: AppColors.colorGray,
+            dark: AppColors.colorWhite,
+          ),
         ),
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
           border: InputBorder.none,
           hintText: '000000',
+          hintStyle: TextStyle(
+            color: _colorsU.checkColorsWhichIsDarkMode(
+              context: context,
+              light: AppColors.colorGray,
+              dark: AppColors.colorWhite,
+            ),
+          ),
         ),
       ),
     );

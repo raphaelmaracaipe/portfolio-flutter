@@ -2,8 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:portfolio_flutter/config/app_colors.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
+import 'package:portfolio_flutter/modules/core/utils/colors_u.dart';
 import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart';
 import 'package:portfolio_flutter/modules/uicountry/bloc/uicountry_bloc.dart';
 import 'package:portfolio_flutter/modules/uicountry/bloc/uicountry_bloc_event.dart';
@@ -26,6 +28,7 @@ class _UiCountryPageState extends State<UiCountryPage> {
   final UICountryBloc _uiCountryBloc = GetIt.instance();
   final AppLocalization _appLocalizations = GetIt.instance();
   final Loading loading = GetIt.instance();
+  final ColorsU _colorsU = GetIt.instance();
   List<CountryModel> allCountries = [];
 
   @override
@@ -39,6 +42,11 @@ class _UiCountryPageState extends State<UiCountryPage> {
     _appLocalizations.context = context;
 
     return Scaffold(
+      backgroundColor: _colorsU.checkColorsWhichIsDarkMode(
+        context: context,
+        light: AppColors.colorWhite,
+        dark: AppColors.colorBlack,
+      ),
       body: _buildBloc(),
     );
   }
@@ -53,7 +61,7 @@ class _UiCountryPageState extends State<UiCountryPage> {
             return Stack(
               children: [
                 _body(),
-                loading.showLoading(_appLocalizations),
+                loading.showLoading(_appLocalizations, _colorsU),
               ],
             );
           case UiCountryBlocStatus.loaded:

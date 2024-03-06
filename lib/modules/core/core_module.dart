@@ -43,6 +43,8 @@ import 'package:portfolio_flutter/modules/core/security/keys.dart';
 import 'package:portfolio_flutter/modules/core/security/keys_impl.dart';
 import 'package:portfolio_flutter/modules/core/utils/bytes.dart';
 import 'package:portfolio_flutter/modules/core/utils/bytes_impl.dart';
+import 'package:portfolio_flutter/modules/core/utils/colors_impl.dart';
+import 'package:portfolio_flutter/modules/core/utils/colors_u.dart';
 import 'package:portfolio_flutter/modules/core/utils/files.dart';
 import 'package:portfolio_flutter/modules/core/utils/files_impl.dart';
 import 'package:portfolio_flutter/modules/core/utils/strings.dart';
@@ -201,6 +203,9 @@ abstract class CoreModule {
 
   @lazySingleton
   AppLocalization get appLocalization => AppLocalizationImpl();
+
+  @lazySingleton
+  ColorsU get colors => ColorsUImpl();
 
   @lazySingleton
   Strings get strings => StringsImpl();
