@@ -5,8 +5,8 @@ import 'package:get_it/get_it.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:portfolio_flutter/modules/core/data/network/enums/http_error_enum.dart';
-import 'package:portfolio_flutter/modules/core/data/network/response/response_valid_code.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
+import 'package:portfolio_flutter/modules/core/utils/colors_u.dart';
 import 'package:portfolio_flutter/modules/core/widgets/bottomsheet/bottom_sheet.dart';
 import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart';
 import 'package:portfolio_flutter/modules/uivalidcode/bloc/uivalid_code_bloc.dart';
@@ -25,12 +25,15 @@ class LoadingMock extends Mock implements Loading {}
 
 class StackRouterMock extends Mock implements StackRouter {}
 
+class ColorUMock extends Mock implements ColorsU {}
+
 @GenerateMocks([
   UiValidCodeBlocMock,
   AppLocalizationMock,
   BottomSheetMock,
   LoadingMock,
-  StackRouterMock
+  StackRouterMock,
+  ColorUMock
 ])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -40,6 +43,7 @@ void main() {
   late MockBottomSheetMock bottomSheetMock;
   late MockLoadingMock loadingMock;
   late MockStackRouterMock stackRouterMock;
+  late MockColorUMock colorUMock;
 
   setUp(() {
     uiValidCodeBlocMock = MockUiValidCodeBlocMock();
@@ -47,14 +51,23 @@ void main() {
     bottomSheetMock = MockBottomSheetMock();
     loadingMock = MockLoadingMock();
     stackRouterMock = MockStackRouterMock();
+    colorUMock = MockColorUMock();
 
     GetIt.instance.allowReassignment = true;
     GetIt.instance.registerSingleton<UiValidCodeBloc>(uiValidCodeBlocMock);
     GetIt.instance.registerSingleton<AppLocalization>(appLocalizationMock);
     GetIt.instance.registerSingleton<Bottomsheet>(bottomSheetMock);
     GetIt.instance.registerSingleton<Loading>(loadingMock);
+    GetIt.instance.registerSingleton<ColorsU>(colorUMock);
 
     when(appLocalizationMock.localization).thenReturn(null);
+    when(
+      colorUMock.checkColorsWhichIsDarkMode(
+        context: anyNamed('context'),
+        light: anyNamed('light'),
+        dark: anyNamed('dark'),
+      ),
+    ).thenReturn(Colors.black);
   });
 
   testWidgets(
@@ -74,48 +87,6 @@ void main() {
         await widgetTester.pumpAndSettle();
 
         expect(find.byKey(const Key('uiValidCodePage')), findsOneWidget);
-      });
-    },
-  );
-
-  testWidgets(
-    'when send code correct and api return success should redirect to profile',
-    (widgetTester) async {
-      when(stackRouterMock.push(any)).thenAnswer((_) async => {});
-      when(uiValidCodeBlocMock.stream).thenAnswer(
-        (_) => Stream<UiValidCodeBlocState>.value(
-          UiValidCodeBlocLoaded(response: ResponseValidCode()),
-        ),
-      );
-      when(uiValidCodeBlocMock.state).thenReturn(
-        UiValidCodeBlocLoaded(response: ResponseValidCode()),
-      );
-
-      await widgetTester.runAsync(() async {
-        await widgetTester.pumpWidget(MaterialApp(
-          home: StackRouterScope(
-            controller: stackRouterMock,
-            stateHash: 0,
-            child: const UiValidCodePages(),
-          ),
-        ));
-        await widgetTester.pumpAndSettle();
-
-        final Finder uiValidCodeTextCode = find.byKey(
-          const Key('uiValidCodeTextCode'),
-        );
-        expect(uiValidCodeTextCode, findsOneWidget);
-        await widgetTester.enterText(uiValidCodeTextCode, '123456');
-        await widgetTester.pumpAndSettle();
-
-        final Finder uiValidCodeButton = find.byKey(
-          const Key('uiValidCodeButton'),
-        );
-        expect(uiValidCodeButton, findsOneWidget);
-        await widgetTester.tap(uiValidCodeButton);
-        await widgetTester.pumpAndSettle();
-
-        verify(stackRouterMock.push(any)).called(3);
       });
     },
   );

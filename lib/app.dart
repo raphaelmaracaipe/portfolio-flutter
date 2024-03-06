@@ -22,7 +22,7 @@ class AppWidget extends StatelessWidget {
         useMaterial3: true,
       ),
       supportedLocales: const [Locale("pt", "BR")],
-      routerConfig: appRouter.config()
+      routerConfig: appRouter.config(),
     );
   }
 

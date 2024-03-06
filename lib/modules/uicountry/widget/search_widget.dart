@@ -45,6 +45,7 @@ class _SearchWidgetState extends State<SearchWidget> {
     _checkIfSelectedCountryIsEmptyAndTextSearchIsEmpty();
 
     return SearchAnchor.bar(
+      viewBackgroundColor: Colors.white,
       barHintText:
           widget.appLocalization.localization?.countryTitleSearch ?? "",
       barBackgroundColor: const MaterialStatePropertyAll(

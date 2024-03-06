@@ -35,6 +35,9 @@ jobs:
         with:
           flutter-version: '3.13.0'
 
+      - name: Gerando arquivos auto gerados do flutter
+        run: flutter pub run build_runner build -d
+
       - name: Instala dependências
         run: flutter pub get
 

@@ -4,7 +4,6 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:portfolio_flutter/modules/core/data/network/enums/http_error_enum.dart';
 import 'package:portfolio_flutter/modules/core/data/network/exceptions/http_exception.dart';
-import 'package:portfolio_flutter/modules/core/data/network/response/response_valid_code.dart';
 import 'package:portfolio_flutter/modules/core/data/route_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/user_repository.dart';
 import 'package:portfolio_flutter/modules/uivalidcode/bloc/uivalid_code_bloc.dart';
@@ -39,21 +38,16 @@ void main() {
   blocTest<UiValidCodeBloc, UiValidCodeBlocState>(
     'when send state of request code and api return success',
     build: () {
-      final ResponseValidCode response = ResponseValidCode(
-        accessToken: "AAA",
-        refreshToken: "BBB",
-      );
-
       when(
         mockUserRepository.requestValidCode(any),
-      ).thenAnswer((_) async => response);
+      ).thenAnswer((_) async => {});
 
       return uiValidCodeBloc;
     },
     act: (bloc) => bloc.add(SendCodeToValidationEvent(code: "1")),
     expect: () => [
       const UiValidCodeBlocLoading(),
-      UiValidCodeBlocLoaded(response: ResponseValidCode())
+      const UiValidCodeBlocLoaded(),
     ],
   );
 

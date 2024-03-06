@@ -6,6 +6,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:portfolio_flutter/modules/core/data/key_repository.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
+import 'package:portfolio_flutter/modules/core/utils/colors_u.dart';
 import 'package:portfolio_flutter/modules/core/widgets/bottomsheet/bottom_sheet.dart';
 import 'package:portfolio_flutter/modules/uisplash/bloc/uisplash_bloc.dart';
 import 'package:portfolio_flutter/modules/uisplash/bloc/uisplash_bloc_state.dart';
@@ -23,12 +24,15 @@ class StackRouterMock extends Mock implements StackRouter {}
 
 class KeyRepositoryMock extends Mock implements KeyRepository {}
 
+class ColorUMock extends Mock implements ColorsU {}
+
 @GenerateMocks([
   UiSplashBlocMock,
   UiBottomSheetMock,
   AppLocalizationMock,
   StackRouterMock,
-  KeyRepositoryMock
+  KeyRepositoryMock,
+  ColorUMock
 ])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -38,6 +42,7 @@ void main() {
   late MockAppLocalizationMock appLocalizationMock;
   late MockStackRouterMock stackRouterMock;
   late MockKeyRepositoryMock keyRepositoryMock;
+  late MockColorUMock colorUMock;
 
   setUp(() {
     keyRepositoryMock = MockKeyRepositoryMock();
@@ -45,12 +50,22 @@ void main() {
     uiBottomSheetMock = MockUiBottomSheetMock();
     appLocalizationMock = MockAppLocalizationMock();
     stackRouterMock = MockStackRouterMock();
+    colorUMock = MockColorUMock();
 
     GetIt.instance.allowReassignment = true;
     GetIt.instance.registerSingleton<UiSplashBloc>(uiSplashBlocMock);
     GetIt.instance.registerSingleton<Bottomsheet>(uiBottomSheetMock);
     GetIt.instance.registerSingleton<AppLocalization>(appLocalizationMock);
     GetIt.instance.registerSingleton<KeyRepository>(keyRepositoryMock);
+    GetIt.instance.registerSingleton<ColorsU>(colorUMock);
+
+    when(
+      colorUMock.checkColorsWhichIsDarkMode(
+        context: anyNamed('context'),
+        light: anyNamed('light'),
+        dark: anyNamed('dark'),
+      ),
+    ).thenReturn(Colors.black);
   });
 
   testWidgets(
