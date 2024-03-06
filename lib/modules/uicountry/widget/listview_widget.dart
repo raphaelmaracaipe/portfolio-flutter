@@ -1,12 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:portfolio_flutter/config/app_colors.dart';
 import 'package:portfolio_flutter/config/app_fonts.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
+import 'package:portfolio_flutter/modules/core/utils/colors_u.dart';
 
 // ignore: must_be_immutable
 class ListViewWidget extends StatelessWidget {
   void Function(CountryModel)? onRateCountry;
   late List<CountryModel> _countries = [];
+  final ColorsU _colorsU = GetIt.instance();
 
   ListViewWidget({
     required List<CountryModel> countries,
@@ -43,9 +47,14 @@ class ListViewWidget extends StatelessWidget {
                 ),
                 Text(
                   _countries[index].countryName,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12,
                     fontFamily: AppFonts.openSans,
+                    color: _colorsU.checkColorsWhichIsDarkMode(
+                      context: context,
+                      light: AppColors.colorGray,
+                      dark: AppColors.colorWhite,
+                    ),
                   ),
                 ),
               ],

@@ -9,6 +9,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:portfolio_flutter/config/app_colors.dart';
 import 'package:portfolio_flutter/modules/core/data/key_repository.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
+import 'package:portfolio_flutter/modules/core/utils/colors_u.dart';
 import 'package:portfolio_flutter/modules/core/widgets/bottomsheet/bottom_sheet.dart';
 import 'package:portfolio_flutter/modules/uisplash/bloc/uisplash_bloc.dart';
 import 'package:portfolio_flutter/modules/uisplash/bloc/uisplash_bloc_event.dart';
@@ -25,6 +26,7 @@ class UiSplashPage extends StatefulWidget {
 }
 
 class _UiSplashPageState extends State<UiSplashPage> {
+  final ColorsU _color = GetIt.instance();
   final KeyRepository _keyRepository = GetIt.instance();
   final UiSplashBloc _uiSplashBloc = GetIt.instance();
   final Bottomsheet _bottomSheet = GetIt.instance();
@@ -57,7 +59,11 @@ class _UiSplashPageState extends State<UiSplashPage> {
               key: const Key('uisplash_container'),
               width: double.infinity,
               height: double.infinity,
-              color: AppColors.colorPrimary,
+              color: _color.checkColorsWhichIsDarkMode(
+                context: context,
+                light: AppColors.colorPrimary,
+                dark: AppColors.colorBlack,
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -118,7 +124,7 @@ class _UiSplashPageState extends State<UiSplashPage> {
   }
 
   void _checkWhichISendYou(UiSplashBlocState state, BuildContext context) {
-    if(state.routeName.isNotEmpty) {
+    if (state.routeName.isNotEmpty) {
       context.router.pushNamed("/${state.routeName}");
     } else {
       context.router.push(const UiAuthRoute());

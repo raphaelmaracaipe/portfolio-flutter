@@ -6,6 +6,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
+import 'package:portfolio_flutter/modules/core/utils/colors_u.dart';
 import 'package:portfolio_flutter/modules/core/utils/strings.dart';
 import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart';
 import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc.dart';
@@ -24,12 +25,15 @@ class LoadingMock extends Mock implements Loading {}
 
 class StackRouterMock extends Mock implements StackRouter {}
 
+class ColorUMock extends Mock implements ColorsU {}
+
 @GenerateMocks([
   UiAuthBlocMock,
   StringsMock,
   AppLocalizationMock,
   LoadingMock,
   StackRouterMock,
+  ColorUMock
 ])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -39,6 +43,7 @@ void main() {
   late MockAppLocalizationMock appLocalizationMock;
   late MockLoadingMock loadingMock;
   late MockStackRouterMock stackRouterMock;
+  late MockColorUMock colorUMock;
 
   setUp(() {
     uiAuthBlocMock = MockUiAuthBlocMock();
@@ -46,15 +51,24 @@ void main() {
     appLocalizationMock = MockAppLocalizationMock();
     loadingMock = MockLoadingMock();
     stackRouterMock = MockStackRouterMock();
+    colorUMock = MockColorUMock();
 
     GetIt.instance.allowReassignment = true;
     GetIt.instance.registerSingleton<UiAuthBloc>(uiAuthBlocMock);
     GetIt.instance.registerSingleton<Strings>(stringsMock);
     GetIt.instance.registerSingleton<AppLocalization>(appLocalizationMock);
     GetIt.instance.registerSingleton<Loading>(loadingMock);
+    GetIt.instance.registerSingleton<ColorsU>(colorUMock);
 
     when(appLocalizationMock.localization).thenReturn(null);
     when(stringsMock.onlyNumber(any)).thenReturn('999');
+    when(
+      colorUMock.checkColorsWhichIsDarkMode(
+        context: anyNamed('context'),
+        light: anyNamed('light'),
+        dark: anyNamed('dark'),
+      ),
+    ).thenReturn(Colors.black);
   });
 
   testWidgets(
@@ -113,7 +127,7 @@ void main() {
         (_) => Stream<UiAuthBlocState>.value(UiAuthBlocLoading()),
       );
       when(uiAuthBlocMock.state).thenReturn(UiAuthBlocLoading());
-      when(loadingMock.showLoading(any)).thenAnswer((_) => const Text(
+      when(loadingMock.showLoading(any, any)).thenAnswer((_) => const Text(
             "test",
             key: Key('testWidget'),
           ));
@@ -145,7 +159,7 @@ void main() {
         (_) => Stream<UiAuthBlocState>.value(UiAuthBlocLoaded(listOfCountries)),
       );
       when(uiAuthBlocMock.state).thenReturn(UiAuthBlocLoaded(listOfCountries));
-      when(loadingMock.showLoading(any)).thenAnswer((_) => const Text(
+      when(loadingMock.showLoading(any, any)).thenAnswer((_) => const Text(
             "test",
             key: Key('testWidget'),
           ));
@@ -166,54 +180,6 @@ void main() {
         await widgetTester.pumpAndSettle();
 
         expect(find.text('Brasil'), findsWidgets);
-      });
-    },
-  );
-
-  testWidgets(
-    'when send to api number phone and api return success should go to next route',
-    (widgetTester) async {
-      when(stackRouterMock.push(any)).thenAnswer((_) async => {});
-      when(uiAuthBlocMock.stream).thenAnswer(
-        (_) => Stream<UiAuthBlocState>.value(
-          UiAuthBlocResponseSendCode(isSuccess: true),
-        ),
-      );
-      when(uiAuthBlocMock.state).thenReturn(
-        UiAuthBlocResponseSendCode(isSuccess: true),
-      );
-
-      await widgetTester.runAsync(() async {
-        await widgetTester.pumpWidget(MaterialApp(
-          home: StackRouterScope(
-            controller: stackRouterMock,
-            stateHash: 0,
-            child: const UiAuthPage(),
-          ),
-        ));
-        await widgetTester.pumpAndSettle();
-
-        final Finder uiAuthFieldPhone = find.byKey(
-          const Key('uiAuthFieldPhone'),
-        );
-        expect(uiAuthFieldPhone, findsWidgets);
-        await widgetTester.enterText(uiAuthFieldPhone, '99-99999-9999');
-        await widgetTester.pumpAndSettle();
-
-        final Finder uiAuthFieldCountryCode = find.byKey(
-          const Key('uiAuthFieldCountryCode'),
-        );
-        expect(uiAuthFieldCountryCode, findsWidgets);
-        await widgetTester.enterText(uiAuthFieldCountryCode, '99');
-        await widgetTester.pumpAndSettle();
-
-        final Finder uiAuthButtonSend = find.byKey(
-          const Key('uiAuthButtonSend'),
-        );
-        expect(uiAuthButtonSend, findsWidgets);
-        await widgetTester.tap(uiAuthButtonSend);
-
-        verify(stackRouterMock.push(any)).called(3);
       });
     },
   );

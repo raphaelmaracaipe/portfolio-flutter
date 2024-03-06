@@ -9,6 +9,7 @@ import 'package:portfolio_flutter/config/app_fonts.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
 import 'package:portfolio_flutter/modules/core/phone/phone_formatted.dart';
+import 'package:portfolio_flutter/modules/core/utils/colors_u.dart';
 import 'package:portfolio_flutter/modules/core/utils/strings.dart';
 import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart';
 import 'package:portfolio_flutter/modules/uiauth/bloc/uiauth_bloc.dart';
@@ -29,6 +30,7 @@ class UiAuthPageState extends State<UiAuthPage>
     with SingleTickerProviderStateMixin {
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _codeCountryController = TextEditingController();
+  final ColorsU _colorsU = GetIt.instance();
   final UiAuthBloc _uiAuthBloc = GetIt.instance();
   final Strings _strings = GetIt.instance();
   final AppLocalization _appLocalizations = GetIt.instance();
@@ -48,7 +50,11 @@ class UiAuthPageState extends State<UiAuthPage>
 
     return Scaffold(
       key: const Key("uiPageContainer"),
-      backgroundColor: AppColors.colorPrimary,
+      backgroundColor: _colorsU.checkColorsWhichIsDarkMode(
+        context: context,
+        light: AppColors.colorPrimary,
+        dark: AppColors.colorBlack,
+      ),
       body: Stack(children: [
         _body(),
         _buildBloc(),
@@ -63,7 +69,7 @@ class UiAuthPageState extends State<UiAuthPage>
       builder: (context, state) {
         switch (state.status) {
           case UiAuthBlocStatus.loading:
-            return loading.showLoading(_appLocalizations);
+            return loading.showLoading(_appLocalizations, _colorsU);
           case UiAuthBlocStatus.loaded:
             _countries = state.countries;
             break;
@@ -74,6 +80,7 @@ class UiAuthPageState extends State<UiAuthPage>
                 toastLength: Toast.LENGTH_SHORT,
               );
             } else {
+              context.router.removeLast();
               context.router.push(const UiValidCodeRoutes());
             }
             break;
@@ -141,12 +148,16 @@ class UiAuthPageState extends State<UiAuthPage>
       children: [
         Container(
           margin: const EdgeInsets.only(bottom: 10, top: 10),
-          child: const Text(
+          child: Text(
             "Raphael Maracaipe",
             style: TextStyle(
               fontFamily: AppFonts.openSans,
               fontWeight: FontWeight.bold,
-              color: AppColors.colorPrimary,
+              color: _colorsU.checkColorsWhichIsDarkMode(
+                context: context,
+                light: AppColors.colorPrimary,
+                dark: AppColors.colorBlack,
+              ),
             ),
           ),
         ),
@@ -163,7 +174,11 @@ class UiAuthPageState extends State<UiAuthPage>
             child: ElevatedButton(
               onPressed: sendToServer,
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.colorPrimary,
+                backgroundColor: _colorsU.checkColorsWhichIsDarkMode(
+                  context: context,
+                  light: AppColors.colorPrimary,
+                  dark: AppColors.colorBlack,
+                ),
               ),
               key: const Key("uiAuthButtonSend"),
               child: Text(
