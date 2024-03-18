@@ -10,8 +10,10 @@ class RegexImpl extends Regex {
   @override
   Future<String> generateString({required String regexPattern}) async {
     try {
-      return await regexChannel
-          .invokeMethod('regex', {'pattern': regexPattern});
+      return await regexChannel.invokeMethod(
+        'regex',
+        {'pattern': regexPattern},
+      );
     } on PlatformException catch (e) {
       throw Exception(e.message);
     }
