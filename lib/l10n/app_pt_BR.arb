@@ -20,7 +20,7 @@
     "generalOk": "Ok! Entendi.",
     "generalAttention": "Atenção",
     "generalContinue": "Continuar",
-    "errorRegisterDeviceText": "Um erro ao realizar o registro do device. Por favor, tente novamente mais tarde.",
+    "errorRegisterDeviceText": "Ocorreu um erro ao realizar o registro do device. Por favor, tente novamente mais tarde.",
     "profileTitle": "Perfíl",
     "profileNameInput": "Informe o nome do seu perfil.",
     "profileGallery": "Galeria",
