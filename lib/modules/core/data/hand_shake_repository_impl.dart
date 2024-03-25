@@ -6,6 +6,7 @@ import 'package:portfolio_flutter/modules/core/data/network/request/request_hand
 import 'package:portfolio_flutter/modules/core/data/network/rest_hand_shake.dart';
 import 'package:portfolio_flutter/modules/core/data/sp/key_sp.dart';
 import 'package:portfolio_flutter/modules/core/regex/regex.dart';
+import 'package:portfolio_flutter/modules/core/utils/bytes_impl.dart';
 
 import 'hand_shake_repository.dart';
 
