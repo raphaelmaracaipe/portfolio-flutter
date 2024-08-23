@@ -4,4 +4,8 @@ abstract class UserRepository {
   Future<void> requestCode(RequestUserCode requestUserCode);
 
   Future<void> requestValidCode(String code);
+
+  Future<String> getPhoneRegistredInSP();
+
+  Future<void> savePhoneInSp(String phone);
 }

@@ -3,16 +3,19 @@ import 'package:portfolio_flutter/modules/core/data/network/enums/http_error_enu
 import 'package:portfolio_flutter/modules/core/data/network/request/request_user_code.dart';
 import 'package:portfolio_flutter/modules/core/data/network/rest_user.dart';
 import 'package:portfolio_flutter/modules/core/data/sp/token_sp.dart';
+import 'package:portfolio_flutter/modules/core/data/sp/user_sp.dart';
 import 'package:portfolio_flutter/modules/core/data/user_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/network/exceptions/http_exception.dart';
 
 class UserRepositoryImpl extends UserRepository {
   final RestUser restClient;
   final TokenSP tokenSP;
+  final UserSP userSP;
 
   UserRepositoryImpl({
     required this.restClient,
     required this.tokenSP,
+    required this.userSP,
   });
 
   @override
@@ -33,5 +36,15 @@ class UserRepositoryImpl extends UserRepository {
     } on Exception catch (_) {
       throw HttpException(errorEnum: HttpErrorEnum.ERROR_GENERAL);
     }
+  }
+
+  @override
+  Future<String> getPhoneRegistredInSP() async {
+    return await userSP.getPhone();
+  }
+
+  @override
+  Future<void> savePhoneInSp(String phone) async {
+    await userSP.savePhone(phone);
   }
 }

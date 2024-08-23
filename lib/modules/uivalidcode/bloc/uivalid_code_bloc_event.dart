@@ -7,4 +7,8 @@ final class SendCodeToValidationEvent extends UiValidCodeBlocEvent {
   SendCodeToValidationEvent({required this.code});
 }
 
+final class RequestNewCodeEvent extends UiValidCodeBlocEvent {
+  RequestNewCodeEvent();
+}
+
 final class CleanRouteSavedEvent extends UiValidCodeBlocEvent {}

@@ -53,6 +53,7 @@ class UiAuthBloc extends Bloc<UiAuthBlocEvent, UiAuthBlocState> {
 
       await _userRepository.requestCode(requestUserCode);
       await _routeRepository.save(UiValidCodeRoutes.name);
+      await _userRepository.savePhoneInSp(event.phoneNumber);
 
       emitter(UiAuthBlocResponseSendCode(isSuccess: true));
     } on Exception catch (_) {

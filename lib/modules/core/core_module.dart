@@ -29,6 +29,8 @@ import 'package:portfolio_flutter/modules/core/data/sp/route_sp.dart';
 import 'package:portfolio_flutter/modules/core/data/sp/route_sp_impl.dart';
 import 'package:portfolio_flutter/modules/core/data/sp/token_sp.dart';
 import 'package:portfolio_flutter/modules/core/data/sp/token_sp_impl.dart';
+import 'package:portfolio_flutter/modules/core/data/sp/user_sp.dart';
+import 'package:portfolio_flutter/modules/core/data/sp/user_sp_impl.dart';
 import 'package:portfolio_flutter/modules/core/data/token_interceptor_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/token_interceptor_repository_impl.dart';
 import 'package:portfolio_flutter/modules/core/data/user_repository.dart';
@@ -117,6 +119,13 @@ abstract class CoreModule {
       );
 
   @lazySingleton
+  UserSP get userSP => UserSPImpl(
+        bytes: bytes,
+        sharedPreferences: sharedPreferences,
+        encryptionDecryptAES: encryptionDecryptAES,
+      );
+
+  @lazySingleton
   Dio get dio => NetworkConfig.config(
         keys: keys,
         bytes: bytes,
@@ -171,8 +180,8 @@ abstract class CoreModule {
       );
 
   @lazySingleton
-  UserRepository get userRepository =>
-      UserRepositoryImpl(restClient: restUser, tokenSP: tokenSP);
+  UserRepository get userRepository => UserRepositoryImpl(
+      restClient: restUser, tokenSP: tokenSP, userSP: userSP);
 
   @lazySingleton
   KeyRepository get keyRepository => KeyRepositoryImpl(
