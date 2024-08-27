@@ -99,7 +99,7 @@ class _UiValidCodePages extends State<UiValidCodePages> {
       builder: (context, state) {
         switch (state.status) {
           case UiValidCodeBlocStatus.cleanRoute:
-            context.router.pop();
+            context.router.maybePop();
             break;
           case UiValidCodeBlocStatus.loading:
             return _loading.showLoading(_appLocalizations, _colorsU);
@@ -184,6 +184,7 @@ class _UiValidCodePages extends State<UiValidCodePages> {
           setState(() {
             _secondsRemaining = 60;
             _startTimerToValidateCode();
+            _retrySendCodeAgain();
           });
         },
         child: Text(
@@ -333,6 +334,10 @@ class _UiValidCodePages extends State<UiValidCodePages> {
         });
       },
     );
+  }
+
+  void _retrySendCodeAgain() {
+    _uiValidCodeBloc.add(RequestNewCodeEvent());
   }
 
   String _convertMillisecondsToMinutesAndSeconds(int milliseconds) {

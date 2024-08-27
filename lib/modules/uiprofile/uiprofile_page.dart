@@ -14,6 +14,7 @@ import 'package:portfolio_flutter/modules/core/data/network/request/request_prof
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
 import 'package:portfolio_flutter/modules/core/utils/colors_u.dart';
 import 'package:portfolio_flutter/modules/core/utils/files.dart';
+import 'package:portfolio_flutter/modules/core/utils/images.dart';
 import 'package:portfolio_flutter/modules/core/widgets/bottomsheet/bottom_sheet.dart';
 import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart';
 import 'package:portfolio_flutter/modules/uiprofile/bloc/uiprofile_bloc.dart';
@@ -31,7 +32,8 @@ class UiProfilePage extends StatefulWidget {
 }
 
 class _UiProfilePageState extends State<UiProfilePage> {
-  XFile? _image;
+  Image? _imageProfile;
+  bool _profileObtain = false;
   RequestProfile _requestProfile = RequestProfile(name: "", photo: "");
   List<Map<String, String>> items = [];
 
@@ -39,6 +41,7 @@ class _UiProfilePageState extends State<UiProfilePage> {
   final ImagePicker _picker = ImagePicker();
   final ColorsU _colorsU = GetIt.instance();
   final Loading _loading = GetIt.instance();
+  final Images _images = GetIt.instance();
   final UiProfileBloc _uiProfileBloc = GetIt.instance();
   final AppLocalization _appLocalizations = GetIt.instance();
   final Files _files = GetIt.instance();
@@ -49,6 +52,7 @@ class _UiProfilePageState extends State<UiProfilePage> {
   @override
   Widget build(BuildContext context) {
     _loadingItemsToChooseTheCapture();
+    _requestProfileSaved();
     return Stack(
       key: const Key("uiProfileContainer"),
       children: [
@@ -77,11 +81,33 @@ class _UiProfilePageState extends State<UiProfilePage> {
             return Container();
           case UiProfileBlocStatus.loading:
             return _loading.showLoading(_appLocalizations, _colorsU);
+          case UiProfileBlocStatus.profileSaved:
+            _takeCareImageRescued(state);
+            return Container();
           default:
             return Container();
         }
       },
     );
+  }
+
+  FutureOr<void> _takeCareImageRescued(UiProfileBlocState state) {
+    if (!_profileObtain) {
+      _profileObtain = true;
+      final profile = state.responseProfile;
+
+      _requestProfile.name = profile?.name ?? "";
+      _requestProfile.photo = profile?.photo ?? "";
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        setState(() {
+          _nameController.text = profile?.name ?? "";
+          _imageProfile = _images.convertBase64ToImage(
+            (profile?.photo ?? ""),
+          );
+        });
+      });
+    }
   }
 
   FutureOr<void> _showMessageErrorOfRequest() {
@@ -246,7 +272,7 @@ class _UiProfilePageState extends State<UiProfilePage> {
   }
 
   Widget _changeIconToAction() {
-    if (_image == null) {
+    if (_imageProfile == null) {
       return SvgPicture.asset(
         "assets/images/icon_camera.svg",
         color: AppColors.colorWhite,
@@ -262,7 +288,7 @@ class _UiProfilePageState extends State<UiProfilePage> {
   }
 
   Widget _changeProfile() {
-    if (_image == null) {
+    if (_imageProfile == null) {
       return SvgPicture.asset(
         "assets/images/icon_profile.svg",
         color: AppColors.colorGray,
@@ -272,17 +298,14 @@ class _UiProfilePageState extends State<UiProfilePage> {
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(100),
-      child: Image.file(
-        File(_image?.path ?? ""),
-        fit: BoxFit.cover,
-      ),
+      child: _imageProfile,
     );
   }
 
   void _onPressedProfile() async {
-    if (_image != null) {
+    if (_imageProfile != null) {
       setState(() {
-        _image = null;
+        _imageProfile = null;
       });
       return;
     }
@@ -378,7 +401,10 @@ class _UiProfilePageState extends State<UiProfilePage> {
       _loadingInModelProfile(imagePicked);
 
       setState(() {
-        _image = imagePicked;
+        _imageProfile = Image.file(
+          File(imagePicked.path),
+          fit: BoxFit.cover,
+        );
       });
     }
   }
@@ -395,5 +421,13 @@ class _UiProfilePageState extends State<UiProfilePage> {
 
   void _loadingInModelName() {
     _requestProfile.name = _nameController.text;
+  }
+
+  void _requestProfileSaved() {
+    if (_profileObtain) {
+      return;
+    }
+
+    _uiProfileBloc.add(GetProfile());
   }
 }

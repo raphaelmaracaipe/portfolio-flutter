@@ -83,4 +83,42 @@ void main() {
       const UiValidCodeBlocCleanRoute(),
     ],
   );
+
+  blocTest(
+    'when get phone registred in sp with success',
+    build: () {
+      when(
+        mockUserRepository.getPhoneRegistredInSP(),
+      ).thenAnswer((_) async => "a");
+      when(
+        mockUserRepository.requestCode(any),
+      ).thenAnswer((_) async => {});
+
+      return uiValidCodeBloc;
+    },
+    act: (bloc) => bloc.add(RequestNewCodeEvent()),
+    expect: () => [const UiValidCodeBlocFishedRequest()],
+  );
+
+  blocTest(
+    'when get phone registred in sp with error',
+    build: () {
+      when(
+        mockUserRepository.getPhoneRegistredInSP(),
+      ).thenAnswer((_) async => "a");
+      when(
+        mockUserRepository.requestCode(any),
+      ).thenThrow(HttpException.putEnum(
+        HttpErrorEnum.DEVICE_ID_INVALID,
+      ));
+
+      return uiValidCodeBloc;
+    },
+    act: (bloc) => bloc.add(RequestNewCodeEvent()),
+    expect: () => [
+      const UiValidCodeBlocError(
+        codeError: HttpErrorEnum.DEVICE_ID_INVALID,
+      )
+    ],
+  );
 }

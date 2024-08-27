@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:portfolio_flutter/modules/core/data/network/exceptions/http_exception.dart';
+import 'package:portfolio_flutter/modules/core/data/network/request/request_user_code.dart';
 import 'package:portfolio_flutter/modules/core/data/route_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/user_repository.dart';
 import 'package:portfolio_flutter/modules/uivalidcode/bloc/uivalid_code_bloc_event.dart';
@@ -21,6 +22,7 @@ class UiValidCodeBloc extends Bloc<UiValidCodeBlocEvent, UiValidCodeBlocState> {
 
     on<SendCodeToValidationEvent>(_onSendToValidationOfCode);
     on<CleanRouteSavedEvent>(_onCleanRouteSavedEvent);
+    on<RequestNewCodeEvent>(_onRequestNewCodeEvent);
   }
 
   void _onSendToValidationOfCode(
@@ -45,5 +47,19 @@ class UiValidCodeBloc extends Bloc<UiValidCodeBlocEvent, UiValidCodeBlocState> {
     emitter(const UiValidCodeBlocLoading());
     await _routeRepository.clean();
     emitter(const UiValidCodeBlocCleanRoute());
+  }
+
+  void _onRequestNewCodeEvent(
+    event,
+    Emitter<UiValidCodeBlocState> emitter,
+  ) async {
+    try {
+      final phoneSaved = await _userRepository.getPhoneRegistredInSP();
+      final requestUserCode = RequestUserCode(phone: phoneSaved);
+      await _userRepository.requestCode(requestUserCode);
+      emitter(const UiValidCodeBlocFishedRequest());
+    } on HttpException catch (e) {
+      emitter(UiValidCodeBlocError(codeError: e.enumError));
+    }
   }
 }

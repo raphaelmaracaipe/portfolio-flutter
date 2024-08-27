@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:portfolio_flutter/modules/core/data/network/request/request_profile.dart';
+import 'package:portfolio_flutter/modules/core/data/network/response/response_profile.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'rest_profile.g.dart';
@@ -10,4 +11,7 @@ abstract class RestProfile {
 
   @POST("/v1/users/profile")
   Future<void> requestProfile(@Body() RequestProfile requestProfile);
+
+  @GET("/v1/users/profile")
+  Future<ResponseProfile> getProfile();
 }

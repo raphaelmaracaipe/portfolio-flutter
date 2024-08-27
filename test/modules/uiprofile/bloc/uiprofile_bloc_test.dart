@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:portfolio_flutter/modules/core/data/network/request/request_profile.dart';
+import 'package:portfolio_flutter/modules/core/data/network/response/response_profile.dart';
 import 'package:portfolio_flutter/modules/core/data/profile_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/route_repository.dart';
 import 'package:portfolio_flutter/modules/uiprofile/bloc/uiprofile_bloc.dart';
@@ -64,6 +65,39 @@ void main() {
     expect: () => [
       const UiProfileBlocStateLoading(),
       const UiProfileBlocStateError(),
+    ],
+  );
+
+  blocTest<UiProfileBloc, UiProfileBlocState>(
+    'when emmit state to get profile and return error',
+    build: () {
+      when(profileRespositoryMock.getProfile()).thenThrow(Exception(fail));
+      return uiProfileBloc;
+    },
+    act: (bloc) => bloc.add(GetProfile()),
+    expect: () => [
+      const UiProfileBlocStateLoading(),
+      const UiProfileBlocStateError(),
+    ],
+  );
+
+  blocTest<UiProfileBloc, UiProfileBlocState>(
+    'when emmit state to get profile',
+    build: () {
+      when(
+        profileRespositoryMock.getProfile(),
+      ).thenAnswer(
+        (_) async => ResponseProfile(
+          name: 'profile name',
+        ),
+      );
+
+      return uiProfileBloc;
+    },
+    act: (bloc) => bloc.add(GetProfile()),
+    expect: () => [
+      const UiProfileBlocStateLoading(),
+      UiProfileBlocStateProfileSaved(responseProfile: ResponseProfile()),
     ],
   );
 
