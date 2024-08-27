@@ -8,7 +8,6 @@ class ColorsUImpl extends ColorsU {
     required Color light,
     required Color dark,
   }) {
-    var a = MediaQuery.of(context);
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isDarkMode = brightness == Brightness.dark;
 

@@ -40,6 +40,14 @@ class UiValidCodeBlocLoading extends UiValidCodeBlocState {
         );
 }
 
+class UiValidCodeBlocFishedRequest extends UiValidCodeBlocState {
+  const UiValidCodeBlocFishedRequest()
+      : super(
+          status: UiValidCodeBlocStatus.requestNewCode,
+          codeError: HttpErrorEnum.UNKNOWN,
+        );
+}
+
 class UiValidCodeBlocError extends UiValidCodeBlocState {
   @override
   final HttpErrorEnum codeError;

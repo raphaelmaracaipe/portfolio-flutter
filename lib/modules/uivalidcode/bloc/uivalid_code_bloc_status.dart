@@ -1,1 +1,8 @@
-enum UiValidCodeBlocStatus { unknown, error, loading, loaded, cleanRoute }
+enum UiValidCodeBlocStatus {
+  unknown,
+  error,
+  loading,
+  loaded,
+  cleanRoute,
+  requestNewCode,
+}
