@@ -3,4 +3,5 @@ enum UiProfileBlocStatus {
   loading,
   updateWithSuccess,
   error,
+  profileSaved
 }

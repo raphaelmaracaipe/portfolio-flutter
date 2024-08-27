@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:portfolio_flutter/modules/core/data/network/response/response_profile.dart';
 import 'package:portfolio_flutter/modules/core/data/profile_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/route_repository.dart';
 import 'package:portfolio_flutter/modules/uiprofile/bloc/uiprofile_bloc_event.dart';
@@ -16,6 +17,7 @@ class UiProfileBloc extends Bloc<UiProfileBlocEvent, UiProfileBlocState> {
     required this.routeRepository,
   }) : super(const UiProfileBlocStateUknown()) {
     on<SendProfile>(_sendProfile);
+    on<GetProfile>(_getProfile);
   }
 
   Future<void> _sendProfile(
@@ -28,6 +30,21 @@ class UiProfileBloc extends Bloc<UiProfileBlocEvent, UiProfileBlocState> {
       await routeRepository.save(UiContactRoutes.name);
 
       emmitter(const UiProfileBlocStateUpdateSuccess());
+    } on Exception catch (_) {
+      emmitter(const UiProfileBlocStateError());
+    }
+  }
+
+  Future<void> _getProfile(
+    GetProfile event,
+    Emitter<UiProfileBlocState> emmitter,
+  ) async {
+    emmitter(const UiProfileBlocStateLoading());
+    try {
+      final responseProfile = await profileRepository.getProfile();
+      emmitter(UiProfileBlocStateProfileSaved(
+        responseProfile: responseProfile,
+      ));
     } on Exception catch (_) {
       emmitter(const UiProfileBlocStateError());
     }
