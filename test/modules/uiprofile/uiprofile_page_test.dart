@@ -9,6 +9,7 @@ import 'package:mockito/mockito.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
 import 'package:portfolio_flutter/modules/core/utils/colors_u.dart';
 import 'package:portfolio_flutter/modules/core/utils/files.dart';
+import 'package:portfolio_flutter/modules/core/utils/images.dart';
 import 'package:portfolio_flutter/modules/core/widgets/bottomsheet/bottom_sheet.dart';
 import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart';
 import 'package:portfolio_flutter/modules/uiprofile/bloc/uiprofile_bloc.dart';
@@ -31,6 +32,8 @@ class BottomsheetMock extends Mock implements Bottomsheet {}
 
 class ColorUMock extends Mock implements ColorsU {}
 
+class ImagesMock extends Mock implements Images {}
+
 @GenerateMocks([
   UiProfileBlocMock,
   AppLocalizationMock,
@@ -38,7 +41,8 @@ class ColorUMock extends Mock implements ColorsU {}
   StackRouterMock,
   FileMock,
   BottomsheetMock,
-  ColorUMock
+  ColorUMock,
+  ImagesMock,
 ])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -50,6 +54,7 @@ void main() {
   late MockFileMock fileMock;
   late MockBottomsheetMock bottomsheetMock;
   late MockColorUMock colorUMock;
+  late MockImagesMock imagesMock;
 
   setUp(() {
     uiProfileBlocMock = MockUiProfileBlocMock();
@@ -59,6 +64,7 @@ void main() {
     fileMock = MockFileMock();
     bottomsheetMock = MockBottomsheetMock();
     colorUMock = MockColorUMock();
+    imagesMock = MockImagesMock();
 
     GetIt.instance.allowReassignment = true;
     GetIt.instance.registerSingleton<UiProfileBloc>(uiProfileBlocMock);
@@ -68,6 +74,7 @@ void main() {
     GetIt.instance.registerSingleton<Files>(fileMock);
     GetIt.instance.registerSingleton<Bottomsheet>(bottomsheetMock);
     GetIt.instance.registerSingleton<ColorsU>(colorUMock);
+    GetIt.instance.registerSingleton<Images>(imagesMock);
 
     when(appLocalizationMock.localization).thenReturn(null);
     when(

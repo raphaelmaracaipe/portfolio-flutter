@@ -51,6 +51,8 @@ import 'package:portfolio_flutter/modules/core/utils/files.dart';
 import 'package:portfolio_flutter/modules/core/utils/files_impl.dart';
 import 'package:portfolio_flutter/modules/core/utils/strings.dart';
 import 'package:portfolio_flutter/modules/core/utils/strings_impl.dart';
+import 'package:portfolio_flutter/modules/core/utils/images.dart';
+import 'package:portfolio_flutter/modules/core/utils/images_impl.dart';
 import 'package:portfolio_flutter/modules/core/widgets/bottomsheet/bottom_sheet.dart';
 import 'package:portfolio_flutter/modules/core/widgets/bottomsheet/bottom_sheet_impl.dart';
 import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart';
@@ -218,6 +220,9 @@ abstract class CoreModule {
 
   @lazySingleton
   Strings get strings => StringsImpl();
+
+  @lazySingleton
+  Images get images => ImagesImpl();
 
   @lazySingleton
   Loading get loading => LoadingImpl();
