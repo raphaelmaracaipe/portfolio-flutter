@@ -115,7 +115,7 @@ class _UiProfilePageState extends State<UiProfilePage> {
       _bottomSheetError.show(
         context: context,
         title: _appLocalizations.localization?.generalAttention ?? "",
-        text: _appLocalizations.localization?.errorGeneric ?? "",
+        text: _appLocalizations.localization?.errorGeneral ?? "",
         btnText: _appLocalizations.localization?.generalOk ?? "",
         onBtnClick: () {},
       );
