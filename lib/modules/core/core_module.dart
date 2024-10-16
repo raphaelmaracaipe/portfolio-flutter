@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:injectable/injectable.dart';
 import 'package:portfolio_flutter/config/env.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/countries_codes.dart';
@@ -13,6 +14,7 @@ import 'package:portfolio_flutter/modules/core/data/hand_shake_repository_impl.d
 import 'package:portfolio_flutter/modules/core/data/key_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/key_repository_impl.dart';
 import 'package:portfolio_flutter/modules/core/data/network/config/network_config.dart';
+import 'package:portfolio_flutter/modules/core/data/network/rest_contact.dart';
 import 'package:portfolio_flutter/modules/core/data/network/rest_hand_shake.dart';
 import 'package:portfolio_flutter/modules/core/data/network/rest_profile.dart';
 import 'package:portfolio_flutter/modules/core/data/network/rest_token.dart';
@@ -136,6 +138,12 @@ abstract class CoreModule {
         tokenInterceptorRepository: tokenInterceptorRepository,
         encryptionDecryptAES: encryptionDecryptAES,
         tokenSP: tokenSP,
+      );
+
+  @lazySingleton
+  RestContact get restContact => RestContact(
+        dio,
+        baseUrl: (env?.baseUrl ?? ""),
       );
 
   @lazySingleton
