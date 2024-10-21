@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:portfolio_flutter/config/app_colors.dart';
-import 'package:portfolio_flutter/modules/core/data/network/response/response_contact.dart';
+import 'package:portfolio_flutter/modules/core/data/db/entities/contact_entity.dart';
 import 'package:portfolio_flutter/modules/core/utils/colors_u.dart';
 
 class ListViewWidget extends StatelessWidget {
-  final List<ResponseContact> contacts;
+  final Base64Decoder _base64decoder = const Base64Decoder();
+  final List<ContactEntity> contacts;
   final ColorsU colorsU;
 
   const ListViewWidget({
@@ -23,11 +27,12 @@ class ListViewWidget extends StatelessWidget {
         itemBuilder: (context, index) {
           return Row(
             children: [
-              _viewToImage(),
+              _viewToImage(contacts[index]),
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "a => ${contacts[index].phone}",
+                    _showNameOrPhone(contacts[index]),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: colorsU.checkColorsWhichIsDarkMode(
@@ -38,7 +43,7 @@ class ListViewWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "a => ${contacts[index].phone}",
+                    (contacts[index].status ?? ""),
                     style: TextStyle(
                       color: colorsU.checkColorsWhichIsDarkMode(
                         context: context,
@@ -56,8 +61,14 @@ class ListViewWidget extends StatelessWidget {
     );
   }
 
-  Widget _viewToImage() {
-    final String location = "assets/images/flags/bl.png";
+  String _showNameOrPhone(ContactEntity contact) {
+    if (contact.name != null) {
+      return contact.name ?? "";
+    }
+    return contact.phone ?? "";
+  }
+
+  Widget _viewToImage(ContactEntity contact) {
     return Padding(
       padding: const EdgeInsets.only(
         bottom: 10,
@@ -66,13 +77,27 @@ class ListViewWidget extends StatelessWidget {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(50),
-        child: Image.asset(
-          location,
-          fit: BoxFit.cover,
-          width: 50,
-          height: 50,
-        ),
+        child: _checkImageOfProfile(contact),
       ),
+    );
+  }
+
+  Widget _checkImageOfProfile(ContactEntity contact) {
+    if (contact.photo == null || contact.photo!.isEmpty) {
+      return SvgPicture.asset(
+        "assets/images/icon_profile.svg",
+        color: AppColors.colorGray,
+        fit: BoxFit.cover,
+        width: 50,
+        height: 50,
+      );
+    }
+
+    return Image.memory(
+      _base64decoder.convert(contact.photo ?? ""),
+      fit: BoxFit.cover,
+      width: 50,
+      height: 50,
     );
   }
 }

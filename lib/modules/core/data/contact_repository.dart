@@ -1,7 +1,8 @@
 import 'dart:async';
 
-import 'package:portfolio_flutter/modules/core/data/network/response/response_contact.dart';
+import 'package:portfolio_flutter/modules/core/data/db/entities/contact_entity.dart';
 
 abstract class ContactRepository {
-  FutureOr<List<ResponseContact>> consult(List<String> contacts);
+  FutureOr<List<ContactEntity>> consult();
+  FutureOr<List<ContactEntity>> consultOffline();
 }

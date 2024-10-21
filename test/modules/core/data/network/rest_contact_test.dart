@@ -34,8 +34,7 @@ void main() {
 
     try {
       final List<String> contacts = ["555", "444"];
-      List<ResponseContact>? returnConsult =
-          await restContact?.requestToValidCode(
+      List<ResponseContact>? returnConsult = await restContact?.consult(
         contacts,
       );
 

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio_flutter/config/app_colors.dart';
-import 'package:portfolio_flutter/modules/core/data/network/response/response_contact.dart';
+import 'package:portfolio_flutter/modules/core/data/db/entities/contact_entity.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
 import 'package:portfolio_flutter/modules/core/utils/colors_u.dart';
 import 'package:portfolio_flutter/modules/uicontacts/widget/listview_widget.dart';
 
 class SearchWidget extends StatefulWidget {
   final AppLocalization appLocalization;
-  final List<ResponseContact> contacts;
+  final List<ContactEntity> contacts;
   final ColorsU colorsU;
 
   const SearchWidget({
@@ -68,7 +68,7 @@ class _SearchWidgetState extends State<SearchWidget> {
               left: 20,
             ),
             child: ListViewWidget(
-              contacts: const [],
+              contacts: widget.contacts,
               colorsU: colorsU,
             ),
           )

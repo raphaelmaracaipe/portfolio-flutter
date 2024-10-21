@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
-import 'package:portfolio_flutter/modules/core/data/network/response/response_contact.dart';
+import 'package:portfolio_flutter/modules/core/data/db/entities/contact_entity.dart';
 import 'package:portfolio_flutter/modules/uicontacts/bloc/uicontact_bloc_status.dart';
 
 abstract class UiContactBlocState extends Equatable {
-  final List<ResponseContact> _contacts;
+  final List<ContactEntity> _contacts;
   final UiContactBlocStatus _status;
 
   const UiContactBlocState({
-    required List<ResponseContact> contacts,
+    required List<ContactEntity> contacts,
     required UiContactBlocStatus status,
   })  : _contacts = contacts,
         _status = status;
@@ -17,7 +17,7 @@ abstract class UiContactBlocState extends Equatable {
 
   UiContactBlocStatus get status => _status;
 
-  List<ResponseContact> get contacts => _contacts;
+  List<ContactEntity> get contacts => _contacts;
 }
 
 class UiContactBlocUnknown extends UiContactBlocState {
@@ -54,7 +54,7 @@ class UiContactBlocPermissionNotGranted extends UiContactBlocState {
 
 class UiContactBlocSuccess extends UiContactBlocState {
   @override
-  final List<ResponseContact> contacts;
+  final List<ContactEntity> contacts;
 
   const UiContactBlocSuccess(this.contacts)
       : super(
