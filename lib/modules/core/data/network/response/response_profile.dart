@@ -7,10 +7,12 @@ part 'response_profile.g.dart';
 class ResponseProfile {
   String? name;
   String? photo;
+  String? reminder;
 
   ResponseProfile({
     this.name,
     this.photo,
+    this.reminder,
   });
 
   factory ResponseProfile.fromJson(

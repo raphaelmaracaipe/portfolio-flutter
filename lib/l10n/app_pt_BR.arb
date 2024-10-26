@@ -22,6 +22,7 @@
     "errorRegisterDeviceText": "Um erro ao realizar o registro do device. Por favor, tente novamente mais tarde.",
     "profileTitle": "Perfíl",
     "profileNameInput": "Informe o nome do seu perfil.",
+    "profileReminderInput": "Qual recado?",
     "profileGallery": "Galeria",
     "profileCamera": "Camera",
     "profileChooseTitle": "Por favor, escolha uma das opções",

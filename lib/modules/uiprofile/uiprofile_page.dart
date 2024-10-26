@@ -38,6 +38,7 @@ class _UiProfilePageState extends State<UiProfilePage> {
   List<Map<String, String>> items = [];
 
   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _reminderController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
   final ColorsU _colorsU = GetIt.instance();
   final Loading _loading = GetIt.instance();
@@ -98,10 +99,12 @@ class _UiProfilePageState extends State<UiProfilePage> {
 
       _requestProfile.name = profile?.name ?? "";
       _requestProfile.photo = profile?.photo ?? "";
+      _requestProfile.reminder = profile?.reminder ?? "";
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
         setState(() {
           _nameController.text = profile?.name ?? "";
+          _reminderController.text = profile?.reminder ?? "";
           _imageProfile = _images.convertBase64ToImage(
             (profile?.photo ?? ""),
           );
@@ -201,32 +204,69 @@ class _UiProfilePageState extends State<UiProfilePage> {
           right: 40,
         ),
         alignment: Alignment.topCenter,
-        child: TextField(
-          controller: _nameController,
-          style: TextStyle(
-            color: _colorsU.checkColorsWhichIsDarkMode(
-              context: context,
-              light: AppColors.colorGray,
-              dark: AppColors.colorWhite,
-            ),
-          ),
-          decoration: InputDecoration(
-            focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(
-                color: AppColors.colorGray,
+        child: Column(
+          children: [
+            TextField(
+              controller: _nameController,
+              style: TextStyle(
+                color: _colorsU.checkColorsWhichIsDarkMode(
+                  context: context,
+                  light: AppColors.colorGray,
+                  dark: AppColors.colorWhite,
+                ),
+              ),
+              decoration: InputDecoration(
+                focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: AppColors.colorGray,
+                  ),
+                ),
+                border: const OutlineInputBorder(),
+                focusColor: AppColors.colorGray,
+                labelStyle: TextStyle(
+                  color: _colorsU.checkColorsWhichIsDarkMode(
+                    context: context,
+                    light: AppColors.colorGray,
+                    dark: AppColors.colorWhite,
+                  ),
+                ),
+                labelText:
+                    (_appLocalizations.localization?.profileNameInput ?? ""),
               ),
             ),
-            border: const OutlineInputBorder(),
-            focusColor: AppColors.colorGray,
-            labelStyle: TextStyle(
-              color: _colorsU.checkColorsWhichIsDarkMode(
-                context: context,
-                light: AppColors.colorGray,
-                dark: AppColors.colorWhite,
+            Container(
+              margin: const EdgeInsets.only(top: 40),
+              child: TextField(
+                controller: _reminderController,
+                style: TextStyle(
+                  color: _colorsU.checkColorsWhichIsDarkMode(
+                    context: context,
+                    light: AppColors.colorGray,
+                    dark: AppColors.colorWhite,
+                  ),
+                ),
+                decoration: InputDecoration(
+                  focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: AppColors.colorGray,
+                    ),
+                  ),
+                  border: const OutlineInputBorder(),
+                  focusColor: AppColors.colorGray,
+                  labelStyle: TextStyle(
+                    color: _colorsU.checkColorsWhichIsDarkMode(
+                      context: context,
+                      light: AppColors.colorGray,
+                      dark: AppColors.colorWhite,
+                    ),
+                  ),
+                  labelText: (
+                    _appLocalizations.localization?.profileReminderInput ?? ""
+                  ),
+                ),
               ),
             ),
-            labelText: (_appLocalizations.localization?.profileNameInput ?? ""),
-          ),
+          ],
         ),
       ),
     );
@@ -421,6 +461,8 @@ class _UiProfilePageState extends State<UiProfilePage> {
 
   void _loadingInModelName() {
     _requestProfile.name = _nameController.text;
+    _requestProfile.reminder = _reminderController.text;
+
   }
 
   void _requestProfileSaved() {
