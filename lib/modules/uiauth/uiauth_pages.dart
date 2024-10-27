@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -205,6 +206,9 @@ class UiAuthPageState extends State<UiAuthPage>
               width: 100,
               child: TextField(
                 key: const Key("uiAuthFieldCountryCode"),
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
                 keyboardType: TextInputType.number,
                 controller: _codeCountryController,
                 decoration: InputDecoration(
@@ -236,6 +240,7 @@ class UiAuthPageState extends State<UiAuthPage>
                 keyboardType: TextInputType.number,
                 inputFormatters: [
                   FormattedPhone(countryModel: _countrySelected),
+                  FilteringTextInputFormatter.digitsOnly
                 ],
                 controller: _phoneNumberController,
                 decoration: InputDecoration(

@@ -48,10 +48,22 @@ class _SearchWidgetState extends State<SearchWidget> {
       viewBackgroundColor: Colors.white,
       barHintText:
           widget.appLocalization.localization?.countryTitleSearch ?? "",
-      barBackgroundColor: const MaterialStatePropertyAll(
-        AppColors.colorSearch,
+      barBackgroundColor: WidgetStateProperty.resolveWith<Color?>(
+        (Set<WidgetState> states) {
+          if (states.contains(WidgetState.focused)) {
+            return AppColors.colorSearch.withOpacity(0.8); // Cor quando focado
+          }
+          return AppColors.colorSearch; // Cor padrão
+        },
       ),
-      barElevation: const MaterialStatePropertyAll(0),
+      barElevation: WidgetStateProperty.resolveWith<double>(
+        (Set<WidgetState> states) {
+          if (states.contains(WidgetState.hovered)) {
+            return 4.0; // Elevação maior ao passar o mouse
+          }
+          return 0.0; // Elevação padrão
+        },
+      ),
       suggestionsBuilder: (
         BuildContext context,
         SearchController controller,
