@@ -7,13 +7,13 @@ class ContactEntity extends Equatable {
   String? phone;
   String? name;
   String? photo;
-  String? status;
+  String? reminder;
 
   ContactEntity({
     required this.phone,
     this.photo,
     this.name,
-    this.status
+    this.reminder
   });
 
   @override

@@ -43,7 +43,7 @@ class ListViewWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    (contacts[index].status ?? ""),
+                    (contacts[index].reminder ?? ""),
                     style: TextStyle(
                       color: colorsU.checkColorsWhichIsDarkMode(
                         context: context,
