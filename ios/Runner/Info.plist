@@ -16,6 +16,8 @@
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>portfolio_flutter</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Precisamos acessar seus contatos para exibir na aplicação.</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>

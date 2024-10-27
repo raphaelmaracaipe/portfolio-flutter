@@ -15,7 +15,6 @@
     "validCodeSendAgain": "Enviar o código novamente.",
     "validErrorCode": "O código informado é inválido.",
     "validCancel": "Realmente deseja sair da validação do código?",
-    "errorGeneral": "Ocorreu um erro. Por favor, tente novamente mais tarde!",
     "generalYes": "Sim",
     "generalOk": "Ok! Entendi.",
     "generalAttention": "Atenção",
@@ -23,10 +22,12 @@
     "errorRegisterDeviceText": "Um erro ao realizar o registro do device. Por favor, tente novamente mais tarde.",
     "profileTitle": "Perfíl",
     "profileNameInput": "Informe o nome do seu perfil.",
+    "profileReminderInput": "Qual recado?",
     "profileGallery": "Galeria",
     "profileCamera": "Camera",
     "profileChooseTitle": "Por favor, escolha uma das opções",
     "profileBottomClose": "Fechar",
     "profileAlertProfileEmpty": "O campo nome está vazio, deseja continuar?",
-    "errorGeneric": "Ocorreu um erro. Por favor, tente novamente mais tarde."
+    "contactTitleSarch":"Buscar contatos...",
+    "contactPermissionNotGrant": "Permissão para acessar contatos foi negada."
 }

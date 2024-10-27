@@ -7,8 +7,13 @@ part 'request_profile.g.dart';
 class RequestProfile {
   String? name;
   String? photo;
+  String? reminder;
 
-  RequestProfile({this.name, this.photo});
+  RequestProfile({
+    this.name,
+    this.photo,
+    this.reminder,
+  });
 
   factory RequestProfile.fromJson(
     Map<String, dynamic> json,

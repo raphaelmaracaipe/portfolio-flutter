@@ -27,17 +27,10 @@ class UiSplashPage extends StatefulWidget {
 
 class _UiSplashPageState extends State<UiSplashPage> {
   final ColorsU _color = GetIt.instance();
-  final KeyRepository _keyRepository = GetIt.instance();
   final UiSplashBloc _uiSplashBloc = GetIt.instance();
   final Bottomsheet _bottomSheet = GetIt.instance();
   final AppLocalization _appLocalization = GetIt.instance();
   bool isShowFailRegister = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _keyRepository.cleanSeedSaved();
-  }
 
   @override
   void dispose() {
