@@ -1,10 +1,13 @@
 import 'dart:convert';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:portfolio_flutter/config/app_colors.dart';
 import 'package:portfolio_flutter/modules/core/data/db/entities/contact_entity.dart';
 import 'package:portfolio_flutter/modules/core/utils/colors_u.dart';
+import 'package:portfolio_flutter/modules/uimessage/uimessage_page.dart';
+import 'package:portfolio_flutter/routers/app_router.gr.dart';
 
 class ListViewWidget extends StatelessWidget {
   final Base64Decoder _base64decoder = const Base64Decoder();
@@ -25,38 +28,50 @@ class ListViewWidget extends StatelessWidget {
       child: ListView.builder(
         itemCount: contacts.length,
         itemBuilder: (context, index) {
-          return Row(
+          return _buildItemListView(index, context);
+        },
+      ),
+    );
+  }
+
+  Widget _buildItemListView(int index, BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () {
+        AutoRouter.of(context).push(
+          UiMessageRoutes(contact: contacts[index]),
+        );
+      },
+      child: Row(
+        children: [
+          _viewToImage(contacts[index]),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _viewToImage(contacts[index]),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    _showNameOrPhone(contacts[index]),
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: colorsU.checkColorsWhichIsDarkMode(
-                        context: context,
-                        light: AppColors.colorGray,
-                        dark: AppColors.colorWhite,
-                      ),
-                    ),
+              Text(
+                _showNameOrPhone(contacts[index]),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: colorsU.checkColorsWhichIsDarkMode(
+                    context: context,
+                    light: AppColors.colorGray,
+                    dark: AppColors.colorWhite,
                   ),
-                  Text(
-                    (contacts[index].reminder ?? ""),
-                    style: TextStyle(
-                      color: colorsU.checkColorsWhichIsDarkMode(
-                        context: context,
-                        light: AppColors.colorGray,
-                        dark: AppColors.colorWhite,
-                      ),
-                    ),
+                ),
+              ),
+              Text(
+                (contacts[index].reminder ?? ""),
+                style: TextStyle(
+                  color: colorsU.checkColorsWhichIsDarkMode(
+                    context: context,
+                    light: AppColors.colorGray,
+                    dark: AppColors.colorWhite,
                   ),
-                ],
+                ),
               ),
             ],
-          );
-        },
+          ),
+        ],
       ),
     );
   }
