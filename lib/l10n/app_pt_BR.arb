@@ -29,5 +29,6 @@
     "profileBottomClose": "Fechar",
     "profileAlertProfileEmpty": "O campo nome está vazio, deseja continuar?",
     "contactTitleSarch":"Buscar contatos...",
-    "contactPermissionNotGrant": "Permissão para acessar contatos foi negada."
+    "contactPermissionNotGrant": "Permissão para acessar contatos foi negada.",
+    "messageInputHint": "Escreva sua mensagem..."
 }
