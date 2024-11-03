@@ -88,11 +88,14 @@ class _UiMessagePagesState extends State<UiMessagePages> {
   }
 
   Widget _buildBody() {
-    return Column(
-      children: [
-        Expanded(child: _buildMessageList()),
-        _buildMessageInputRow(),
-      ],
+    return Container(
+      color: Colors.grey[100],
+      child: Column(
+        children: [
+          Expanded(child: _buildMessageList()),
+          _buildMessageInputRow(),
+        ],
+      ),
     );
   }
 
@@ -100,8 +103,138 @@ class _UiMessagePagesState extends State<UiMessagePages> {
     return ListView.builder(
       itemCount: 20,
       itemBuilder: (context, index) {
-        return const ListTile(title: Text("a"));
+        if (index % 2 == 0) {
+          return _buildBoxMessageYour();
+        } else if (index % 3 == 0) {
+          return _buildBoxDate();
+        } else {
+          return _buildBoxMessageContact();
+        }
       },
+    );
+  }
+
+  Widget _buildBoxDate() {
+    return Column(
+      children: [
+        Container(
+          margin: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.only(
+            top: 8,
+            bottom: 8,
+            left: 20,
+            right: 20,
+          ),
+          decoration: BoxDecoration(
+            color: Colors.grey[200],
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: const Text(
+            "03/11/2024",
+            style: TextStyle(
+              fontSize: 10,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildBoxMessageYour() {
+    return Container(
+      margin: const EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 50),
+      padding: const EdgeInsets.only(
+        top: 10,
+        bottom: 5,
+        left: 10,
+        right: 10,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(40),
+          topRight: Radius.circular(40),
+          bottomRight: Radius.circular(40),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vitae nisi quis ante gravida aliquam. Nam erat enim, consectetur eu nulla porta, rhoncus dictum dui. Aenean sit amet aliquet enim, ",
+          ),
+          Container(
+            padding: const EdgeInsets.only(
+              left: 10,
+              right: 10,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                const Text(
+                  "10:53",
+                  style: TextStyle(fontSize: 10),
+                ),
+                SvgPicture.asset(
+                  "assets/images/icon_check_two.svg",
+                  color: AppColors.colorGray,
+                  width: 20,
+                  height: 20,
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBoxMessageContact() {
+    return Container(
+      margin: const EdgeInsets.only(top: 5, bottom: 5, left: 50, right: 10),
+      padding: const EdgeInsets.only(
+        top: 10,
+        bottom: 5,
+        left: 20,
+        right: 10,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.grey[300],
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(40),
+          bottomRight: Radius.circular(40),
+          topLeft: Radius.circular(40),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          const Text(
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vitae nisi quis ante gravida aliquam. Nam erat enim, consectetur eu nulla porta, rhoncus dictum dui. Aenean sit amet aliquet enim, ",
+          ),
+          Container(
+            padding: const EdgeInsets.only(
+              left: 10,
+              right: 10,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                const Text(
+                  "10:53",
+                  style: TextStyle(fontSize: 10),
+                ),
+                SvgPicture.asset(
+                  "assets/images/icon_check_two.svg",
+                  color: AppColors.colorGray,
+                  width: 20,
+                  height: 20,
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
