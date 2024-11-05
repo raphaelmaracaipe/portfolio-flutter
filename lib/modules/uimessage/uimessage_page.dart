@@ -28,7 +28,7 @@ class _UiMessagePagesState extends State<UiMessagePages> {
     _logger.i(widget.contact);
     return Scaffold(
       appBar: _buildAppBar(),
-      backgroundColor: _getBackgroundColor(context),
+      backgroundColor: AppColors.colorWhite,
       body: _buildBody(),
     );
   }
@@ -37,17 +37,9 @@ class _UiMessagePagesState extends State<UiMessagePages> {
     return AppBar(
       leadingWidth: 100,
       titleSpacing: 0,
-      backgroundColor: _getBackgroundColor(context, isAppBar: true),
+      backgroundColor: AppColors.colorWhite,
       leading: _buildLeadingRow(),
       title: _buildTitle(),
-    );
-  }
-
-  Color _getBackgroundColor(BuildContext context, {bool isAppBar = false}) {
-    return _colorsU.checkColorsWhichIsDarkMode(
-      context: context,
-      light: isAppBar ? AppColors.colorPrimary : AppColors.colorWhite,
-      dark: AppColors.colorBlack,
     );
   }
 
@@ -57,7 +49,10 @@ class _UiMessagePagesState extends State<UiMessagePages> {
       children: [
         IconButton(
           onPressed: () {},
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(
+            Icons.arrow_back,
+            color: AppColors.colorBlack,
+          ),
         ),
         const CircleAvatar(
           backgroundImage: AssetImage('assets/images/flags/ad.png'),
@@ -74,28 +69,38 @@ class _UiMessagePagesState extends State<UiMessagePages> {
         Text(
           "Contato",
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.colorBlack,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
         ),
         Text(
           "online",
-          style: TextStyle(color: Colors.white, fontSize: 14),
+          style: TextStyle(
+            color: AppColors.colorBlack,
+            fontSize: 14,
+          ),
         ),
       ],
     );
   }
 
   Widget _buildBody() {
-    return Container(
-      color: Colors.grey[100],
-      child: Column(
-        children: [
-          Expanded(child: _buildMessageList()),
-          _buildMessageInputRow(),
-        ],
-      ),
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: SvgPicture.asset(
+            'assets/images/background_image_t.svg',
+            color: AppColors.colorGray.withOpacity(0.3),
+          ),
+        ),
+        Column(
+          children: [
+            Expanded(child: _buildMessageList()),
+            _buildMessageInputRow(),
+          ],
+        ),
+      ],
     );
   }
 
@@ -104,11 +109,11 @@ class _UiMessagePagesState extends State<UiMessagePages> {
       itemCount: 20,
       itemBuilder: (context, index) {
         if (index % 2 == 0) {
-          return _buildBoxMessageYour();
+          return _buildBoxMessageContact();
         } else if (index % 3 == 0) {
           return _buildBoxDate();
         } else {
-          return _buildBoxMessageContact();
+          return _buildBoxMessageYour();
         }
       },
     );
@@ -126,7 +131,7 @@ class _UiMessagePagesState extends State<UiMessagePages> {
             right: 20,
           ),
           decoration: BoxDecoration(
-            color: Colors.grey[200],
+            color: Colors.white,
             borderRadius: BorderRadius.circular(20),
           ),
           child: const Text(
@@ -140,7 +145,7 @@ class _UiMessagePagesState extends State<UiMessagePages> {
     );
   }
 
-  Widget _buildBoxMessageYour() {
+  Widget _buildBoxMessageContact() {
     return Container(
       margin: const EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 50),
       padding: const EdgeInsets.only(
@@ -149,47 +154,41 @@ class _UiMessagePagesState extends State<UiMessagePages> {
         left: 10,
         right: 10,
       ),
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-        borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(40),
-          topRight: Radius.circular(40),
-          bottomRight: Radius.circular(40),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+          bottomRight: Radius.circular(20),
         ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vitae nisi quis ante gravida aliquam. Nam erat enim, consectetur eu nulla porta, rhoncus dictum dui. Aenean sit amet aliquet enim, ",
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
           ),
-          Container(
-            padding: const EdgeInsets.only(
-              left: 10,
-              right: 10,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                const Text(
-                  "10:53",
-                  style: TextStyle(fontSize: 10),
-                ),
-                SvgPicture.asset(
-                  "assets/images/icon_check_two.svg",
-                  color: AppColors.colorGray,
-                  width: 20,
-                  height: 20,
-                )
-              ],
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              const Text(
+                "10:53",
+                style: TextStyle(fontSize: 10),
+              ),
+              SvgPicture.asset(
+                "assets/images/icon_check_two.svg",
+                color: AppColors.colorBlack,
+                width: 20,
+                height: 20,
+              )
+            ],
           ),
         ],
       ),
     );
   }
 
-  Widget _buildBoxMessageContact() {
+  Widget _buildBoxMessageYour() {
     return Container(
       margin: const EdgeInsets.only(top: 5, bottom: 5, left: 50, right: 10),
       padding: const EdgeInsets.only(
@@ -198,12 +197,12 @@ class _UiMessagePagesState extends State<UiMessagePages> {
         left: 20,
         right: 10,
       ),
-      decoration: BoxDecoration(
-        color: Colors.grey[300],
-        borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(40),
-          bottomRight: Radius.circular(40),
-          topLeft: Radius.circular(40),
+      decoration: const BoxDecoration(
+        color: AppColors.colorMessage,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(20),
+          bottomRight: Radius.circular(20),
+          topLeft: Radius.circular(20),
         ),
       ),
       child: Column(
@@ -212,26 +211,20 @@ class _UiMessagePagesState extends State<UiMessagePages> {
           const Text(
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vitae nisi quis ante gravida aliquam. Nam erat enim, consectetur eu nulla porta, rhoncus dictum dui. Aenean sit amet aliquet enim, ",
           ),
-          Container(
-            padding: const EdgeInsets.only(
-              left: 10,
-              right: 10,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                const Text(
-                  "10:53",
-                  style: TextStyle(fontSize: 10),
-                ),
-                SvgPicture.asset(
-                  "assets/images/icon_check_two.svg",
-                  color: AppColors.colorGray,
-                  width: 20,
-                  height: 20,
-                )
-              ],
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              const Text(
+                "10:53",
+                style: TextStyle(fontSize: 10),
+              ),
+              SvgPicture.asset(
+                "assets/images/icon_check_two.svg",
+                color: AppColors.colorBlack,
+                width: 20,
+                height: 20,
+              )
+            ],
           ),
         ],
       ),
@@ -248,45 +241,47 @@ class _UiMessagePagesState extends State<UiMessagePages> {
   }
 
   Widget _buildMessageInput() {
-    return Padding(
-      padding: const EdgeInsets.all(8),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.grey[200],
-          borderRadius: BorderRadius.circular(10),
-        ),
-        margin: const EdgeInsets.only(left: 10, right: 5, bottom: 10),
-        child: Row(
-          children: [
-            IconButton(
-              onPressed: () {},
-              icon: SvgPicture.asset(
-                "assets/images/icon_smile.svg",
-                color: AppColors.colorGray,
-                width: 30,
-                height: 30,
+    return Container(
+      margin: const EdgeInsets.only(left: 10),
+      decoration: BoxDecoration(
+        color: AppColors.colorWhite,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Row(
+        children: [
+          IconButton(
+            onPressed: () {},
+            icon: SvgPicture.asset(
+              "assets/images/icon_smile.svg",
+              color: AppColors.colorGray,
+              width: 20,
+              height: 20,
+            ),
+          ),
+          Expanded(
+            child: TextField(
+              maxLines: 4,
+              minLines: 1,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText:
+                    _appLocalizations.localization?.messageInputHint ?? "",
               ),
             ),
-            Expanded(
-              child: TextField(
-                maxLines: 4,
-                minLines: 1,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText:
-                      _appLocalizations.localization?.messageInputHint ?? "",
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildSendButton() {
     return Container(
-      margin: const EdgeInsets.only(right: 10, left: 5, bottom: 10),
+      margin: const EdgeInsets.only(
+        right: 10,
+        left: 5,
+        bottom: 10,
+        top: 10,
+      ),
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: AppColors.colorPrimary,
@@ -297,8 +292,8 @@ class _UiMessagePagesState extends State<UiMessagePages> {
         icon: SvgPicture.asset(
           "assets/images/icon_send.svg",
           color: AppColors.colorWhite,
-          width: 30,
-          height: 30,
+          width: 40,
+          height: 40,
         ),
       ),
     );
