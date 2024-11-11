@@ -6,7 +6,11 @@ import 'package:portfolio_flutter/modules/core/data/key_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/network/interceptors/dio_decrypted_interceptor.dart';
 import 'package:portfolio_flutter/modules/core/data/network/interceptors/dio_encrypted_interceptor.dart';
 import 'package:portfolio_flutter/modules/core/data/network/interceptors/dio_error_interceptor.dart';
+import 'package:portfolio_flutter/modules/core/data/sp/device_sp.dart';
+import 'package:portfolio_flutter/modules/core/data/sp/key_sp.dart';
+import 'package:portfolio_flutter/modules/core/data/sp/route_sp.dart';
 import 'package:portfolio_flutter/modules/core/data/sp/token_sp.dart';
+import 'package:portfolio_flutter/modules/core/data/sp/user_sp.dart';
 import 'package:portfolio_flutter/modules/core/data/token_interceptor_repository.dart';
 import 'package:portfolio_flutter/modules/core/security/encryption_decrypt_aes.dart';
 import 'package:portfolio_flutter/modules/core/security/keys.dart';
@@ -20,6 +24,10 @@ class NetworkConfig {
     DeviceRepository? deviceRepository,
     TokenInterceptorRepository? tokenInterceptorRepository,
     Bytes? bytes,
+    DeviceSP? deviceSP,
+    KeySP? keySP,
+    UserSP? userSP,
+    RouteSP? routeSP,
     TokenSP? tokenSP,
   }) {
     final Dio dio = Dio(
@@ -57,6 +65,11 @@ class NetworkConfig {
       dio.interceptors.add(DioErrorInterceptor(
         dio: dio,
         tokenInterceptorRepository: tokenInterceptorRepository,
+        deviceSP: deviceSP,
+        keySP: keySP,
+        userSP: userSP,
+        routeSP: routeSP,
+        tokenSP: tokenSP,
       ));
     }
 
