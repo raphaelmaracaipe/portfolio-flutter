@@ -26,11 +26,12 @@ class UiMessagePages extends StatefulWidget {
 }
 
 class _UiMessagePagesState extends State<UiMessagePages> {
-  late final AppLifecycleListener _listener;
+  // ignore: unused_field
   final ColorsU _colorsU = GetIt.instance();
   final Logger _logger = Logger();
   final AppLocalization _appLocalizations = GetIt.instance();
   final UIMessageBloc _uIMessageBloc = GetIt.instance();
+  late final AppLifecycleListener _listener;
   String _status = "";
   Timer? _timer;
 
@@ -260,6 +261,7 @@ class _UiMessagePagesState extends State<UiMessagePages> {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           const Text(
+            // ignore: lines_longer_than_80_chars
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vitae nisi quis ante gravida aliquam. Nam erat enim, consectetur eu nulla porta, rhoncus dictum dui. Aenean sit amet aliquet enim, ",
           ),
           Row(

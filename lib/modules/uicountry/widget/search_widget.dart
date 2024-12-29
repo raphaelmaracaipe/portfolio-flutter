@@ -6,6 +6,7 @@ import 'package:portfolio_flutter/modules/core/data/assets/models/country_model.
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
 
 @immutable
+// ignore: must_be_immutable
 class SearchWidget extends StatefulWidget {
   void Function(CountryModel)? onRateCountry;
   final List<CountryModel> countries;

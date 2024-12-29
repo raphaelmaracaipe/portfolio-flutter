@@ -10,9 +10,8 @@ import 'package:portfolio_flutter/modules/core/data/network/exceptions/permissio
 import 'package:portfolio_flutter/modules/core/data/network/response/response_contact.dart';
 import 'package:portfolio_flutter/modules/core/data/network/rest_contact.dart';
 import 'package:portfolio_flutter/modules/core/data/socket/socket_config.dart';
-import 'package:portfolio_flutter/modules/core/data/socket/socket_config_impl.dart';
 import 'package:portfolio_flutter/modules/core/utils/contacts.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
 @Injectable(as: ContactRepository)
 class ContactRepositoryImpl extends ContactRepository {
@@ -21,7 +20,7 @@ class ContactRepositoryImpl extends ContactRepository {
   final ContactDao contactDao;
   final SocketConfig socketConfig;
   late Logger logger;
-  late IO.Socket? socket;
+  late io.Socket? socket;
 
   ContactRepositoryImpl({
     required this.restContact,

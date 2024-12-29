@@ -2,15 +2,10 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_contacts/flutter_contacts.dart';
-import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:portfolio_flutter/config/env.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/countries_codes.dart';
 import 'package:portfolio_flutter/modules/core/data/assets/countries_codes_impl.dart';
-import 'package:portfolio_flutter/modules/core/data/contact_repository.dart';
-import 'package:portfolio_flutter/modules/core/data/contact_repository_impl.dart';
-import 'package:portfolio_flutter/modules/core/data/db/daos/contact_dao.dart';
 import 'package:portfolio_flutter/modules/core/data/device_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/device_repository_impl.dart';
 import 'package:portfolio_flutter/modules/core/data/hand_shake_repository.dart';
@@ -27,8 +22,6 @@ import 'package:portfolio_flutter/modules/core/data/profile_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/profile_repository_impl.dart';
 import 'package:portfolio_flutter/modules/core/data/route_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/route_repository_impl.dart';
-import 'package:portfolio_flutter/modules/core/data/socket/socket_config.dart';
-import 'package:portfolio_flutter/modules/core/data/socket/socket_config_impl.dart';
 import 'package:portfolio_flutter/modules/core/data/sp/device_sp.dart';
 import 'package:portfolio_flutter/modules/core/data/sp/device_sp_impl.dart';
 import 'package:portfolio_flutter/modules/core/data/sp/key_sp.dart';
@@ -55,8 +48,6 @@ import 'package:portfolio_flutter/modules/core/utils/bytes.dart';
 import 'package:portfolio_flutter/modules/core/utils/bytes_impl.dart';
 import 'package:portfolio_flutter/modules/core/utils/colors_impl.dart';
 import 'package:portfolio_flutter/modules/core/utils/colors_u.dart';
-import 'package:portfolio_flutter/modules/core/utils/contacts.dart';
-import 'package:portfolio_flutter/modules/core/utils/contacts_impl.dart';
 import 'package:portfolio_flutter/modules/core/utils/files.dart';
 import 'package:portfolio_flutter/modules/core/utils/files_impl.dart';
 import 'package:portfolio_flutter/modules/core/utils/images.dart';
@@ -68,7 +59,6 @@ import 'package:portfolio_flutter/modules/core/widgets/bottomsheet/bottom_sheet_
 import 'package:portfolio_flutter/modules/core/widgets/loading/loading.dart';
 import 'package:portfolio_flutter/modules/core/widgets/loading/loading_impl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 @module
 abstract class CoreModule {

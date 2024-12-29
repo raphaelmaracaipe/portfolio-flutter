@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 part 'response_contact.g.dart';
 
 @JsonSerializable()
+// ignore: must_be_immutable
 class ResponseContact extends Equatable {
   String? name;
   String? photo;

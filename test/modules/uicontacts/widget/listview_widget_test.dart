@@ -69,11 +69,7 @@ void main() {
     (widgetTester) async {
       List<ContactEntity> contacts = [
         ContactEntity(
-          phone: "1234567890",
-          name: "John Doe",
-          reminder: "Meeting at 10 AM",
-          photo: null,
-        )
+            phone: "1234567890", name: "John Doe", reminder: "Meeting at 10 AM")
       ];
 
       ListViewWidget listViewWidget = ListViewWidget(

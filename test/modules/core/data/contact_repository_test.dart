@@ -12,7 +12,7 @@ import 'package:portfolio_flutter/modules/core/data/network/response/response_co
 import 'package:portfolio_flutter/modules/core/data/network/rest_contact.dart';
 import 'package:portfolio_flutter/modules/core/data/socket/socket_config.dart';
 import 'package:portfolio_flutter/modules/core/utils/contacts.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
 import 'contact_repository_test.mocks.dart';
 
@@ -39,7 +39,7 @@ void main() {
   final MockSockectMock mockSocket = MockSockectMock();
 
   setUp(() {
-    final ioConnect = IO.io('http://localhost', <String, dynamic>{
+    final ioConnect = io.io('http://localhost', <String, dynamic>{
       'transports': ['websocket'],
     });
 
@@ -124,7 +124,7 @@ void main() {
     try {
       final contactConsulted = await contactRepository.consult();
       expect(contactConsulted.length, 1);
-    } on Exception catch (e) {
+    } on Exception catch (_) {
       expect(false, true);
     }
   });

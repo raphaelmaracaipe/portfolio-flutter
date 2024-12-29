@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
 @entity
+// ignore: must_be_immutable
 class ContactEntity extends Equatable {
   @primaryKey
   String? phone;

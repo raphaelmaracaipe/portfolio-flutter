@@ -16,6 +16,7 @@ import 'package:portfolio_flutter/modules/uicountry/widget/search_widget.dart';
 
 @immutable
 @RoutePage()
+// ignore: must_be_immutable
 class UiCountryPage extends StatefulWidget {
   void Function(CountryModel)? onRateCountry;
   UiCountryPage({super.key, this.onRateCountry});
