@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
@@ -7,6 +10,10 @@ import 'package:portfolio_flutter/config/app_colors.dart';
 import 'package:portfolio_flutter/modules/core/data/db/entities/contact_entity.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
 import 'package:portfolio_flutter/modules/core/utils/colors_u.dart';
+import 'package:portfolio_flutter/modules/uimessage/bloc/uimessage_bloc.dart';
+import 'package:portfolio_flutter/modules/uimessage/bloc/uimessage_bloc_event.dart';
+import 'package:portfolio_flutter/modules/uimessage/bloc/uimessage_bloc_state.dart';
+import 'package:portfolio_flutter/modules/uimessage/bloc/uimessage_bloc_status.dart';
 
 @RoutePage()
 class UiMessagePages extends StatefulWidget {
@@ -19,9 +26,62 @@ class UiMessagePages extends StatefulWidget {
 }
 
 class _UiMessagePagesState extends State<UiMessagePages> {
+  late final AppLifecycleListener _listener;
   final ColorsU _colorsU = GetIt.instance();
   final Logger _logger = Logger();
   final AppLocalization _appLocalizations = GetIt.instance();
+  final UIMessageBloc _uIMessageBloc = GetIt.instance();
+  String _status = "";
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _initialize();
+  }
+
+  void _initialize() {
+    _calculateStatus();
+    _startPeriodicRequest();
+    _uIMessageBloc.add(UIMessageEventBlocConnect());
+    _listener = AppLifecycleListener(onStateChange: _onStateChanged);
+  }
+
+  void _startPeriodicRequest() {
+    _timer = Timer.periodic(const Duration(minutes: 28), (timer) {
+      _logger.i("start consult status contact");
+      _uIMessageBloc.add(UIMessageEventBlocConnect());
+    });
+  }
+
+  void _calculateStatus() {
+    final contact = widget.contact;
+    final localization = _appLocalizations.localization;
+    final timeNow = DateTime.now().millisecondsSinceEpoch;
+    final lastOnline = contact.lastOnline ?? 0;
+    final duration = Duration(milliseconds: timeNow - lastOnline);
+    final hours = duration.inHours;
+    final minutes = duration.inMinutes % 60;
+
+    String messageStatus = (localization?.messageStatusOnline ?? "");
+    if (minutes > 30 || hours > 0) {
+      final time = hours > 0 ? "${hours}h" : "${minutes}m";
+      messageStatus = localization?.messageStatusSeeWhen(time) ?? "";
+    }
+
+    setState(() {
+      _status = messageStatus;
+    });
+  }
+
+  @override
+  void dispose() {
+    _listener.dispose();
+    _timer?.cancel();
+    _uIMessageBloc.add(UIMessageEventBlocDisconnect());
+    _uIMessageBloc.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +89,30 @@ class _UiMessagePagesState extends State<UiMessagePages> {
     return Scaffold(
       appBar: _buildAppBar(),
       backgroundColor: AppColors.colorWhite,
-      body: _buildBody(),
+      body: Stack(
+        children: [
+          _buildBody(),
+          _buildBloc(),
+        ],
+      ),
     );
+  }
+
+  FutureOr<void> _onStateChanged(AppLifecycleState state) async {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        _uIMessageBloc.add(UIMessageEventBlocConnect());
+        _startPeriodicRequest();
+        break;
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.paused:
+      case AppLifecycleState.detached:
+        _uIMessageBloc.add(UIMessageEventBlocDisconnect());
+        _timer?.cancel();
+        break;
+      case AppLifecycleState.hidden:
+        break;
+    }
   }
 
   AppBar _buildAppBar() {
@@ -49,10 +131,7 @@ class _UiMessagePagesState extends State<UiMessagePages> {
       children: [
         IconButton(
           onPressed: () {},
-          icon: const Icon(
-            Icons.arrow_back,
-            color: AppColors.colorBlack,
-          ),
+          icon: const Icon(Icons.arrow_back, color: AppColors.colorBlack),
         ),
         const CircleAvatar(
           backgroundImage: AssetImage('assets/images/flags/ad.png'),
@@ -63,10 +142,10 @@ class _UiMessagePagesState extends State<UiMessagePages> {
   }
 
   Widget _buildTitle() {
-    return const Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           "Contato",
           style: TextStyle(
             color: AppColors.colorBlack,
@@ -75,8 +154,8 @@ class _UiMessagePagesState extends State<UiMessagePages> {
           ),
         ),
         Text(
-          "online",
-          style: TextStyle(
+          _status,
+          style: const TextStyle(
             color: AppColors.colorBlack,
             fontSize: 14,
           ),
@@ -88,11 +167,8 @@ class _UiMessagePagesState extends State<UiMessagePages> {
   Widget _buildBody() {
     return Stack(
       children: [
-        Positioned.fill(
-          child: SvgPicture.asset(
-            'assets/images/background_image_t.svg',
-            color: AppColors.colorGray.withOpacity(0.3),
-          ),
+        const Positioned.fill(
+          child: ColoredBox(color: AppColors.colorBackgroundMessage),
         ),
         Column(
           children: [
@@ -120,40 +196,24 @@ class _UiMessagePagesState extends State<UiMessagePages> {
   }
 
   Widget _buildBoxDate() {
-    return Column(
-      children: [
-        Container(
-          margin: const EdgeInsets.all(10.0),
-          padding: const EdgeInsets.only(
-            top: 8,
-            bottom: 8,
-            left: 20,
-            right: 20,
-          ),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: const Text(
-            "03/11/2024",
-            style: TextStyle(
-              fontSize: 10,
-            ),
-          ),
-        ),
-      ],
+    return Container(
+      margin: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: const Text(
+        "03/11/2024",
+        style: TextStyle(fontSize: 10),
+      ),
     );
   }
 
   Widget _buildBoxMessageContact() {
     return Container(
       margin: const EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 50),
-      padding: const EdgeInsets.only(
-        top: 10,
-        bottom: 5,
-        left: 10,
-        right: 10,
-      ),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
@@ -165,22 +225,18 @@ class _UiMessagePagesState extends State<UiMessagePages> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-          ),
+          const Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              const Text(
-                "10:53",
-                style: TextStyle(fontSize: 10),
-              ),
+              const Text("10:53", style: TextStyle(fontSize: 10)),
               SvgPicture.asset(
                 "assets/images/icon_check_two.svg",
                 color: AppColors.colorBlack,
                 width: 20,
                 height: 20,
-              )
+                cacheColorFilter: true,
+              ),
             ],
           ),
         ],
@@ -191,12 +247,7 @@ class _UiMessagePagesState extends State<UiMessagePages> {
   Widget _buildBoxMessageYour() {
     return Container(
       margin: const EdgeInsets.only(top: 5, bottom: 5, left: 50, right: 10),
-      padding: const EdgeInsets.only(
-        top: 10,
-        bottom: 5,
-        left: 20,
-        right: 10,
-      ),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       decoration: const BoxDecoration(
         color: AppColors.colorMessage,
         borderRadius: BorderRadius.only(
@@ -214,16 +265,14 @@ class _UiMessagePagesState extends State<UiMessagePages> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              const Text(
-                "10:53",
-                style: TextStyle(fontSize: 10),
-              ),
+              const Text("10:53", style: TextStyle(fontSize: 10)),
               SvgPicture.asset(
                 "assets/images/icon_check_two.svg",
                 color: AppColors.colorBlack,
                 width: 20,
                 height: 20,
-              )
+                cacheColorFilter: true,
+              ),
             ],
           ),
         ],
@@ -256,6 +305,7 @@ class _UiMessagePagesState extends State<UiMessagePages> {
               color: AppColors.colorGray,
               width: 20,
               height: 20,
+              cacheColorFilter: true,
             ),
           ),
           Expanded(
@@ -294,7 +344,33 @@ class _UiMessagePagesState extends State<UiMessagePages> {
           color: AppColors.colorWhite,
           width: 40,
           height: 40,
+          cacheColorFilter: true,
         ),
+      ),
+    );
+  }
+
+  Widget _buildBloc() {
+    return BlocListener<UIMessageBloc, UIMessageBlocState>(
+      bloc: _uIMessageBloc,
+      listener: (context, state) {
+        if (state.status == UiMessageBlocStatus.connected) {
+          _uIMessageBloc.add(UiMessageBlocEventHeIsOnline(
+            widget.contact.phone ?? "",
+          ));
+        } else if (state.status == UiMessageBlocStatus.heIsOnline) {
+          setState(() {
+            _status =
+                (_appLocalizations.localization?.messageStatusOnline ?? "");
+          });
+        }
+      },
+      child: BlocBuilder<UIMessageBloc, UIMessageBlocState>(
+        bloc: _uIMessageBloc,
+        builder: (context, state) {
+          _logger.d(state.status);
+          return Container();
+        },
       ),
     );
   }

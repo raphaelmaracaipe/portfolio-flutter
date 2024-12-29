@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:portfolio_flutter/config/app_colors.dart';
+import 'package:portfolio_flutter/modules/core/data/contact_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/db/entities/contact_entity.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
 import 'package:portfolio_flutter/modules/core/utils/colors_u.dart';
@@ -18,13 +19,30 @@ class UiContactPages extends StatefulWidget {
   const UiContactPages({super.key});
 
   @override
-  State<StatefulWidget> createState() => _UiContactPages();
+  State<StatefulWidget> createState() => _UiContactPagesState();
 }
 
-class _UiContactPages extends State<UiContactPages> {
-  final ColorsU _colorsU = GetIt.instance();
-  final AppLocalization _appLocalizations = GetIt.instance();
-  final UiContactBloc _uiContactBloc = GetIt.instance();
+class _UiContactPagesState extends State<UiContactPages> {
+  late final ColorsU _colorsU;
+  late final AppLocalization _appLocalizations;
+  late final UiContactBloc _uiContactBloc;
+  late final ContactRepository _contactRepository;
+
+  @override
+  void initState() {
+    super.initState();
+    _colorsU = GetIt.instance<ColorsU>();
+    _appLocalizations = GetIt.instance<AppLocalization>();
+    _uiContactBloc = GetIt.instance<UiContactBloc>();
+    _contactRepository = GetIt.instance<ContactRepository>();
+    _uiContactBloc.add(SendContacts(contacts: []));
+  }
+
+  @override
+  void dispose() {
+    _uiContactBloc.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,40 +52,21 @@ class _UiContactPages extends State<UiContactPages> {
         light: AppColors.colorWhite,
         dark: AppColors.colorBlack,
       ),
-      body: Stack(children: [
-        _body(),
-      ]),
-    );
-  }
-
-  Widget _body() {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.only(
-          top: 20,
-          right: 20,
-          left: 20,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
+          child: BlocBuilder<UiContactBloc, UiContactBlocState>(
+            bloc: _uiContactBloc,
+            builder: (context, state) {
+              if (state.status == UiContactBlocStatus.permissionNotGranted) {
+                _showPermissionNotGrantedMessage(context);
+                return Container();
+              }
+              return _buildListViewAndSearchView(state.contacts);
+            },
+          ),
         ),
-        child: _buildBloc(),
       ),
-    );
-  }
-
-  Widget _buildBloc() {
-    _uiContactBloc.add(SendContacts(contacts: []));
-    return BlocBuilder<UiContactBloc, UiContactBlocState>(
-      bloc: _uiContactBloc,
-      builder: (
-        context,
-        state,
-      ) {
-        if(state.status == UiContactBlocStatus.permissionNotGranted) {
-          _buildViewToPermissionNotGranted(context: context);
-          return Container();
-        }
-
-        return _buildListViewAndSearchView(state.contacts);
-      },
     );
   }
 
@@ -78,18 +77,20 @@ class _UiContactPages extends State<UiContactPages> {
           appLocalization: _appLocalizations,
           contacts: contacts,
           colorsU: _colorsU,
+          contactRepository: _contactRepository,
         ),
         Expanded(
           child: ListViewWidget(
             contacts: contacts,
             colorsU: _colorsU,
+            contactRepository: _contactRepository,
           ),
-        )
+        ),
       ],
     );
   }
 
-  void _buildViewToPermissionNotGranted({required BuildContext context}) {
+  void _showPermissionNotGrantedMessage(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

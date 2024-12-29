@@ -19,6 +19,7 @@
     "generalOk": "Ok! Entendi.",
     "generalAttention": "Atenção",
     "generalContinue": "Continuar",
+    "generalLogout": "Foi identificado que outro dispositivo efetuou o login. Por favor, tente novamente logar novamente.",
     "errorRegisterDeviceText": "Um erro ao realizar o registro do device. Por favor, tente novamente mais tarde.",
     "profileTitle": "Perfíl",
     "profileNameInput": "Informe o nome do seu perfil.",
@@ -30,5 +31,8 @@
     "profileAlertProfileEmpty": "O campo nome está vazio, deseja continuar?",
     "contactTitleSarch":"Buscar contatos...",
     "contactPermissionNotGrant": "Permissão para acessar contatos foi negada.",
-    "messageInputHint": "Escreva sua mensagem..."
+    "messageInputHint": "Escreva sua mensagem...",
+    "messageStatusOnline": "Online",
+    "messageStatusOffline": "Offline",
+    "messageStatusSeeWhen": "Última vez online à {time} atrás"
 }
