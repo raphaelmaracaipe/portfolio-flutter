@@ -51,6 +51,8 @@ import 'package:portfolio_flutter/modules/core/utils/colors_impl.dart';
 import 'package:portfolio_flutter/modules/core/utils/colors_u.dart';
 import 'package:portfolio_flutter/modules/core/utils/files.dart';
 import 'package:portfolio_flutter/modules/core/utils/files_impl.dart';
+import 'package:portfolio_flutter/modules/core/utils/images.dart';
+import 'package:portfolio_flutter/modules/core/utils/images_impl.dart';
 import 'package:portfolio_flutter/modules/core/utils/strings.dart';
 import 'package:portfolio_flutter/modules/core/utils/strings_impl.dart';
 import 'package:portfolio_flutter/modules/core/utils/images.dart';
@@ -137,6 +139,10 @@ abstract class CoreModule {
         deviceRepository: deviceRepository,
         tokenInterceptorRepository: tokenInterceptorRepository,
         encryptionDecryptAES: encryptionDecryptAES,
+        deviceSP: deviceSP,
+        keySP: keySP,
+        routeSP: routeSP,
+        userSP: userSP,
         tokenSP: tokenSP,
       );
 
@@ -173,6 +179,10 @@ abstract class CoreModule {
           deviceRepository: deviceRepository,
           encryptionDecryptAES: encryptionDecryptAES,
           tokenSP: tokenSP,
+          deviceSP: deviceSP,
+          keySP: keySP,
+          routeSP: routeSP,
+          userSP: userSP,
         ),
         baseUrl: (env?.baseUrl ?? ""),
       );

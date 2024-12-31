@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio_flutter/config/app_colors.dart';
+import 'package:portfolio_flutter/modules/core/data/contact_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/db/entities/contact_entity.dart';
 import 'package:portfolio_flutter/modules/core/localizations/app_localization.dart';
 import 'package:portfolio_flutter/modules/core/utils/colors_u.dart';
@@ -9,11 +10,13 @@ class SearchWidget extends StatefulWidget {
   final AppLocalization appLocalization;
   final List<ContactEntity> contacts;
   final ColorsU colorsU;
+  final ContactRepository contactRepository;
 
   const SearchWidget({
     required this.appLocalization,
     required this.contacts,
     required this.colorsU,
+    required this.contactRepository,
     super.key,
   });
 
@@ -58,21 +61,13 @@ class _SearchWidgetState extends State<SearchWidget> {
   Widget _buildItemListSearch(int index, ColorsU colorsU) {
     return GestureDetector(
       onTap: () {},
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(
-              bottom: 10,
-              top: 10,
-              right: 20,
-              left: 20,
-            ),
-            child: ListViewWidget(
-              contacts: widget.contacts,
-              colorsU: colorsU,
-            ),
-          )
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: ListViewWidget(
+          contacts: widget.contacts,
+          colorsU: colorsU,
+          contactRepository: widget.contactRepository,
+        ),
       ),
     );
   }

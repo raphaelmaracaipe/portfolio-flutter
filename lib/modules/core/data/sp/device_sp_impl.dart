@@ -40,4 +40,10 @@ class DeviceSPImpl extends DeviceSP {
 
     await (await sharedPreference).setString(_keyOfShared, keyEncrypted);
   }
+
+  @override
+  Future<void> clean() async {
+    final sp = await sharedPreference;
+    sp.remove(_keyOfShared);
+  }
 }

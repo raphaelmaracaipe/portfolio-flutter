@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field
+
 import 'package:equatable/equatable.dart';
 import 'package:portfolio_flutter/modules/core/data/network/enums/http_error_enum.dart';
 import 'package:portfolio_flutter/modules/core/data/network/response/response_token.dart';

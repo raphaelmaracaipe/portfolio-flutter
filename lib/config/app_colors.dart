@@ -7,4 +7,6 @@ class AppColors {
   static const Color colorError = Color(0xFF8B0000);
   static const Color colorWhite = Color(0xFFFFFFFF);
   static const Color colorBlack = Color(0xFF000000);
+  static const Color colorBackgroundMessage = Color(0xFFEBEBEB);
+  static const Color colorMessage = Color(0xFF7F95B0);
 }

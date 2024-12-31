@@ -43,4 +43,10 @@ class UserSPImpl extends UserSP {
       iv: bytes.convertBytesToString(AppKey.seedDefault),
     );
   }
+
+  @override
+  Future<void> clean() async {
+    final sp = await sharedPreferences;
+    sp.remove(_keyOfSharedPhone);
+  }
 }

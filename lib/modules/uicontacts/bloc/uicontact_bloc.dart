@@ -4,7 +4,6 @@ import 'package:logger/logger.dart';
 import 'package:portfolio_flutter/modules/core/data/contact_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/db/entities/contact_entity.dart';
 import 'package:portfolio_flutter/modules/core/data/network/exceptions/permission_not_granted.dart';
-import 'package:portfolio_flutter/modules/core/data/network/response/response_contact.dart';
 import 'package:portfolio_flutter/modules/uicontacts/bloc/uicontact_bloc_event.dart';
 import 'package:portfolio_flutter/modules/uicontacts/bloc/uicontact_bloc_state.dart';
 
@@ -27,12 +26,14 @@ class UiContactBloc extends Bloc<UiContactBlocEvent, UiContactBlocState> {
   ) async {
     emitter(UiContactBlocSuccess(await _contactRepository.consultOffline()));
     logger.i(
+      // ignore: lines_longer_than_80_chars
       "Init process to consult contact, total contact to consult ${event.contacts.length}",
     );
 
     try {
       List<ContactEntity> contacts = await _contactRepository.consult();
       logger.i(
+        // ignore: lines_longer_than_80_chars
         "Finished to consult contact, total contact consulted ${contacts.length}",
       );
       emitter(UiContactBlocSuccess(contacts));
