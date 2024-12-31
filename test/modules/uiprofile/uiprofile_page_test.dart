@@ -1,4 +1,4 @@
-import 'dart:io';
+// ignore_for_file: lines_longer_than_80_chars
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';

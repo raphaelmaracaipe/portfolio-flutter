@@ -14,5 +14,5 @@ void main() async {
   assert(env != null);
 
   configureDependencies();
-  return runApp(const AppWidget());
+  return runApp(AppWidget());
 }

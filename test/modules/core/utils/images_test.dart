@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:portfolio_flutter/modules/core/utils/images.dart';
 import 'package:portfolio_flutter/modules/core/utils/images_impl.dart';

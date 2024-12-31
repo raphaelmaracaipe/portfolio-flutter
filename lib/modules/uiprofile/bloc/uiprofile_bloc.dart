@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:portfolio_flutter/modules/core/data/network/response/response_profile.dart';
 import 'package:portfolio_flutter/modules/core/data/profile_repository.dart';
 import 'package:portfolio_flutter/modules/core/data/route_repository.dart';
 import 'package:portfolio_flutter/modules/uiprofile/bloc/uiprofile_bloc_event.dart';

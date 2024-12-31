@@ -29,6 +29,7 @@ dependencies:
   flutter_contacts: ^1.1.9+2
   floor: ^1.4.2
   floor_annotation: ^1.1.0
+  socket_io_client: ^2.0.0
 
 dev_dependencies:
   integration_test:
@@ -61,3 +62,7 @@ flutter:
     - assets/images/
     - assets/images/flags/
     - assets/json/
+
+include: 
+- package:flutter_lints/flutter.yaml
+- analysis_options.yaml

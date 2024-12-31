@@ -4,4 +4,6 @@ abstract class TokenSP {
   Future<void> save(ResponseToken responseValidCode);
 
   Future<ResponseToken> get();
+
+  Future<void> clean();
 }

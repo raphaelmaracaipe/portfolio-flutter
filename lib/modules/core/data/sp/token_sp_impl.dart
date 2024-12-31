@@ -54,4 +54,10 @@ class TokenSPImpl extends TokenSP {
     final dataJsonDecoded = jsonDecode(dataDecrypted);
     return ResponseToken.fromJson(dataJsonDecoded);
   }
+
+  @override
+  Future<void> clean() async {
+    final sp = await sharedPreferences;
+    sp.remove(_keyShared);
+  }
 }

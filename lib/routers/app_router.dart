@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:injectable/injectable.dart';
-import 'package:portfolio_flutter/modules/uicontacts/uicontact_pages.dart';
 
 import 'app_router.gr.dart';
 
@@ -33,6 +32,10 @@ class AppRouter extends $AppRouter {
         AutoRoute(
           page: UiContactRoutes.page,
           path: "/${UiContactRoutes.name}",
+        ),
+        AutoRoute(
+          page: UiMessageRoutes.page,
+          path: "/${UiMessageRoutes.name}",
         ),
       ];
 }
